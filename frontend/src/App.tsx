@@ -1,7 +1,22 @@
-export default function App() {
+
+import { ThemeProvider } from "./context/ThemeContext";
+
+import LandingPage from "./Pages/landingPage";
+
+
+
+function App() {
   return (
-    <h1 className="text-3xl font-bold  ">
-      Hello world!
-    </h1>
-  )
+    <ThemeProvider>
+      <div className="min-h-screen flex flex-col">
+        
+        <main className="flex-1">
+          <LandingPage />
+        </main>
+    
+      </div>
+    </ThemeProvider>
+  );
 }
+
+export default App;
