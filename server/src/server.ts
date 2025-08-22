@@ -10,16 +10,31 @@ const app: Application = express();
 
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // Vite default port
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
+
 
 // database connection
 const mongoURI = process.env.MONGO_URI as string;
 connectDB(mongoURI);
 
-// Routes
-app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "API is running...🚀🚀" });
-});
+
+
+
+import courseRoutes from "./routes/courseRoutes";
+
+import platformRoutes from "./routes/platformRoutes";
+app.use("/api/courses", courseRoutes);
+
+
+
+
+app.use("/api", platformRoutes);
+
+
 
 //server
 const PORT = process.env.PORT || 5000;
