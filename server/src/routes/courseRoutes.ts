@@ -18,5 +18,5 @@ router.get("/:id", getCourseById);
 router.post("/", authenticate, authorizeRoles("instructor"), createCourse);
 router.put("/:id", authenticate, authorizeRoles("instructor"), updateCourse);
 router.delete("/:id", authenticate, authorizeRoles("instructor"), deleteCourse);
-
+//router.delete("/id",authenticate,authorizeRoles("instructor"),deletecourse 1);
 export default router;
