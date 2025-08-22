@@ -1,10 +1,12 @@
 // frontend/src/Pages/Courses/CourseDetail.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Star } from "lucide-react";
 import type { Course, Lesson } from "./types";
+import { fetchCourseById } from "../../services/courseService";
 
-const dummyCourses: Course[] = [
+// local fallback in case API fails (optional – you can remove if you like)
+const fallbackCourse: Course[] = [
   {
     id: "1",
     title: "Introduction To Figma : Create Beautiful and Responsive Designs using Figma",
@@ -34,7 +36,7 @@ const dummyCourses: Course[] = [
         id: "l3",
         title: "How to use Figma Styles & Libraries?",
         duration: "1:10:37",
-        videoUrl: "https://www.youtube.com/watch?v=LcY0X10H2wo&list=PLlHtucAD9KT19ckHqXpPSStZOyDSq9AW-&index=3&pp=iAQB",
+        videoUrl: "https://www.youtube.com/embed/watch?v=LcY0X10H2wo&list=PLlHtucAD9KT19ckHqXpPSStZOyDSq9AW-&index=3&pp=iAQB",
       },
       {
         id: "l4",
@@ -253,30 +255,61 @@ const dummyCourses: Course[] = [
   },
   
 ];
-
 const CourseDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const course = dummyCourses.find((c) => c.id === id);
-
-  const [currentLesson, setCurrentLesson] = useState<Lesson | null>(
-    course?.lessons[0] || null
-  );
+  const [course, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!course) return <p>❌ Course not found</p>;
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        if (!id) return;
+        const data = await fetchCourseById(id);
+        setCourse(data);
+        setCurrentLesson(data.lessons?.[0] ?? null);
+      } catch (e) {
+          console.error(e);
+          setError("Could not load course from API. Showing fallback.");
+          const chosen = fallbackCourse.find((c) => c.id === id) ?? fallbackCourse[0];
+          setCourse(chosen);
+          setCurrentLesson(chosen.lessons[0]);
+        } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [id]);
 
   const handleLessonComplete = (lessonId: string) => {
-    if (!completedLessons.includes(lessonId)) {
-      setCompletedLessons([...completedLessons, lessonId]);
-    }
+    setCompletedLessons((prev) =>
+      prev.includes(lessonId) ? prev : [...prev, lessonId]
+    );
   };
+
+  if (loading) return <p className="p-6">Loading course…</p>;
+  if (!course) return <p className="p-6">❌ Course not found</p>;
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="bg-purple-800 text-white rounded-2xl p-8 flex justify-between items-center">
+      {error && (
+        <div className="mb-4 rounded-md bg-yellow-50 p-3 text-yellow-800">
+          {error}
+        </div>
+      )}
+
+      {/* Header / Hero with image right */}
+      <div className="bg-purple-800 text-white rounded-2xl p-8 flex flex-col md:flex-row md:items-center md:justify-between">
         <div className="flex-1">
-          <h2 className="text-4xl font-semibold mb-4">{course.title}</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+            {course.title}
+          </h2>
+
+          {/* 5-star rating */}
           <div className="flex items-center mb-2">
             {[...Array(5)].map((_, i) => (
               <Star
@@ -284,7 +317,7 @@ const CourseDetail: React.FC = () => {
                 className={`h-6 w-6 ${
                   i < Math.round(course.rating)
                     ? "text-yellow-400 fill-yellow-400"
-                    : "text-gray-400"
+                    : "text-gray-300"
                 }`}
               />
             ))}
@@ -292,16 +325,34 @@ const CourseDetail: React.FC = () => {
               {course.rating} ({course.reviewsCount} reviews)
             </span>
           </div>
+
           <p className="mb-6">{course.description}</p>
+
+          {/* Skills */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {course.skills?.map((skill) => (
+              <span
+                key={skill}
+                className="px-4 py-2 bg-purple-200 text-purple-900 rounded-full font-medium"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+
           <button className="bg-purple-300 text-purple-900 px-6 py-2 rounded-lg font-bold">
             Enroll Now
           </button>
         </div>
-        <img
-          src={course.instructor.image}
-          alt={course.title}
-          className="w-40 h-40 rounded-xl object-cover ml-6"
-        />
+
+        {/* Right image */}
+        {course.instructor?.image && (
+          <img
+            src={course.instructor.image}
+            alt={course.title}
+            className="w-40 h-40 rounded-xl object-cover mt-6 md:mt-0 md:ml-6"
+          />
+        )}
       </div>
 
       {/* Instructor */}
@@ -319,45 +370,44 @@ const CourseDetail: React.FC = () => {
       </div>
 
       {/* Lesson Player */}
-      Below you can find All courses
+      <h3 className="text-2xl font-bold mt-10">Lesson Player</h3>
+      {currentLesson && (
+        <div className="mt-4">
+          <h4 className="text-lg font-semibold mb-2">{currentLesson.title}</h4>
 
-{/* Lesson Player */}
-<h3 className="text-2xl font-bold mt-10">Lesson Player</h3>
-{currentLesson && (
-  <div className="mt-4">
-    <h4 className="text-lg font-semibold mb-2">{currentLesson.title}</h4>
-    {currentLesson.videoUrl.includes("youtube.com/embed") ? (
-      <iframe
-        key={currentLesson.id}
-        width="100%"
-        height="360"
-        src={currentLesson.videoUrl}
-        title={currentLesson.title}
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        className="rounded-xl border"
-      />
-    ) : (
-      <video
-        key={currentLesson.id}
-        controls
-        width="100%"
-        className="rounded-xl border"
-        onEnded={() => handleLessonComplete(currentLesson.id)}
-      >
-        <source src={currentLesson.videoUrl} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    )}
-    <p className="text-sm text-gray-600 mt-2">
-      Duration: {currentLesson.duration}
-    </p>
-  </div>
-)}
+          {/* support YouTube iframe + mp4 */}
+          {currentLesson.videoUrl.includes("youtube.com/embed") ? (
+            <iframe
+              key={currentLesson.id}
+              width="100%"
+              height="360"
+              src={currentLesson.videoUrl}
+              title={currentLesson.title}
+              frameBorder={0}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="rounded-xl border"
+              onLoad={() => handleLessonComplete(currentLesson.id)}
+            />
+          ) : (
+            <video
+              key={currentLesson.id}
+              controls
+              width="100%"
+              className="rounded-xl border"
+              onEnded={() => handleLessonComplete(currentLesson.id)}
+            >
+              <source src={currentLesson.videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+          <p className="text-sm text-gray-600 mt-2">
+            Duration: {currentLesson.duration}
+          </p>
+        </div>
+      )}
 
-
-      {/* Lessons List */}
+      {/* Lesson list */}
       <h3 className="text-2xl font-bold mt-10">Course Lessons</h3>
       <ul className="mt-4 space-y-2">
         {course.lessons.map((lesson) => (
@@ -383,16 +433,18 @@ const CourseDetail: React.FC = () => {
       <div className="mt-8">
         <h3 className="text-xl font-semibold">
           Progress: {completedLessons.length}/{course.lessons.length} lessons
+          completed
         </h3>
         <div className="w-full bg-gray-200 rounded-full h-3 mt-2">
           <div
             className="bg-purple-600 h-3 rounded-full"
             style={{
               width: `${
-                (completedLessons.length / course.lessons.length) * 100
+                (completedLessons.length / Math.max(1, course.lessons.length)) *
+                100
               }%`,
             }}
-          ></div>
+          />
         </div>
       </div>
     </div>

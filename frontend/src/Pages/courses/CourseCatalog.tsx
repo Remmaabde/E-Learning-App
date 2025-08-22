@@ -1,9 +1,25 @@
 // frontend/src/Pages/Courses/CourseCatalog.tsx
-import React, { useState, useEffect } from "react";
-import type { Course, CourseFilter, Pagination } from "./types";
-import CourseCard from "./CourseCard";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CourseCard from "./CourseCard";
+import type { Course, CourseFilter } from "./types";
+import { fetchCourses } from "../../services/courseService";
 
+// your original chips
+const categories = [
+  "UI/UX",
+  "Fullstack",
+  "AI",
+  "Backend",
+  "LLM",
+  "Graphic Designing",
+  "Prompt Engineering",
+  "Frontend",
+];
+
+const tags = ["HTML", "CSS", "Express", "React", "Python", "Tailwind", "AI"];
+
+// fallback local data (used only if API fails)
 const dummyCourses: Course[] = [
   {
     id: "1",
@@ -109,45 +125,66 @@ const dummyCourses: Course[] = [
   },
 ];
 
-const categories = [
-  "UI/UX",
-  "Fullstack",
-  "AI",
-  "Backend",
-  "LLM",
-  "Graphic Designing",
-  "Prompt Engineering",
-  "Frontend",
-];
-
-const tags = ["HTML", "CSS", "Express", "React", "Python", "Tailwind","AI"];
-
 const CourseCatalog: React.FC = () => {
-  const [courses, setCourses] = useState<Course[]>(dummyCourses);
-  const [filter, setFilter] = useState<CourseFilter>({});
   const navigate = useNavigate();
+  const [filter, setFilter] = useState<CourseFilter>({});
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleCourseClick = (id: string) => {
-    navigate(`/courses/${id}`);
-  };
+  // debounced search to reduce API calls while typing
+  const [searchRaw, setSearchRaw] = useState("");
+  const search = useDebounce(searchRaw, 350);
 
-  const filteredCourses = courses.filter((c) => {
-    if (filter.category && c.category !== filter.category) return false;
-    if (filter.search && !c.title.toLowerCase().includes(filter.search.toLowerCase())) return false;
-    if (filter.minRating && c.rating < filter.minRating) return false;
-    if (filter.tag && !c.skills.includes(filter.tag)) return false;
-    return true;
-  });
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await fetchCourses({
+          ...filter,
+          search: search || undefined,
+        });
+
+        // some APIs return {items, total}; if yours returns array, handle both:
+        const list = Array.isArray(data) ? data : data?.items ?? [];
+        setCourses(list);
+      } catch (e) {
+        console.error(e);
+        setError("Could not load courses from API. Showing local data.");
+        setCourses(dummyCourses); // fallback so UI stays intact
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [filter.category, filter.minRating, filter.tag, search]);
+
+  const handleCourseClick = (id: string) => navigate(`/courses/${id}`);
+
+  // local filter for tag/category in case API doesn’t support them yet
+  const filteredCourses = useMemo(() => {
+    let out = courses.slice();
+    if (filter.tag) out = out.filter((c) => c.skills?.includes(filter.tag!));
+    if (filter.category) out = out.filter((c) => c.category === filter.category);
+    return out;
+  }, [courses, filter.category, filter.tag]);
 
   return (
     <div className="p-6">
-      {/* Category Grid */}
+      {/* Category Grid (2 columns x 4 rows on sm+) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         {categories.map((cat) => (
           <button
             key={cat}
-            onClick={() => setFilter({ ...filter, category: cat })}
-            className={`p-4 rounded-2xl font-bold shadow-md hover:bg-blue-100 ${
+            onClick={() =>
+              setFilter((f) => ({
+                ...f,
+                category: f.category === cat ? undefined : cat,
+              }))
+            }
+            className={`p-4 rounded-2xl font-bold shadow-md hover:bg-blue-100 transition ${
               filter.category === cat ? "bg-blue-300" : "bg-gray-100"
             }`}
           >
@@ -158,22 +195,51 @@ const CourseCatalog: React.FC = () => {
 
       {filter.category && (
         <button
-          onClick={() => setFilter({ ...filter, category: "" })}
+          onClick={() => setFilter((f) => ({ ...f, category: undefined }))}
           className="mb-6 px-4 py-2 bg-gray-800 text-white rounded-full"
         >
           All Courses
         </button>
       )}
 
-      <h1 className="text-3xl font-bold mb-6">Explore Our Courses</h1>
+      <h1 className="text-3xl font-bold mb-4">Explore Our Courses</h1>
 
-      {/* Tag Buttons */}
+      {/* Search + rating filter row */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <input
+          type="text"
+          placeholder="Search courses..."
+          className="border rounded-lg px-4 py-2 w-full sm:w-1/2"
+          value={searchRaw}
+          onChange={(e) => setSearchRaw(e.target.value)}
+        />
+        <select
+          title="Minimum rating"
+          className="border rounded-lg px-4 py-2 w-full sm:w-48"
+          value={filter.minRating ?? ""}
+          onChange={(e) =>
+            setFilter((f) => ({
+              ...f,
+              minRating: e.target.value ? Number(e.target.value) : undefined,
+            }))
+          }
+        >
+          <option value="">Any rating</option>
+          <option value="3">3★+</option>
+          <option value="4">4★+</option>
+          <option value="4.5">4.5★+</option>
+        </select>
+      </div>
+
+      {/* Tag Buttons (little circular chips) */}
       <div className="flex gap-3 mb-6 flex-wrap">
         {tags.map((tag) => (
           <button
             key={tag}
-            onClick={() => setFilter({ ...filter, tag })}
-            className={`px-4 py-2 rounded-full border text-sm shadow-sm ${
+            onClick={() =>
+              setFilter((f) => ({ ...f, tag: f.tag === tag ? undefined : tag }))
+            }
+            className={`px-4 py-2 rounded-full border text-sm shadow-sm transition ${
               filter.tag === tag
                 ? "bg-blue-600 text-white"
                 : "bg-white text-gray-800"
@@ -184,7 +250,7 @@ const CourseCatalog: React.FC = () => {
         ))}
         {filter.tag && (
           <button
-            onClick={() => setFilter({ ...filter, tag: "" })}
+            onClick={() => setFilter((f) => ({ ...f, tag: undefined }))}
             className="px-4 py-2 rounded-full bg-gray-800 text-white text-sm"
           >
             Clear
@@ -192,14 +258,39 @@ const CourseCatalog: React.FC = () => {
         )}
       </div>
 
-      {/* Courses Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {filteredCourses.map((course) => (
-          <CourseCard key={course.id} course={course} onClick={handleCourseClick} />
-        ))}
-      </div>
+      {/* Grid of Courses */}
+      {loading ? (
+        <p>Loading courses…</p>
+      ) : (
+        <>
+          {error && (
+            <div className="mb-4 rounded-md bg-yellow-50 p-3 text-yellow-800">
+              {error}
+            </div>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {filteredCourses.map((course) => (
+              <CourseCard
+                key={course.id}
+                course={course}
+                onClick={handleCourseClick}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
 export default CourseCatalog;
+
+/** small debounce hook */
+function useDebounce<T>(value: T, delay = 300) {
+  const [v, setV] = useState(value);
+  useEffect(() => {
+    const t = setTimeout(() => setV(value), delay);
+    return () => clearTimeout(t);
+  }, [value, delay]);
+  return v;
+}
