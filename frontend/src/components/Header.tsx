@@ -1,4 +1,5 @@
 import { useTheme } from "../context/ThemeContext";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -7,15 +8,15 @@ const navLinks = [
   { name: "Testimonials", href: "#testimonials" },
 ];
 
+
 function Header() {
   const { darkMode, toggleDarkMode } = useTheme();
   return (
     <header className="relative bg-[#f9f0ff] dark:bg-gray-900 font-inter px-10 py-5 flex flex-col">
-      
-      <div className="absolute right-10 top-4 flex gap-4">
-        <a href="/signup" className="bg-[#310055] text-white px-5 py-2 rounded-lg font-semibold text-sm">Sign up</a>
-        <a href="/login" className="bg-[#310055] text-white px-5 py-2 rounded-lg font-semibold text-sm">Login</a>
-      </div>
+    <div className="absolute right-10 top-4 flex gap-4">
+  <Link to="/register" className="bg-[#310055] text-white px-5 py-2 rounded-lg font-semibold text-sm">Sign up</Link>
+  <Link to="/login" className="bg-[#310055] text-white px-5 py-2 rounded-lg font-semibold text-sm">Login</Link>
+</div>
       <div className="absolute left-10 top-4 flex items-center">
         <img src="/Images/logo.png" alt="Logo" className="h-20 mr-6" />
       </div>
