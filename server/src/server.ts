@@ -2,24 +2,41 @@ import express, { Application, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db";
+import courseRoutes from "./routes/courseRoutes";
+
+import platformRoutes from "./routes/platformRoutes";
+import authRoutes from "./routes/authRoutes";
 
 // environment variables
 dotenv.config();
 
 const app: Application = express();
-
-
-app.use(express.json());
-app.use(cors());
-
-// database connection
 const mongoURI = process.env.MONGO_URI as string;
 connectDB(mongoURI);
 
-// Routes
-app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "API is running...🚀🚀" });
-});
+
+
+app.use(express.json());
+app.use(cors({
+  origin: "http://localhost:5173", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}))
+
+
+
+
+
+app.use("/api/courses", courseRoutes);
+
+
+
+
+app.use("/api", platformRoutes);
+
+app.use("/api/auth", authRoutes);
+
+
 
 //server
 const PORT = process.env.PORT || 5000;
