@@ -135,7 +135,7 @@ export default function LandingPage() {
 			const [courses, setCourses] = useState<ICourse[]>([]);
 		const [showAllCourses, setShowAllCourses] = useState(false);
 
-		// Fetch all courses from backend on mount
+	
 		useEffect(() => {
 			api.get("/courses").then(res => setCourses(res.data)).catch(() => setCourses([]));
 			setShowAllCourses(true);
@@ -155,7 +155,7 @@ export default function LandingPage() {
 		return (
 		<div className="bg-[#F9F0FF] dark:bg-gray-900 min-h-screen transition-colors duration-300 text-sm">
 			<Header />
-					{/* Platform Stats */}
+				
 					{stats && (
 						<div className="flex justify-center gap-8 my-4">
 							<div className="bg-[#f2dfff] rounded-lg px-6 py-2 text-lg font-bold text-[#310055]">Total Courses: {stats.totalCourses}</div>
@@ -163,12 +163,12 @@ export default function LandingPage() {
 							<div className="bg-[#f2dfff] rounded-lg px-6 py-2 text-lg font-bold text-[#310055]">Total Instructors: {stats.totalInstructors}</div>
 						</div>
 					)}
-					{/* Hero Section */}
+			
 			<section
 				id="home"
 				className="flex flex-col lg:flex-row items-center justify-between px-4 lg:px-12 pt-8 pb-4"
 			>
-				{/* Left Column */}
+				
 				<div className="flex-1 flex flex-col gap-2 mt-2">
 					<span className="text-[48px] font-inter font-normal leading-[100%] tracking-[0] text-black dark:text-white">
 						DirectEd
