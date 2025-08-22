@@ -2,6 +2,9 @@ import express, { Application, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db";
+import courseRoutes from "./routes/courseRoutes";
+import progressRoutes from "./routes/progressRoutes";
+import quizRoutes from "./routes/quizRoutes";
 
 // environment variables
 dotenv.config();
@@ -20,6 +23,10 @@ connectDB(mongoURI);
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "API is running...🚀🚀" });
 });
+
+app.use("/api/courses", courseRoutes);
+app.use("/api/progress", progressRoutes);
+app.use("/api/quizzes", quizRoutes);
 
 //server
 const PORT = process.env.PORT || 5000;
