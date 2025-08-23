@@ -6,6 +6,8 @@ import courseRoutes from "./routes/courseRoutes";
 
 import platformRoutes from "./routes/platformRoutes";
 import authRoutes from "./routes/authRoutes";
+import searchRoutes from "./routes/searchRoutes";
+import notificationRoutes from "./routes/notificationRoutes";
 
 // environment variables
 dotenv.config();
@@ -35,6 +37,8 @@ app.use("/api/courses", courseRoutes);
 app.use("/api", platformRoutes);
 
 app.use("/api/auth", authRoutes);
+app.use("/api/search", searchRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 
 
