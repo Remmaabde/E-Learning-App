@@ -22,6 +22,7 @@ import InstructorSidebar from "./Pages/Instructorsidebar";
 import AiAssistant from "./Pages/aiAssistant";
 
 
+
 function App() {
   return (
     <ThemeProvider>
@@ -41,6 +42,7 @@ function App() {
               <Route path="/aiAssistant" element={<AiAssistant />} />
                <Route path="/all" element={<Navigate to="/courses" />} />
                <Route path="/quizes" element={<QuizPage />} />
+
 
               {/* <Route path="/quiz/:courseId" element={<QuizPage />} /> */}
 
