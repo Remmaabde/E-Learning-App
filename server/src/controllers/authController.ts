@@ -34,7 +34,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-// Login controller
+
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -49,7 +49,7 @@ export const login = async (req: Request, res: Response) => {
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
-    // Generate JWT
+    
     const token = jwt.sign(
       { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET as string,
@@ -69,12 +69,12 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-// Request reset token - FIXED VERSION
+
 export const forgotPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
   
   try {
-    // Validate input
+  
     if (!email || !email.trim()) {
       return res.status(400).json({ error: "Email is required" });
     }
@@ -84,23 +84,24 @@ export const forgotPassword = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "User with this email does not exist" });
     }
 
-    // Generate reset token
+    
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
+    const resetTokenExpiry = Date.now() + 3600000; 
 
-    // Save token to user document
+    
     await User.findByIdAndUpdate(user._id, {
       resetPasswordToken: resetToken,
       resetPasswordExpires: resetTokenExpiry,
     });
+    await user.save();
+  
 
-    console.log(`Reset token generated for ${email}: ${resetToken}`); // Debug log
+    console.log(`Reset token generated for ${email}: ${resetToken}`); 
 
-    // Return the token in the response (in production, you'd send via email)
     res.json({
       success: true,
       message: "Password reset token generated successfully",
-      resetToken: resetToken, // This is what your frontend expects
+      resetToken: resetToken, 
     });
   } catch (error: any) {
     console.error("Forgot password error:", error);
@@ -111,12 +112,12 @@ export const forgotPassword = async (req: Request, res: Response) => {
   }
 };
 
-// Reset password - FIXED VERSION
+
 export const resetPassword = async (req: Request, res: Response) => {
   const { email, resetToken, newPassword } = req.body;
   
   try {
-    // Validate input
+    
     if (!email || !email.trim()) {
       return res.status(400).json({ error: "Email is required" });
     }
@@ -168,21 +169,24 @@ export const resetPassword = async (req: Request, res: Response) => {
   }
 };
 
-// GET /api/auth/profile - returns full user data from DB
+
 export const getProfile = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user && typeof req.user !== "string" && "id" in req.user ? req.user.id : null;
     if (!userId) {
       return res.status(401).json({ error: "Unauthorized" });
     }
+    console.log("Fetching profile for userId:", userId); 
+    
 
-    // Fetch full user from database
+    
     const user = await User.findById(userId).select("-password -resetPasswordToken -resetPasswordExpires");
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+    console.log("User found:", user);
 
-    // Base profile
+    
     const profile: any = {
       id: user._id,
       name: user.name,
@@ -190,10 +194,10 @@ export const getProfile = async (req: AuthRequest, res: Response) => {
       role: user.role
     };
 
-    // Add role-specific data
+    
     if (user.role === "instructor") {
       try {
-        // Find courses where this user is the instructor
+        
         const courses = await Course.find({ instructor: user._id })
           .select("title category rating reviewsCount")
           .lean();
@@ -201,7 +205,7 @@ export const getProfile = async (req: AuthRequest, res: Response) => {
         profile.courses = courses;
         profile.courseCount = courses.length;
         
-        // Calculate average rating
+      
         const ratings = courses.map(c => c.rating || 0);
         profile.avgRating = ratings.length ? 
           (ratings.reduce((a, b) => a + b, 0) / ratings.length) : 0;
@@ -212,6 +216,7 @@ export const getProfile = async (req: AuthRequest, res: Response) => {
         profile.avgRating = 0;
       }
     }
+      console.log("Profile data:", profile);
 
     res.json(profile);
   } catch (error) {
