@@ -11,11 +11,11 @@ export interface IQuestion {
 }
 
 export interface IQuiz extends Document {
-  lessonId: Types.ObjectId;       // link to Course.lessons subdoc id
-  courseId: Types.ObjectId;       // helpful for querying by course
+  lessonId: Types.ObjectId;       
+  courseId: Types.ObjectId;     
   questions: IQuestion[];
-  timeLimitSec?: number;          // optional timer
-  createdBy: Types.ObjectId;      // instructor/admin
+  timeLimitSec?: number;          
+  createdBy: Types.ObjectId;      
 }
 
 const QuestionSchema = new Schema<IQuestion>(
