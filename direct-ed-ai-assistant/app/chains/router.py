@@ -57,6 +57,7 @@ def get_memory_for_session(session_id: str):
         memories[session_id] = ChatMessageHistory()
     return memories[session_id]
 
+
 def EducationalRetriever():
     """Component 1: Identifies relevant curriculum content."""
     return vector_store.as_retriever(search_kwargs={"k": 5})
@@ -79,7 +80,9 @@ def AdaptiveConversationChain():
     return RunnablePassthrough.assign(
         standalone_question=condense_question_chain
     ).assign(
-        context=lambda x: retriever.invoke(x["standalone_question"])
+        context=(
+            RunnableLambda(lambda x: x["standalone_question"]) | retriever
+        ).with_config({"run_name": "EducationalRetriever"})
     ) | RunnableParallel(
         answer=(
             RunnableLambda(
@@ -91,7 +94,7 @@ def AdaptiveConversationChain():
                 }
             )
             | rag_prompt
-            | finetuned_llm
+            | finetuned_llm.with_config({"run_name": "AdaptiveConversationChain."})
             | StrOutputParser()
         ),
         sources=RunnableLambda(lambda x: get_sources_from_docs(x["context"])),
@@ -103,7 +106,9 @@ def ContentGenerator():
     retriever = EducationalRetriever()
 
     QuizGenerationChain = RunnablePassthrough.assign(
-        context=lambda x: retriever.invoke(x["input"])
+        context=(RunnableLambda(lambda x: x["input"]) | retriever).with_config(
+            {"run_name": "EducationalRetriever_Quiz"}
+        )
     ) | RunnableParallel(
         answer=(
             RunnableLambda(
@@ -114,26 +119,29 @@ def ContentGenerator():
                 }
             )
             | quiz_generator_prompt
-            | finetuned_llm
+            | finetuned_llm.with_config({"run_name": "QuizGenerator"})
             | StrOutputParser()
         ),
         sources=RunnableLambda(lambda x: get_sources_from_docs(x["context"])),
     )
 
-
-    FlashcardGenerationChain = (
-        RunnablePassthrough.assign(context=lambda x: retriever.invoke(x["input"]))
-        | RunnableLambda(
-            lambda x: {
-                "context": format_docs(x["context"]),
-                "difficulty_level": x.get(
-                    "difficulty_level", "beginner"
-                ),
-            }
+    FlashcardGenerationChain = RunnablePassthrough.assign(
+        context=(RunnableLambda(lambda x: x["input"]) | retriever).with_config(
+            {"run_name": "EducationalRetriever_Flashcard"}
         )
-        | flashcard_generator_prompt
-        | finetuned_llm
-        | StrOutputParser()
+    ) | RunnableParallel(
+        answer=(
+            RunnableLambda(
+                lambda x: {
+                    "context": format_docs(x["context"]),
+                    "difficulty_level": x.get("difficulty_level", "beginner"),
+                }
+            )
+            | flashcard_generator_prompt
+            | finetuned_llm.with_config({"run_name": "FlashcardGenerator"})
+            | StrOutputParser()
+        ),
+        sources=RunnableLambda(lambda x: get_sources_from_docs(x["context"])),
     )
 
     return RunnableBranch(
@@ -149,14 +157,14 @@ def ContentGenerator():
 
 
 def LearningAnalyzer():
-    """Component 4: Monitors user engagement and adapts response approaches (I'll revisit this later)."""
+    """Component 4: Monitors user engagement and adapts response approaches (Placeholder)."""
 
     def analyze(input_data):
         print("LOG: LearningAnalyzer executed. User input:", input_data.get("input"))
-
         return input_data
 
-    return RunnableLambda(analyze)
+    return RunnableLambda(analyze).with_config({"run_name": "LearningAnalyzer"})
+
 
 def run_educational_assistant():
     """Central function that invokes components based on user requests."""
@@ -174,10 +182,7 @@ chat_chain_with_history = RunnableWithMessageHistory(
     input_messages_key="input",
     history_messages_key="chat_history",
     output_messages_key="answer",
-).with_types(
-    input_type=ChatInput, output_type=ChatOutput
-)
-
+).with_types(input_type=ChatInput, output_type=ChatOutput)
 
 content_generation_chain = (ContentGenerator() | LearningAnalyzer()).with_types(
     input_type=ChatInput, output_type=ChatOutput
