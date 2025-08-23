@@ -1,8 +1,10 @@
 import User from "../models/user";
+import Course from "../models/course";
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { AuthRequest } from "../middleware/authmiddleware";
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -163,5 +165,57 @@ export const resetPassword = async (req: Request, res: Response) => {
       error: "Failed to reset password",
       details: error.message,
     });
+  }
+};
+
+// GET /api/auth/profile - returns full user data from DB
+export const getProfile = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user && typeof req.user !== "string" && "id" in req.user ? req.user.id : null;
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    // Fetch full user from database
+    const user = await User.findById(userId).select("-password -resetPasswordToken -resetPasswordExpires");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Base profile
+    const profile: any = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    };
+
+    // Add role-specific data
+    if (user.role === "instructor") {
+      try {
+        // Find courses where this user is the instructor
+        const courses = await Course.find({ instructor: user._id })
+          .select("title category rating reviewsCount")
+          .lean();
+        
+        profile.courses = courses;
+        profile.courseCount = courses.length;
+        
+        // Calculate average rating
+        const ratings = courses.map(c => c.rating || 0);
+        profile.avgRating = ratings.length ? 
+          (ratings.reduce((a, b) => a + b, 0) / ratings.length) : 0;
+      } catch (err) {
+        console.warn("Failed to fetch instructor courses:", err);
+        profile.courses = [];
+        profile.courseCount = 0;
+        profile.avgRating = 0;
+      }
+    }
+
+    res.json(profile);
+  } catch (error) {
+    console.error("getProfile error:", error);
+    res.status(500).json({ error: "Failed to fetch profile" });
   }
 };
