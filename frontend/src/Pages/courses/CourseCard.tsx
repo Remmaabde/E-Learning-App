@@ -1,4 +1,4 @@
-// frontend/src/Pages/Courses/CourseCard.tsx
+
 import React from "react";
 import { Star } from "lucide-react";
 import type { Course } from "./types";
@@ -14,12 +14,12 @@ const CourseCard: React.FC<Props> = ({ course, onClick }) => {
       className="bg-white rounded-2xl shadow-md p-6 flex justify-between items-center hover:shadow-lg transition cursor-pointer"
       onClick={() => onClick(course.id)}
     >
-      {/* Left */}
+      
       <div className="flex-1">
         <h3 className="text-xl font-bold mb-2">{course.title}</h3>
         <p className="text-gray-600 mb-2">{course.description}</p>
 
-        {/* Stars */}
+        
         <div className="flex items-center mb-3">
           {[...Array(5)].map((_, i) => (
             <Star
@@ -36,7 +36,7 @@ const CourseCard: React.FC<Props> = ({ course, onClick }) => {
           </span>
         </div>
 
-        {/* Skills */}
+        
         <div className="flex flex-wrap gap-2">
           {course.skills.map((skill) => (
             <span
@@ -49,7 +49,7 @@ const CourseCard: React.FC<Props> = ({ course, onClick }) => {
         </div>
       </div>
 
-      {/* Right → Image */}
+      
       {course.instructor.image && (
         <img
           src={course.instructor.image}
