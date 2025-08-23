@@ -16,10 +16,13 @@ import Register from "./Pages/Register";
 import LoginPage from "./Pages/loginPage";
 import PasswordReset from "./Pages/passwordReset";
 import ProfilePage from "./Pages/ProfilePage";
+import LessonPlayer from "./Pages/courses/LessonPlayer";
+import StudentDashboard from "./Pages/StudentDashboard";
 import StudentSideBar from "./Pages/StudentSideBar";
 import Notifications from "./Pages/Notifications";
 import InstructorSidebar from "./Pages/Instructorsidebar";
 import AiAssistant from "./Pages/aiAssistant";
+import MyLearningDashboard from "./Pages/MyLearningDashboard";
 
 
 
@@ -35,6 +38,13 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/reset-password" element={<PasswordReset />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route
+  path="/lessons/:lessonId"
+  element={<LessonPlayer courseId="dummyCourseId" videoUrl="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Lesson Title" />}
+/>
+        <Route path="/quiz/:lessonId" element={<QuizPage />} />
+        <Route path="/dashboard" element={<StudentDashboard />} />
+        <Route path="/student/dashboard" element={<StudentDashboard />} />
               <Route path="/student" element={<StudentSideBar />} />
               <Route path="/student/notifications" element={<Notifications />} />
               <Route path="/instructor/notifications" element={<Notifications />} />
