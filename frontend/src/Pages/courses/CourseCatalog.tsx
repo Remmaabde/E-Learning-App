@@ -5,7 +5,7 @@ import CourseCard from "./CourseCard";
 import type { Course, CourseFilter } from "./types";
 import { fetchCourses } from "../../services/courseService";
 
-// your original chips
+
 const categories = [
   "UI/UX",
   "Fullstack",
@@ -19,7 +19,7 @@ const categories = [
 
 const tags = ["HTML", "CSS", "Express", "React", "Python", "Tailwind", "AI"];
 
-// fallback local data (used only if API fails)
+
 const dummyCourses: Course[] = [
   {
     id: "1",
@@ -74,10 +74,10 @@ const dummyCourses: Course[] = [
   },
   {
     id: "4",
-    title: "Intoduction to Gen AI",
+    title: "Introduction to Gen AI",
     category: "AI",
-    description: "Get ready to revolutionize your AI knowledge with Direct-Ed's introductory course  on Foundation Models & Generative AI! In this comprehensive program, you'll discover the latest breakthroughs in the AI world",
-  instructor: {
+    description: "Get ready to revolutionize your AI knowledge with Direct-Ed's introductory course on Foundation Models & Generative AI! In this comprehensive program, you'll discover the latest breakthroughs in the AI world",
+    instructor: {
       id: "i4",
       name: "vanessa",
       bio: "Well Known in the industry",
@@ -94,7 +94,7 @@ const dummyCourses: Course[] = [
     title: "Introduction to Prompt Engineering: How to Effectively Use ChatGPT & Other AI Language Models",
     category: "AI",
     description: "Dive in and learn how to use ChatGPT in order to create effective prompts that will guide language models to create accurate, relevant, and coherent output",
-  instructor: {
+    instructor: {
       id: "i5",
       name: "vanessa",
       bio: "Well Known in the industry",
@@ -109,7 +109,7 @@ const dummyCourses: Course[] = [
   {
     id: "6",
     title: "Master Front-end",
-    category: "Front end",
+    category: "Frontend",
     description: "Learn how to build and deploy a SaaS landing page with modern UI and mobile-first principles while strengthening your React.js and Tailwind CSS skills.",
     instructor: {
       id: "i6",
@@ -128,52 +128,94 @@ const dummyCourses: Course[] = [
 const CourseCatalog: React.FC = () => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState<CourseFilter>({});
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // debounced search to reduce API calls while typing
-  const [searchRaw, setSearchRaw] = useState("");
-  const search = useDebounce(searchRaw, 350);
+  
+  const [searchQuery, setSearchQuery] = useState("");
 
+  
   useEffect(() => {
-    const load = async () => {
+    const loadCourses = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const data = await fetchCourses({
-          ...filter,
-          search: search || undefined,
-        });
-
-        // some APIs return {items, total}; if yours returns array, handle both:
-        const list = Array.isArray(data) ? data : data?.items ?? [];
-        setCourses(list);
+        const data = await fetchCourses({});
+        const coursesList = Array.isArray(data) ? data : data?.items ?? [];
+        
+        if (coursesList.length === 0) {
+        
+          setAllCourses(dummyCourses);
+          setError("Using sample data - API returned no courses");
+        } else {
+          setAllCourses(coursesList);
+        }
       } catch (e) {
-        console.error(e);
-        setError("Could not load courses from API. Showing local data.");
-        setCourses(dummyCourses); // fallback so UI stays intact
+        console.error("Failed to fetch courses:", e);
+        setError("Could not load courses from API. Showing sample data.");
+        setAllCourses(dummyCourses); 
       } finally {
         setLoading(false);
       }
     };
-    load();
-  }, [filter.category, filter.minRating, filter.tag, search]);
+    loadCourses();
+  }, []);
+
+  
+  const filteredCourses = useMemo(() => {
+    let result = allCourses.slice();
+
+    
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter((course) => {
+        const titleMatch = course.title.toLowerCase().includes(query);
+        const descriptionMatch = course.description.toLowerCase().includes(query);
+        const instructorMatch = course.instructor.name.toLowerCase().includes(query);
+        const categoryMatch = course.category.toLowerCase().includes(query);
+        const skillsMatch = course.skills?.some(skill => 
+          skill.toLowerCase().includes(query)
+        ) ?? false;
+
+        return titleMatch || descriptionMatch || instructorMatch || categoryMatch || skillsMatch;
+      });
+    }
+
+    
+    if (filter.category) {
+      result = result.filter((course) => course.category === filter.category);
+    }
+
+    
+    if (filter.tag) {
+      result = result.filter((course) => 
+        course.skills?.some(skill => 
+          skill.toLowerCase().includes(filter.tag!.toLowerCase())
+        ) ?? false
+      );
+    }
+
+    
+    if (filter.minRating) {
+      result = result.filter((course) => course.rating >= filter.minRating!);
+    }
+
+    return result;
+  }, [allCourses, searchQuery, filter.category, filter.tag, filter.minRating]);
 
   const handleCourseClick = (id: string) => navigate(`/courses/${id}`);
 
-  // local filter for tag/category in case API doesn’t support them yet
-  const filteredCourses = useMemo(() => {
-    let out = courses.slice();
-    if (filter.tag) out = out.filter((c) => c.skills?.includes(filter.tag!));
-    if (filter.category) out = out.filter((c) => c.category === filter.category);
-    return out;
-  }, [courses, filter.category, filter.tag]);
+  const clearAllFilters = () => {
+    setFilter({});
+    setSearchQuery("");
+  };
+
+  const hasActiveFilters = filter.category || filter.tag || filter.minRating || searchQuery.trim();
 
   return (
-    <div className="p-6">
-      {/* Category Grid (2 columns x 4 rows on sm+) */}
+    <div className="p-6 max-w-7xl mx-auto bg-[#F9F0FF] min-h-screen">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         {categories.map((cat) => (
           <button
@@ -184,8 +226,8 @@ const CourseCatalog: React.FC = () => {
                 category: f.category === cat ? undefined : cat,
               }))
             }
-            className={`p-4 rounded-2xl font-bold shadow-md hover:bg-blue-100 transition ${
-              filter.category === cat ? "bg-blue-300" : "bg-gray-100"
+            className={`p-4 rounded-2xl font-bold shadow-md hover:bg-[#d2b4e9] transition-colors duration-200 ${
+              filter.category === cat ? "bg-[#AB51E3] text-white" : "bg-[#d2b4e9] text-black"
             }`}
           >
             {cat}
@@ -193,90 +235,175 @@ const CourseCatalog: React.FC = () => {
         ))}
       </div>
 
-      {filter.category && (
-        <button
-          onClick={() => setFilter((f) => ({ ...f, category: undefined }))}
-          className="mb-6 px-4 py-2 bg-gray-800 text-white rounded-full"
-        >
-          All Courses
-        </button>
-      )}
+      <h1 className="text-3xl font-bold mb-6 text-black">Explore Our Courses</h1>
 
-      <h1 className="text-3xl font-bold mb-4">Explore Our Courses</h1>
-
-    
-      <div className="flex flex-col sm:flex-row gap-3 mb-4">
-        <input
-          type="text"
-          placeholder="Search courses..."
-          className="border rounded-lg px-4 py-2 w-full sm:w-1/2"
-          value={searchRaw}
-          onChange={(e) => setSearchRaw(e.target.value)}
-        />
-        <select
-          title="Minimum rating"
-          className="border rounded-lg px-4 py-2 w-full sm:w-48"
-          value={filter.minRating ?? ""}
-          onChange={(e) =>
-            setFilter((f) => ({
-              ...f,
-              minRating: e.target.value ? Number(e.target.value) : undefined,
-            }))
-          }
-        >
-          <option value="">Any rating</option>
-          <option value="3">3★+</option>
-          <option value="4">4★+</option>
-          <option value="4.5">4.5★+</option>
-        </select>
-      </div>
-
-      {/* Tag Buttons (little circular chips) */}
-      <div className="flex gap-3 mb-6 flex-wrap">
-        {tags.map((tag) => (
-          <button
-            key={tag}
-            onClick={() =>
-              setFilter((f) => ({ ...f, tag: f.tag === tag ? undefined : tag }))
+      
+      <div className="bg-[#f2dfff] p-4 rounded-lg shadow-sm border mb-6">
+        <div className="flex flex-col sm:flex-row gap-3 mb-4">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="Search courses, skills, instructors..."
+              className="border rounded-lg px-4 py-2 w-full pr-10 focus:ring-2 focus:ring-[#AB51E3] focus:border-[#AB51E3] outline-none bg-white"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          
+          <select
+            title="Minimum rating"
+            className="border rounded-lg px-4 py-2 w-full sm:w-48 focus:ring-2 focus:ring-[#AB51E3] focus:border-[#AB51E3] outline-none bg-white"
+            value={filter.minRating ?? ""}
+            onChange={(e) =>
+              setFilter((f) => ({
+                ...f,
+                minRating: e.target.value ? Number(e.target.value) : undefined,
+              }))
             }
-            className={`px-4 py-2 rounded-full border text-sm shadow-sm transition ${
-              filter.tag === tag
-                ? "bg-blue-600 text-white"
-                : "bg-white text-gray-800"
-            }`}
           >
-            {tag}
-          </button>
-        ))}
-        {filter.tag && (
-          <button
-            onClick={() => setFilter((f) => ({ ...f, tag: undefined }))}
-            className="px-4 py-2 rounded-full bg-gray-800 text-white text-sm"
-          >
-            Clear
-          </button>
+            <option value="">Any rating</option>
+            <option value="3">3★+</option>
+            <option value="4">4★+</option>
+            <option value="4.5">4.5★+</option>
+          </select>
+        </div>
+
+      
+        <div className="flex gap-2 mb-4 flex-wrap">
+          <span className="text-sm text-black font-medium mr-2 flex items-center">Skills:</span>
+          {tags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() =>
+                setFilter((f) => ({ ...f, tag: f.tag === tag ? undefined : tag }))
+              }
+              className={`px-3 py-1 rounded-full border text-sm shadow-sm transition-colors duration-200 ${
+                filter.tag === tag
+                  ? "bg-[#AB51E3] text-white border-[#AB51E3]"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
+      
+        {hasActiveFilters && (
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-sm text-black font-medium">Active filters:</span>
+            
+            {searchQuery && (
+              <span className="px-2 py-1 bg-[#310055] text-white rounded-full text-sm flex items-center gap-1">
+                Search: "{searchQuery}"
+                <button 
+                  onClick={() => setSearchQuery("")}
+                  className="ml-1 hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </span>
+            )}
+            
+            {filter.category && (
+              <span className="px-2 py-1 bg-[#310055] text-white rounded-full text-sm flex items-center gap-1">
+                {filter.category}
+                <button 
+                  onClick={() => setFilter(f => ({...f, category: undefined}))}
+                  className="ml-1 hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </span>
+            )}
+            
+            {filter.tag && (
+              <span className="px-2 py-1 bg-[#310055] text-white rounded-full text-sm flex items-center gap-1">
+                {filter.tag}
+                <button 
+                  onClick={() => setFilter(f => ({...f, tag: undefined}))}
+                  className="ml-1 hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </span>
+            )}
+            
+            {filter.minRating && (
+              <span className="px-2 py-1 bg-[#310055] text-white rounded-full text-sm flex items-center gap-1">
+                {filter.minRating}★+
+                <button 
+                  onClick={() => setFilter(f => ({...f, minRating: undefined}))}
+                  className="ml-1 hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </span>
+            )}
+            
+            <button
+              onClick={clearAllFilters}
+              className="px-3 py-1 bg-[#310055] text-white rounded-full text-sm hover:bg-[#AB51E3] transition-colors duration-200"
+            >
+              Clear all
+            </button>
+          </div>
         )}
       </div>
 
-      {/* Grid of Courses */}
+    
+      <div className="flex justify-between items-center mb-4">
+        <p className="text-black">
+          {loading ? "Loading..." : `${filteredCourses.length} course${filteredCourses.length !== 1 ? 's' : ''} found`}
+          {searchQuery && ` for "${searchQuery}"`}
+        </p>
+      </div>
+
+      {/* Course Grid */}
       {loading ? (
-        <p>Loading courses…</p>
+        <div className="flex justify-center items-center h-64">
+          <div className="text-lg text-black">Loading courses...</div>
+        </div>
       ) : (
         <>
           {error && (
-            <div className="mb-4 rounded-md bg-yellow-50 p-3 text-yellow-800">
-              {error}
+            <div className="mb-4 rounded-md bg-yellow-50 p-3 text-yellow-800 border border-yellow-200">
+              <strong>Note:</strong> {error}
             </div>
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredCourses.map((course) => (
-              <CourseCard
-                key={course.id}
-                course={course}
-                onClick={handleCourseClick}
-              />
-            ))}
-          </div>
+          
+          {filteredCourses.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-black text-lg mb-2">No courses found</div>
+              <p className="text-gray-600 mb-4">
+                Try adjusting your search terms or filters
+              </p>
+              <button
+                onClick={clearAllFilters}
+                className="px-4 py-2 bg-[#AB51E3] text-white rounded-lg hover:bg-[#310055] transition-colors duration-200"
+              >
+                Clear all filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredCourses.map((course) => (
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  onClick={handleCourseClick}
+                />
+              ))}
+            </div>
+          )}
         </>
       )}
     </div>
@@ -284,13 +411,3 @@ const CourseCatalog: React.FC = () => {
 };
 
 export default CourseCatalog;
-
-/** small debounce hook */
-function useDebounce<T>(value: T, delay = 300) {
-  const [v, setV] = useState(value);
-  useEffect(() => {
-    const t = setTimeout(() => setV(value), delay);
-    return () => clearTimeout(t);
-  }, [value, delay]);
-  return v;
-}
