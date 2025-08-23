@@ -291,6 +291,20 @@ const CourseDetail: React.FC = () => {
     );
   };
 
+  const handleEnrollNow = async () => {
+    if (!course) return;
+
+    try {
+      setEnrolling(true);
+      await axios.post("/api/student/enrollments", { courseId: course.id });
+      alert("Enrolled successfully!");
+      navigate("/my-learning"); // Navigate after successful enrollment
+    } catch (error: any) {
+      alert(error?.response?.data?.error || "Failed to enroll in the course");
+    } finally {
+      setEnrolling(false);
+    }
+  };
   if (loading) return <p className="p-6">Loading course…</p>;
   if (!course) return <p className="p-6">❌ Course not found</p>;
 
