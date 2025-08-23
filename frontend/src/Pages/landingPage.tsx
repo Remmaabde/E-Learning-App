@@ -388,6 +388,20 @@ export default function LandingPage() {
 						</div>
 					))}
 				</div>
+				<div className="flex justify-center gap-4">
+					<button
+						className="font-inter font-normal text-[10px] leading-[100%] tracking-[0] text-black border bg-[#AB51E3] rounded-[20px] px-[20px] py-[8px] w-[100px] h-[32px] transition-colors duration-200 hover:bg-[#310055] hover:text-white"
+						onClick={() => window.location.href = "/courses"}
+					>
+						ALL COURSES
+					</button>
+					<button
+						className="font-inter font-normal text-[10px] leading-[100%] tracking-[0] text-black border bg-[#AB51E3] rounded-[20px] px-[20px] py-[8px] w-[100px] h-[32px] transition-colors duration-200 hover:bg-[#310055] hover:text-white"
+						onClick={() => window.location.href = "/quizzes"}
+					>
+						QUIZZES
+					</button>
+				</div>
 				
 			</section>
 

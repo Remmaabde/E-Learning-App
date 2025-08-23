@@ -76,40 +76,40 @@ const InstructorSidebar: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-[#F9F0FF] dark:bg-gray-900 text-gray-900 dark:text-white">
       <Header />
       <div className="flex">
-        <div className="fixed right-4 top-24 z-50 bg-white/90 dark:bg-gray-800 p-2 rounded shadow text-xs">
+        <div className="fixed right-4 top-24 z-50 bg-[#f2dfff]/90 dark:bg-gray-800 p-2 rounded shadow text-xs">
           <div className="font-semibold">Token</div>
           <div className="break-all max-w-xs text-[11px] text-gray-600 dark:text-gray-300">{localStorage.getItem('token') ? localStorage.getItem('token') : 'NO TOKEN'}</div>
         </div>
-        <aside className={`transition-all duration-200 bg-gray-100 dark:bg-gray-800 p-4 ${open ? 'w-64' : 'w-16'}`}>
-          <button className="mb-4 p-2 bg-gray-200 dark:bg-gray-700 rounded" onClick={() => setOpen(o => !o)}>
+        <aside className={`transition-all duration-200 bg-[#f2dfff] dark:bg-gray-800 p-4 ${open ? 'w-64' : 'w-16'}`}>
+          <button className="mb-4 p-2 bg-[#AB51E3] text-white dark:bg-gray-700 rounded hover:bg-[#310055] transition-colors" onClick={() => setOpen(o => !o)}>
             {open ? 'Collapse' : '>'}
           </button>
 
           <nav className="flex flex-col gap-2">
-            <Link to="/instructor/dashboard" className="px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">{open ? 'Dashboard' : 'D'}</Link>
-            <Link to="/instructor/my-courses" className="px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">{open ? 'My Courses' : 'M'}</Link>
-            <Link to="/instructor/create-course" className="px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">{open ? 'Create Course' : 'C'}</Link>
-            <Link to="/instructor/notifications" className="px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">{open ? 'Notifications' : 'N'}</Link>
-            <Link to="/instructor/analytics" className="px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">{open ? 'Student Analytics' : 'A'}</Link>
-            <Link to="/instructor/quizzes" className="px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">{open ? 'Quizzes' : 'Q'}</Link>
-            <Link to="/profile" className="px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">{open ? 'Profile' : 'P'}</Link>
-            <Link to="/assistant" className="px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">{open ? 'AI Assistant' : 'A'}</Link>
+            <Link to="/instructor/dashboard" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Dashboard' : 'D'}</Link>
+            <Link to="/instructor/my-courses" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'My Courses' : 'M'}</Link>
+            <Link to="/instructor/create-course" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Create Course' : 'C'}</Link>
+            <Link to="/instructor/notifications" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Notifications' : 'N'}</Link>
+            <Link to="/instructor/analytics" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Student Analytics' : 'A'}</Link>
+            <Link to="/instructor/quizzes" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Quizzes' : 'Q'}</Link>
+            <Link to="/profile" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Profile' : 'P'}</Link>
+            <Link to="/aiAssistant" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'AI Assistant' : 'A'}</Link>
           </nav>
         </aside>
 
         <main className="flex-1 p-6">
-          <h2 className="text-2xl font-semibold mb-4">Instructor Area</h2>
-            <div className="mb-6">
+          <h2 className="text-2xl font-semibold mb-4 text-black">Instructor Area</h2>
+            <div className="mb-6 bg-[#f2dfff] p-4 rounded-lg">
               <input
-                className="w-full p-2 rounded mb-2"
+                className="w-full p-2 rounded mb-2 border focus:ring-2 focus:ring-[#AB51E3] focus:border-[#AB51E3] outline-none"
                 placeholder="Search courses..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
               />
-              <button className="px-3 py-1 bg-blue-600 text-white rounded" onClick={async () => {
+              <button className="px-3 py-1 bg-[#AB51E3] text-white rounded hover:bg-[#310055] transition-colors" onClick={async () => {
                 try {
                   const res = await api.get(`/search/courses?q=${encodeURIComponent(searchQuery)}`);
                   setSearchResults(res.data || []);
@@ -119,20 +119,35 @@ const InstructorSidebar: React.FC = () => {
               }}>Search</button>
               <div className="mt-3">
                 {searchResults.map(r => (
-                  <div key={r._id} className="p-2 border-b">{r.title} - {r.category} - {r.rating}</div>
+                  <div key={r._id} className="p-2 border-b border-[#d2b4e9] bg-white rounded mb-1">{r.title} - {r.category} - {r.rating}</div>
                 ))}
               </div>
             </div>
 
-          <section className="mb-8">
-            <h3 className="text-xl mb-2">Send Notification to Student</h3>
+          <section className="mb-8 bg-[#f2dfff] p-6 rounded-lg">
+            <h3 className="text-xl mb-4 text-black font-semibold">Send Notification to Student</h3>
             <form onSubmit={handleSend} className="max-w-md">
-              <input className="w-full mb-2 p-2 rounded" placeholder="Student email" value={targetEmail} onChange={e => setTargetEmail(e.target.value)} />
-              <input className="w-full mb-2 p-2 rounded" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} />
-              <textarea className="w-full mb-2 p-2 rounded" placeholder="Message" value={message} onChange={e => setMessage(e.target.value)} />
-              <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-[#310055] text-white rounded">Send</button>
-                <button type="button" onClick={() => navigate('/instructor/notifications')} className="px-4 py-2 border rounded">View Notifications</button>
+              <input 
+                className="w-full mb-3 p-3 rounded-lg border focus:ring-2 focus:ring-[#AB51E3] focus:border-[#AB51E3] outline-none bg-white" 
+                placeholder="Student email" 
+                value={targetEmail} 
+                onChange={e => setTargetEmail(e.target.value)} 
+              />
+              <input 
+                className="w-full mb-3 p-3 rounded-lg border focus:ring-2 focus:ring-[#AB51E3] focus:border-[#AB51E3] outline-none bg-white" 
+                placeholder="Title" 
+                value={title} 
+                onChange={e => setTitle(e.target.value)} 
+              />
+              <textarea 
+                className="w-full mb-4 p-3 rounded-lg border focus:ring-2 focus:ring-[#AB51E3] focus:border-[#AB51E3] outline-none bg-white min-h-[100px]" 
+                placeholder="Message" 
+                value={message} 
+                onChange={e => setMessage(e.target.value)} 
+              />
+              <div className="flex gap-3">
+                <button type="submit" className="px-6 py-3 bg-[#310055] text-white rounded-lg hover:bg-[#AB51E3] transition-colors font-medium">Send</button>
+                <button type="button" onClick={() => navigate('/instructor/notifications')} className="px-6 py-3 border-2 border-[#AB51E3] text-[#AB51E3] rounded-lg hover:bg-[#AB51E3] hover:text-white transition-colors font-medium">View Notifications</button>
               </div>
             </form>
           </section>
@@ -144,3 +159,29 @@ const InstructorSidebar: React.FC = () => {
 };
 
 export default InstructorSidebar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

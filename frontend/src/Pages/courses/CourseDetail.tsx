@@ -1,11 +1,11 @@
-// frontend/src/Pages/Courses/CourseDetail.tsx
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Star } from "lucide-react";
 import type { Course, Lesson } from "./types";
 import { fetchCourseById } from "../../services/courseService";
 
-// local fallback in case API fails (optional – you can remove if you like)
+
 const fallbackCourse: Course[] = [
   {
     id: "1",
@@ -302,7 +302,7 @@ const CourseDetail: React.FC = () => {
         </div>
       )}
 
-      {/* Header / Hero with image right */}
+      
       <div className="bg-purple-800 text-white rounded-2xl p-8 flex flex-col md:flex-row md:items-center md:justify-between">
         <div className="flex-1">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4">
@@ -345,7 +345,7 @@ const CourseDetail: React.FC = () => {
           </button>
         </div>
 
-        {/* Right image */}
+      
         {course.instructor?.image && (
           <img
             src={course.instructor.image}
@@ -355,7 +355,7 @@ const CourseDetail: React.FC = () => {
         )}
       </div>
 
-      {/* Instructor */}
+      
       <h3 className="text-2xl font-bold mt-10">Meet The Instructor</h3>
       <div className="flex items-center gap-6 mt-4">
         <img
@@ -369,13 +369,13 @@ const CourseDetail: React.FC = () => {
         </div>
       </div>
 
-      {/* Lesson Player */}
+      
       <h3 className="text-2xl font-bold mt-10">Lesson Player</h3>
       {currentLesson && (
         <div className="mt-4">
           <h4 className="text-lg font-semibold mb-2">{currentLesson.title}</h4>
 
-          {/* support YouTube iframe + mp4 */}
+          
           {currentLesson.videoUrl.includes("youtube.com/embed") ? (
             <iframe
               key={currentLesson.id}
@@ -407,7 +407,7 @@ const CourseDetail: React.FC = () => {
         </div>
       )}
 
-      {/* Lesson list */}
+    
       <h3 className="text-2xl font-bold mt-10">Course Lessons</h3>
       <ul className="mt-4 space-y-2">
         {course.lessons.map((lesson) => (
@@ -429,7 +429,7 @@ const CourseDetail: React.FC = () => {
         ))}
       </ul>
 
-      {/* Progress */}
+    
       <div className="mt-8">
         <h3 className="text-xl font-semibold">
           Progress: {completedLessons.length}/{course.lessons.length} lessons

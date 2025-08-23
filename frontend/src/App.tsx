@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
 import CourseCatalog from "./Pages/courses/CourseCatalog";
 import CourseDetail from "./Pages/courses/CourseDetail";
-//import QuizPage from "./Pages/Quizzes/QuizPage";
+import QuizPage from "./Pages/Quizzes/QuizPage";
 //import StudentDashboard from "./pages/StudentDashboard";
 //import InstructorDashboard from "./pages/InstructorDashboard";
 
@@ -19,6 +19,7 @@ import ProfilePage from "./Pages/ProfilePage";
 import StudentSideBar from "./Pages/StudentSideBar";
 import Notifications from "./Pages/Notifications";
 import InstructorSidebar from "./Pages/Instructorsidebar";
+import AiAssistant from "./Pages/aiAssistant";
 
 
 function App() {
@@ -37,8 +38,10 @@ function App() {
               <Route path="/student/notifications" element={<Notifications />} />
               <Route path="/instructor/notifications" element={<Notifications />} />
               <Route path="/instructor" element={<InstructorSidebar />} />
-               <Route path="/all" element={<Navigate to="/courses" />} />*
-               
+              <Route path="/aiAssistant" element={<AiAssistant />} />
+               <Route path="/all" element={<Navigate to="/courses" />} />
+               <Route path="/quizes" element={<QuizPage />} />
+
               {/* <Route path="/quiz/:courseId" element={<QuizPage />} /> */}
 
               <Route path="/courses" element={<CourseCatalog />} />
