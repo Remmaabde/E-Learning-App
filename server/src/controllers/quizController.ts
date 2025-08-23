@@ -6,7 +6,7 @@ import Quiz from "../models/quiz";
 import Course from "../models/course";
 import { Types } from "mongoose";
 
-// GET /api/quizzes/:lessonId
+
 export const getQuizByLesson = async (req: Request, res: Response) => {
   try {
     const { lessonId } = req.params;
@@ -18,7 +18,7 @@ export const getQuizByLesson = async (req: Request, res: Response) => {
   }
 };
 
-// POST /api/quizzes (instructor only)
+
 export const createQuiz = async (req: AuthRequest, res: Response) => {
   try {
     const role = (req.user as any)?.role;
@@ -27,7 +27,7 @@ export const createQuiz = async (req: AuthRequest, res: Response) => {
       return res.status(403).json({ error: "Only instructors can create quizzes" });
     }
 
-    // validate lesson belongs to course
+    
     const { courseId, lessonId } = req.body;
     const course = await Course.findById(courseId);
     if (!course) return res.status(404).json({ error: "Course not found" });
@@ -42,14 +42,14 @@ export const createQuiz = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// POST /api/quiz-attempts  { quizId, answers: {questionId, answer}[] }
+
 export const submitQuizAttempt = async (req: AuthRequest, res: Response) => {
   try {
     const { quizId, answers } = req.body;
     const quiz = await Quiz.findById(quizId);
     if (!quiz) return res.status(404).json({ error: "Quiz not found" });
 
-    // score
+    
     let score = 0;
     quiz.questions.forEach(q => {
       const given = answers?.find((a: any) => a.questionId === q._id.toString());
