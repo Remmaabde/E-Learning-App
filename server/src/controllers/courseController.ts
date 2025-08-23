@@ -1,3 +1,4 @@
+
 // backend/src/controllers/courseController.ts
 import { Request, Response } from "express";
 import Course from "../models/course";
@@ -113,5 +114,6 @@ export const deleteCourse = async (req: AuthRequest, res: Response) => {
     res.json({ ok: true });
   } catch {
     res.status(400).json({ error: "Failed to delete course" });
+
   }
 };
