@@ -7,3 +7,18 @@ export const api = axios.create({
 		"Content-Type": "application/json",
 	},
 });
+
+// Attach token automatically if present
+api.interceptors.request.use((config) => {
+	try {
+		const token = localStorage.getItem('token');
+		if (token && config.headers) {
+			config.headers['Authorization'] = `Bearer ${token}`;
+		}
+	} catch (e) {
+		// ignore
+	}
+	return config;
+});
+
+

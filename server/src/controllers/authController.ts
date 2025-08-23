@@ -32,6 +32,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+// Login controller
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -46,6 +47,7 @@ export const login = async (req: Request, res: Response) => {
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
+    // Generate JWT
     const token = jwt.sign(
       { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET as string,
@@ -65,230 +67,101 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-// ENHANCED DEBUG VERSION - Request reset token
+// Request reset token - FIXED VERSION
 export const forgotPassword = async (req: Request, res: Response) => {
-  console.log("🔥 FORGOT PASSWORD ENDPOINT HIT!");
-  console.log("📨 Request body:", req.body);
-  console.log("📨 Request headers:", req.headers);
+  const { email } = req.body;
   
   try {
-    const { email } = req.body;
-    
-    console.log("📧 Extracted email:", email);
-    console.log("📧 Email type:", typeof email);
-    console.log("📧 Email length:", email ? email.length : 'undefined');
-    
-    // Enhanced validation with detailed logging
-    if (!email) {
-      console.log("❌ Validation failed: Email is missing");
-      return res.status(400).json({ 
-        error: "Email is required",
-        debug: "No email field in request body"
-      });
-    }
-    
-    if (typeof email !== 'string') {
-      console.log("❌ Validation failed: Email is not a string");
-      return res.status(400).json({ 
-        error: "Email must be a string",
-        debug: `Email type: ${typeof email}`
-      });
-    }
-    
-    if (!email.trim()) {
-      console.log("❌ Validation failed: Email is empty after trim");
-      return res.status(400).json({ 
-        error: "Email cannot be empty",
-        debug: "Email is empty or only whitespace"
-      });
+    // Validate input
+    if (!email || !email.trim()) {
+      return res.status(400).json({ error: "Email is required" });
     }
 
-    const trimmedEmail = email.trim().toLowerCase();
-    console.log("🔍 Searching for user with email:", trimmedEmail);
-
-    // Check if user exists
-    const user = await User.findOne({ email: trimmedEmail });
-    console.log("👤 User found:", user ? "YES" : "NO");
-    
+    const user = await User.findOne({ email: email.trim() });
     if (!user) {
-      console.log("❌ User not found in database");
-      // In production, you might want to return success anyway for security
-      return res.status(404).json({ 
-        error: "User with this email does not exist",
-        debug: `No user found with email: ${trimmedEmail}`
-      });
+      return res.status(404).json({ error: "User with this email does not exist" });
     }
-
-    console.log("✅ User found, generating reset token...");
 
     // Generate reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = Date.now() + 3600000; // 1 hour
+    const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
 
-    console.log("🔑 Generated reset token:", resetToken);
-    console.log("⏰ Token expires at:", new Date(resetTokenExpiry).toISOString());
+    // Save token to user document
+    await User.findByIdAndUpdate(user._id, {
+      resetPasswordToken: resetToken,
+      resetPasswordExpires: resetTokenExpiry,
+    });
 
-    // Save token to database
-    const updateResult = await User.findByIdAndUpdate(
-      user._id, 
-      {
-        resetPasswordToken: resetToken,
-        resetPasswordExpires: resetTokenExpiry,
-      },
-      { new: true } // Return updated document
-    );
+    console.log(`Reset token generated for ${email}: ${resetToken}`); // Debug log
 
-    console.log("💾 Database update result:", updateResult ? "SUCCESS" : "FAILED");
-
-    // Prepare response
-    const response = {
+    // Return the token in the response (in production, you'd send via email)
+    res.json({
       success: true,
       message: "Password reset token generated successfully",
-      resetToken: resetToken,
-      debug: {
-        userId: user._id,
-        email: trimmedEmail,
-        tokenGenerated: true,
-        tokenLength: resetToken.length,
-        expiresIn: "1 hour"
-      }
-    };
-
-    console.log("📤 Sending response:", response);
-
-    res.status(200).json(response);
-
+      resetToken: resetToken, // This is what your frontend expects
+    });
   } catch (error: any) {
-    console.error("💥 FORGOT PASSWORD ERROR:", error);
-    console.error("💥 Error stack:", error.stack);
-    
+    console.error("Forgot password error:", error);
     res.status(500).json({
       error: "Failed to process password reset request",
-      debug: {
-        message: error.message,
-        stack: error.stack
-      }
+      details: error.message,
     });
   }
 };
 
-// ENHANCED DEBUG VERSION - Reset password
+// Reset password - FIXED VERSION
 export const resetPassword = async (req: Request, res: Response) => {
-  console.log("🔥 RESET PASSWORD ENDPOINT HIT!");
-  console.log("📨 Request body:", req.body);
+  const { email, resetToken, newPassword } = req.body;
   
   try {
-    const { email, resetToken, newPassword } = req.body;
-    
-    console.log("📧 Email:", email);
-    console.log("🔑 Reset token:", resetToken);
-    console.log("🔒 New password length:", newPassword ? newPassword.length : 'undefined');
-    
-    // Validation
+    // Validate input
     if (!email || !email.trim()) {
-      console.log("❌ Email validation failed");
-      return res.status(400).json({ 
-        error: "Email is required",
-        debug: "Email is missing or empty"
-      });
+      return res.status(400).json({ error: "Email is required" });
     }
-    
     if (!resetToken || !resetToken.trim()) {
-      console.log("❌ Reset token validation failed");
-      return res.status(400).json({ 
-        error: "Reset token is required",
-        debug: "Reset token is missing or empty"
-      });
+      return res.status(400).json({ error: "Reset token is required" });
     }
-    
     if (!newPassword || !newPassword.trim()) {
-      console.log("❌ New password validation failed");
-      return res.status(400).json({ 
-        error: "New password is required",
-        debug: "New password is missing or empty"
-      });
+      return res.status(400).json({ error: "New password is required" });
     }
 
-    const trimmedEmail = email.trim().toLowerCase();
-    const trimmedToken = resetToken.trim();
+    console.log(`Password reset attempt for ${email} with token: ${resetToken}`); // Debug log
 
-    console.log("🔍 Looking for user with email and valid token...");
-    console.log("🔍 Email:", trimmedEmail);
-    console.log("🔍 Token:", trimmedToken);
-    console.log("🔍 Current time:", new Date().toISOString());
-
-    // Find user with valid token
+    
     const user = await User.findOne({
-      email: trimmedEmail,
-      resetPasswordToken: trimmedToken,
+      email: email.trim(),
+      resetPasswordToken: resetToken.trim(),
       resetPasswordExpires: { $gt: Date.now() },
     });
 
-    console.log("👤 User with valid token found:", user ? "YES" : "NO");
-    
     if (!user) {
-      console.log("❌ No user found with valid token");
-      // Let's also check if user exists without token validation
-      const userExists = await User.findOne({ email: trimmedEmail });
-      console.log("👤 User exists in DB:", userExists ? "YES" : "NO");
-      
-      if (userExists) {
-        console.log("🔑 User's current token:", userExists.resetPasswordToken);
-        console.log("⏰ User's token expiry:", userExists.resetPasswordExpires);
-        console.log("⏰ Token expired?", userExists.resetPasswordExpires && userExists.resetPasswordExpires < new Date());
-      }
-      
-      return res.status(400).json({ 
-        error: "Invalid or expired reset token",
-        debug: {
-          userExists: !!userExists,
-          currentTime: new Date().toISOString(),
-          providedToken: trimmedToken
-        }
-      });
+      console.log("No user found with valid token"); 
+      return res.status(400).json({ error: "Invalid or expired reset token" });
     }
 
-    console.log("✅ Valid user and token, updating password...");
 
-    // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword.trim(), 10);
 
-    // Update password and remove reset token
-    const updateResult = await User.findByIdAndUpdate(
-      user._id,
-      {
-        password: hashedPassword,
-        $unset: { 
-          resetPasswordToken: 1, 
-          resetPasswordExpires: 1 
-        },
+    
+    await User.findByIdAndUpdate(user._id, {
+      password: hashedPassword,
+      $unset: { 
+        resetPasswordToken: 1, 
+        resetPasswordExpires: 1 
       },
-      { new: true }
-    );
-
-    console.log("💾 Password update result:", updateResult ? "SUCCESS" : "FAILED");
-
-    res.status(200).json({
-      success: true,
-      message: "Password reset successfully",
-      debug: {
-        userId: user._id,
-        email: trimmedEmail,
-        passwordUpdated: true,
-        tokenCleared: true
-      }
     });
 
+    console.log(`Password successfully reset for ${email}`); 
+
+    res.json({
+      success: true,
+      message: "Password reset successfully",
+    });
   } catch (error: any) {
-    console.error("💥 RESET PASSWORD ERROR:", error);
-    console.error("💥 Error stack:", error.stack);
-    
+    console.error("Reset password error:", error);
     res.status(500).json({
       error: "Failed to reset password",
-      debug: {
-        message: error.message,
-        stack: error.stack
-      }
+      details: error.message,
     });
   }
 };
