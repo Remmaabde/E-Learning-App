@@ -5,6 +5,7 @@ import connectDB from "./config/db";
 import courseRoutes from "./routes/courseRoutes";
 import progressRoutes from "./routes/progressRoutes";
 import quizRoutes from "./routes/quizRoutes"
+import studentRoutes from "./routes/studentRoutes";
 
 import platformRoutes from "./routes/platformRoutes";
 import authRoutes from "./routes/authRoutes";
