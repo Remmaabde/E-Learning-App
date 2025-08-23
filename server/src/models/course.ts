@@ -1,3 +1,4 @@
+
 // backend/src/models/course.ts
 import mongoose, { Document, Schema, Types } from "mongoose";
 
@@ -51,5 +52,6 @@ const CourseSchema = new Schema<ICourse>(
 },
 { timestamps: true }
 );
+
 
 export default mongoose.model<ICourse>("Course", CourseSchema);
