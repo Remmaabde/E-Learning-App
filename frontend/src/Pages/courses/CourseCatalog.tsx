@@ -204,7 +204,7 @@ const CourseCatalog: React.FC = () => {
 
       <h1 className="text-3xl font-bold mb-4">Explore Our Courses</h1>
 
-      {/* Search + rating filter row */}
+    
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <input
           type="text"
