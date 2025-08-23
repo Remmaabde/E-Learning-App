@@ -6,6 +6,10 @@ import LandingPage from "./Pages/landingPage";
 import Register from "./Pages/Register";
 import LoginPage from "./Pages/loginPage";
 import PasswordReset from "./Pages/passwordReset";
+import ProfilePage from "./Pages/ProfilePage";
+import StudentSideBar from "./Pages/StudentSideBar";
+import Notifications from "./Pages/Notifications";
+import InstructorSidebar from "./Pages/Instructorsidebar";
 
 
 function App() {
@@ -19,6 +23,12 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/reset-password" element={<PasswordReset />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/student" element={<StudentSideBar />} />
+              <Route path="/student/notifications" element={<Notifications />} />
+              <Route path="/instructor/notifications" element={<Notifications />} />
+              <Route path="/instructor" element={<InstructorSidebar />} />
+
             </Routes>
           </main>
         </div>
