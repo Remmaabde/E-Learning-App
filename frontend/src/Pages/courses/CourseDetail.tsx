@@ -214,7 +214,7 @@ const fallbackCourse: Course[] = [
   {
     id: "6",
     title: "Built a SaaS App Landing Page in 3 Hours",
-    category: "Front end",
+    category: "Frontend",
     description: "Learn how to build and deploy a SaaS landing page with modern UI and mobile-first principles while strengthening your React.js and Tailwind CSS skills. ",
     instructor: {
       id: "i1",
@@ -251,7 +251,7 @@ const fallbackCourse: Course[] = [
     ],
     rating: 5,
     reviewsCount: 987,
-    skills: ["front end","React","Tailwind","CSS","Responsive"],
+    skills: ["frontend","React","Tailwind","CSS","Responsive"],
   },
   
 ];
@@ -274,7 +274,7 @@ const CourseDetail: React.FC = () => {
         setCurrentLesson(data.lessons?.[0] ?? null);
       } catch (e) {
           console.error(e);
-          setError("Could not load course from API. Showing fallback.");
+         
           const chosen = fallbackCourse.find((c) => c.id === id) ?? fallbackCourse[0];
           setCourse(chosen);
           setCurrentLesson(chosen.lessons[0]);
@@ -306,7 +306,7 @@ const CourseDetail: React.FC = () => {
     }
   };
   if (loading) return <p className="p-6">Loading course…</p>;
-  if (!course) return <p className="p-6">❌ Course not found</p>;
+  if (!course) return <p className="p-6">Course not found</p>;
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
@@ -323,7 +323,7 @@ const CourseDetail: React.FC = () => {
             {course.title}
           </h2>
 
-          {/* 5-star rating */}
+        
           <div className="flex items-center mb-2">
             {[...Array(5)].map((_, i) => (
               <Star
@@ -342,7 +342,7 @@ const CourseDetail: React.FC = () => {
 
           <p className="mb-6">{course.description}</p>
 
-          {/* Skills */}
+        
           <div className="flex flex-wrap gap-2 mb-6">
             {course.skills?.map((skill) => (
               <span
