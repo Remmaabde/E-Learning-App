@@ -22,6 +22,7 @@ import StudentSideBar from "./Pages/StudentSideBar";
 import Notifications from "./Pages/Notifications";
 import InstructorSidebar from "./Pages/Instructorsidebar";
 import AiAssistant from "./Pages/aiAssistant";
+import MyLearningDashboard from "./Pages/MyLearningDashboard";
 
 
 
