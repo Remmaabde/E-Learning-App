@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+
 import { AuthRequest } from "./authmiddleware";
 import { JwtPayload } from "jsonwebtoken";
 
@@ -15,3 +16,4 @@ export const authorizeRoles = (...roles: string[]) => {
     next();
   };
 };
+
