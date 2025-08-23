@@ -1,8 +1,8 @@
 
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
 import CourseCatalog from "./Pages/courses/CourseCatalog";
 import CourseDetail from "./Pages/courses/CourseDetail";
-import QuizPage from "./Pages/Quizzes/QuizPage";
+//import QuizPage from "./Pages/Quizzes/QuizPage";
 //import StudentDashboard from "./pages/StudentDashboard";
 //import InstructorDashboard from "./pages/InstructorDashboard";
 
@@ -37,14 +37,13 @@ function App() {
               <Route path="/student/notifications" element={<Notifications />} />
               <Route path="/instructor/notifications" element={<Notifications />} />
               <Route path="/instructor" element={<InstructorSidebar />} />
-               <Route path="/" element={<Navigate to="/courses" />} />
-              <Route path="/quiz/:courseId" element={<QuizPage />} />
+               <Route path="/all" element={<Navigate to="/courses" />} />*
+               
+              {/* <Route path="/quiz/:courseId" element={<QuizPage />} /> */}
 
-              {/* Course catalog page */}
-             <Route path="/courses" element={<CourseCatalog />} />
+              <Route path="/courses" element={<CourseCatalog />} />
 
-              {/* Course detail page */}
-             <Route path="/courses/:id" element={<CourseDetail />} />
+              <Route path="/courses/:id" element={<CourseDetail />} />
 
             </Routes>
           </main>

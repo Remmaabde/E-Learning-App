@@ -29,9 +29,9 @@ const features = [
 				<path
 					d="M29.4993 12V27L40.3327 32M56.5827 27C56.5827 40.8071 44.4571 52 29.4993 52C14.5416 52 2.41602 40.8071 2.41602 27C2.41602 13.1929 14.5416 2 29.4993 2C44.4571 2 56.5827 13.1929 56.5827 27Z"
 					stroke="#310055"
-					stroke-width="3.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="3.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 				/>
 			</svg>
 		),
@@ -132,30 +132,49 @@ export default function LandingPage() {
 	};
 
 
-			const [courses, setCourses] = useState<ICourse[]>([]);
-		const [showAllCourses, setShowAllCourses] = useState(false);
+	
+	const courses: ICourse[] = [
+		{
+			_id: "1",
+			title: "Complete React Development Course",
+			description: "Master React from beginner to advanced level with hands-on projects and real-world applications.",
+			image: "/Images/datascience.jpg",
+			instructor: "Sarah Johnson",
+			duration: "12 weeks",
+			category: "Frontend",
+			rating: 4.8,
+			featured: true
+		},
+		{
+			_id: "2",
+			title: "Full Stack Web Development",
+			description: "Learn complete web development with Node.js, Express, MongoDB, and modern frontend frameworks.",
+			image: "/Images/html.jpg",
+			instructor: "Michael Chen",
+			duration: "16 weeks",
+			category: "Full Stack",
+			rating: 4.9,
+			featured: true
+		},
+		{
+			_id: "3",
+			title: "UI/UX Design Fundamentals",
+			description: "Design beautiful and user-friendly interfaces with modern design principles and tools.",
+			image: "/Images/figma.jpg",
+			instructor: "Emily Rodriguez",
+			duration: "8 weeks",
+			category: "UI/UX",
+			rating: 4.7,
+			featured: true
+		}
+	];
 
 	
-		useEffect(() => {
-			api.get("/courses").then(res => setCourses(res.data)).catch(() => setCourses([]));
-			setShowAllCourses(true);
-		}, []);
-
-		const handleAllCourses = async () => {
-	
-			try {
-				const res = await api.get("/courses");
-				setCourses(res.data);
-				setShowAllCourses(true);
-			} catch (err) {
-				alert("Failed to fetch all courses");
-			}
-		};
 
 		return (
 		<div className="bg-[#F9F0FF] dark:bg-gray-900 min-h-screen transition-colors duration-300 text-sm">
 			<Header />
-				
+					
 					{stats && (
 						<div className="flex justify-center gap-8 my-4">
 							<div className="bg-[#f2dfff] rounded-lg px-6 py-2 text-lg font-bold text-[#310055]">Total Courses: {stats.totalCourses}</div>
@@ -269,15 +288,19 @@ export default function LandingPage() {
 					Featured Courses
 				</h2>
 				<div className="flex flex-col lg:flex-row gap-14 justify-center items-stretch mb-6">
-					  {courses.map((course, i) => (
+					{courses.map((course, i) => (
 						<div
-							key={i}
+							key={course._id || `course-${i}`}
 							className="flex flex-col w-[320px] h-[320px] rounded-[10px] bg-[#f2dfff] p-3"
 						>
 							<img
-								src={course.image}
+								src={course.image || '/Images/default-course.jpg'}
 								alt={course.title}
 								className="w-[180px] h-[100px] object-cover rounded-lg mb-2"
+								onError={(e) => {
+									const target = e.target as HTMLImageElement;
+									target.src = '/Images/default-course.jpg';
+								}}
 							/>
 							<div className="flex justify-between items-center mb-1">
 								<div className="flex items-center gap-1">
@@ -325,7 +348,7 @@ export default function LandingPage() {
 								<div className="flex items-center gap-1">
 									{[1, 2, 3, 4].map((s) => (
 										<svg
-											key={s}
+											key={`star-${course._id}-${s}`}
 											width="12"
 											height="12"
 											fill="#FFD600"
@@ -341,7 +364,7 @@ export default function LandingPage() {
 										viewBox="0 0 24 24"
 									>
 										<defs>
-											<linearGradient id="half">
+											<linearGradient id={`half-${course._id}`}>
 												<stop
 													offset="50%"
 													stopColor="#FFD600"
@@ -354,7 +377,7 @@ export default function LandingPage() {
 										</defs>
 										<path
 											d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-											fill="url(#half)"
+											fill={`url(#half-${course._id})`}
 										/>
 									</svg>
 									<span className="font-inter font-normal text-[8px] leading-[100%] tracking-[0] text-black ml-1">
@@ -365,15 +388,7 @@ export default function LandingPage() {
 						</div>
 					))}
 				</div>
-						<div className="flex justify-center">
-							<button
-								className="font-inter font-normal text-[10px] leading-[100%] tracking-[0] text-black border bg-[#AB51E3] rounded-[20px] px-[20px] py-[8px] w-[100px] h-[32px]"
-								onClick={handleAllCourses}
-								disabled={showAllCourses}
-							>
-								ALL COURSES
-							</button>
-						</div>
+				
 			</section>
 
 	

@@ -32,7 +32,7 @@ app.use(cors({
 
 
 
-app.use("/api/courses", courseRoutes);
+
 
 
 
