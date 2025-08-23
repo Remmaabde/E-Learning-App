@@ -154,7 +154,7 @@ const CourseCatalog: React.FC = () => {
         }
       } catch (e) {
         console.error("Failed to fetch courses:", e);
-        setError("Could not load courses from API. Showing sample data.");
+       
         setAllCourses(dummyCourses); 
       } finally {
         setLoading(false);
