@@ -12,13 +12,13 @@ interface EnrolledCourse {
 
 interface StudentDashboardData {
   enrolledCourses: EnrolledCourse[];
-  // Add other fields if you need
+  // Will Add other fields if  needed
 }
 
 interface Course {
   id: string;
   title: string;
-  // Add other course fields if needed
+  // 
 }
 
 export default function MyLearningDashboard() {
