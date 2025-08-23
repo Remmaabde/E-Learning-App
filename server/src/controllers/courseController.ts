@@ -6,12 +6,12 @@ import { Types } from "mongoose";
 import type { AuthRequest } from "../middleware/authmiddleware"; // assumes you have this
 
 // GET /api/courses?search=&category=&minRating=&tag=&page=1&pageSize=12
-export const getCourses = async (req: Request, res: Response) => {
+export const getAllCourses = async (req: Request, res: Response) => {
   try {
     const {
     search = "",
     category = "",
-      minRating = "",
+    minRating = "",
       tag = "",
       page = "1",
       pageSize = "12",
@@ -35,7 +35,37 @@ export const getCourses = async (req: Request, res: Response) => {
         .limit(ps),
     ]);
 
-    res.json({ items, total, page: p, pageSize: ps });
+    
+    const transformedItems = items.map(course => {
+      const courseObj = course.toObject();
+      const instructor = courseObj.instructor as any;
+      
+      return {
+        id: (courseObj._id as any).toString(),
+        title: courseObj.title,
+        category: courseObj.category,
+        description: courseObj.description,
+        instructor: {
+          id: instructor?._id?.toString() || "unknown",
+          name: instructor?.name || "Unknown Instructor",
+          bio: "",
+          image: "/Images/default-instructor.png" // fallback image
+        },
+        lessons: courseObj.lessons.map((lesson: any) => ({
+          id: lesson._id.toString(),
+          title: lesson.title,
+          duration: lesson.duration,
+          videoUrl: lesson.videoUrl,
+          completed: lesson.completed || false
+        })),
+        rating: courseObj.rating,
+        reviewsCount: courseObj.reviewsCount,
+        skills: courseObj.skills,
+        relatedCourses: courseObj.relatedCourses || []
+      };
+    });
+
+    res.json({ items: transformedItems, total, page: p, pageSize: ps });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch courses" });
   }
@@ -48,7 +78,36 @@ export const getCourseById = async (req: Request, res: Response) => {
       .populate("instructor", "name role")
       .populate("relatedCourses", "title rating category");
     if (!course) return res.status(404).json({ error: "Course not found" });
-    res.json(course);
+    
+    // Transform to match frontend expectations
+    const courseObj = course.toObject();
+    const instructor = courseObj.instructor as any;
+    
+    const transformed = {
+      id: (courseObj._id as any).toString(),
+      title: courseObj.title,
+      category: courseObj.category,
+      description: courseObj.description,
+      instructor: {
+        id: instructor?._id?.toString() || "unknown",
+        name: instructor?.name || "Unknown Instructor",
+        bio: "",
+        image: "/Images/default-instructor.png"
+      },
+      lessons: courseObj.lessons.map((lesson: any) => ({
+        id: lesson._id.toString(),
+        title: lesson.title,
+        duration: lesson.duration,
+        videoUrl: lesson.videoUrl,
+        completed: lesson.completed || false
+      })),
+      rating: courseObj.rating,
+      reviewsCount: courseObj.reviewsCount,
+      skills: courseObj.skills,
+      relatedCourses: courseObj.relatedCourses || []
+    };
+    
+    res.json(transformed);
   } catch {
     res.status(500).json({ error: "Failed to fetch course" });
   }
@@ -80,7 +139,7 @@ export const createCourse = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// PUT /api/courses/:id (owner only)
+
 export const updateCourse = async (req: AuthRequest, res: Response) => {
   try {
     const course = await Course.findById(req.params.id);
@@ -99,7 +158,7 @@ export const updateCourse = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// DELETE /api/courses/:id (owner only)
+
 export const deleteCourse = async (req: AuthRequest, res: Response) => {
   try {
     const course = await Course.findById(req.params.id);
@@ -115,5 +174,33 @@ export const deleteCourse = async (req: AuthRequest, res: Response) => {
   } catch {
     res.status(400).json({ error: "Failed to delete course" });
 
+  }
+};
+// export const getCourses = async (req: Request, res: Response) => {
+//   try {
+//     const courses = await Course.find();
+//     res.json(courses);
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to fetch courses" });
+//   }
+// };
+
+export const createFeaturedCourse = async (req: Request, res: Response) => {
+  try {
+    const courseData = req.body;
+    courseData.featured = true; 
+    const course = await Course.create(courseData);
+    res.status(201).json(course);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create featured course" });
+  }
+};
+
+export const getFeaturedCourses = async (req: Request, res: Response) => {
+  try {
+    const courses = await Course.find({ featured: true });
+    res.json(courses);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch featured courses" });
   }
 };
