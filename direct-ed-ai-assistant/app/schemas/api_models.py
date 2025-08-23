@@ -32,3 +32,7 @@ class ChatInput(BaseModel):
 class Source(BaseModel):
     source: str = Field(..., description="The URL of the source document.")
     name: str = Field(..., description="The name of the source (e.g., 'DirectEd Curriculum').")
+
+class ChatOutput(BaseModel):
+    answer: str = Field(..., description="The AI-generated answer or content.")
+    sources: Optional[List[Source]] = Field(None, description="A list of source documents used for the answer.")
