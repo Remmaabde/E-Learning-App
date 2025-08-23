@@ -15,9 +15,24 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     try {
-      // You can update the endpoint and logic as needed
-      await api.post("/auth/login", form);
-      navigate("/"); // Redirect to home or dashboard after login
+      const res = await api.post("/auth/login", form);
+      localStorage.setItem("token", res.data.token);
+    
+      if (res.data.user) {
+        try {
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+        } catch (e) {
+          
+        }
+      }
+      const role = res.data.user?.role;
+      if (role === "instructor") {
+        navigate("/instructor");
+      } else if (role === "student") {
+        navigate("/student");
+      } else {
+        setError("Unknown user role");
+      }
     } catch (err: any) {
       setError(err?.response?.data?.error || "Login failed");
     }
@@ -25,7 +40,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left column */}
+      
       <div className="flex-1 flex flex-col items-center justify-center bg-[#310055] text-white p-8">
         <h1 className="font-bold" style={{ fontFamily: 'Kaisei Haruno Umi, serif', fontWeight: 700, fontSize: 64, textAlign: 'center' }}>
           Welcome to DirectEd
@@ -36,7 +51,7 @@ export default function LoginPage() {
           className="w-64 h-64 rounded-full object-cover mt-10 shadow-lg"
         />
       </div>
-      {/* Right column */}
+      
       <div className="flex-1 flex flex-col justify-center bg-white p-8 relative">
         <form onSubmit={handleSubmit} className="max-w-md mx-auto w-full">
           <h2 className="text-center font-inter font-bold text-[36px] leading-[100%] mb-4">Login</h2>
@@ -73,9 +88,9 @@ export default function LoginPage() {
             <Link to="/reset-password" className="text-[#310055] font-inter font-normal underline">Forgot password?</Link>
           </div>
         </form>
-        {/* Social icons at bottom */}
+        
         <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-8 bottom-10">
-          {/* Twitter */}
+        
           <a href="#" aria-label="Twitter">
             <img
               src="/Images/twitter.png"
@@ -83,7 +98,7 @@ export default function LoginPage() {
               className="w-8 h-8 rounded-full object-cover"
             />
           </a>
-          {/* Facebook */}
+    
           <a href="#" aria-label="Facebook">
             <img
               src="/Images/facebook.png"
