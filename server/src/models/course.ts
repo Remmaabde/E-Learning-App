@@ -47,8 +47,8 @@ const CourseSchema = new Schema<ICourse>(
     skills: { type: [String], default: [], index: true },
     relatedCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
     image: { type: String },
-    featured: { type: Boolean, default: false },
-    owner: { type: Schema.Types.ObjectId, ref: "User" }, // who created/owns
+    featured: { type: Boolean, default: true },
+    owner: { type: Schema.Types.ObjectId, ref: "User" }, 
 },
 { timestamps: true }
 );
