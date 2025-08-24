@@ -2,7 +2,7 @@ import axios from "axios";
 
 // You can set your API base URL here
 export const api = axios.create({
-	baseURL: "http://localhost:5000/api",
+	baseURL: "https://e-learning-app-9ltn.onrender.com/api",
 	headers: {
 		"Content-Type": "application/json",
 	},
