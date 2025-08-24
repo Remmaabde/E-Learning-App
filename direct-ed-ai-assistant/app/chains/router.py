@@ -42,8 +42,8 @@ def format_docs(docs):
 def get_sources_from_docs(docs):
     return [
         {
-            "source": doc.metadata.get("source_url"),
-            "name": doc.metadata.get("source_name"),
+            "source": doc.metadata.get("source_url", ""),
+            "name": doc.metadata.get("source_name", ""),
         }
         for doc in docs
     ]
@@ -187,6 +187,5 @@ chat_chain_with_history = RunnableWithMessageHistory(
 content_generation_chain = (ContentGenerator() | LearningAnalyzer()).with_types(
     input_type=ChatInput, output_type=ChatOutput
 )
-
 
 

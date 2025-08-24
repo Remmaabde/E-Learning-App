@@ -1,0 +1,41 @@
+Title: Gen AI Recap
+
+---
+## What is Generative AI?
+---
+
+Generative AI is a type of artificial intelligence that **creates new, original content** like text, images, or code. Instead of just analyzing data, it learns the underlying patterns and uses them to generate something entirely new. Think of it as an AI that can be an artist or a writer, not just an analyst. 🧑‍🎨
+
+At the core of most modern text-based Gen AI are **Large Language Models (LLMs)** like Google's Gemini. These are powered by a technology called the **Transformer architecture**, which is excellent at understanding the context and relationships in language.
+
+---
+## How Do We Use It?
+---
+
+We interact with and control Generative AI using **prompts**. A prompt is simply the instruction we give the model. **Prompt Engineering** is the skill of crafting clear and effective prompts to get the best possible results from the AI.
+
+The most common workflow involves:
+* **Zero-Shot Prompting:** Asking a question directly.
+* **Few-Shot Prompting:** Giving the AI a few examples to guide its response.
+* **Chain-of-Thought:** Asking the AI to "think step-by-step" to solve complex problems.
+
+---
+## How Do We Build with It?
+---
+
+You can build your own applications powered by Generative AI using a common set of tools:
+
+* **Language & Libraries:** **Python** is the go-to language, using libraries like `google-generativeai` to connect to models like Gemini.
+* **Backend Framework:** **FastAPI** is a modern Python framework used to build a high-performance backend. It creates an **API** (Application Programming Interface), which acts as the "waiter" that takes requests from users and communicates with the AI model. 🍽️
+* **Testing:** **Postman** is a tool used to test your API endpoints to make sure they are working correctly before connecting them to a front-end application.
+
+
+
+---
+## How Do Teams Collaborate on AI Projects?
+---
+
+When working in a team, developers use **Git** and a central repository on a platform like **GitHub**. The standard workflow is:
+1.  **Branch:** Create a separate, isolated **branch** for every new feature.
+2.  **Commit & Push:** Do your work and push your branch to the central repository.
+3.  **Pull Request (PR):** Open a **Pull Request**, which is a formal request to merge your changes into the main project. This allows for code review and discussion with teammates. ✅

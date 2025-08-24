@@ -1,15 +1,12 @@
-# requirements.txt
-
-# Core Application & API (Stable, available versions)
+selenium
+webdriver-manager
+pypdf
 fastapi==0.111.0
 pydantic==2.8.2
 uvicorn==0.30.1
 python-dotenv==1.0.1
-
-# LangChain Suite (Pinning to the latest available version from your log)
 langserve==0.3.1
 
-# Let pip find the best compatible versions for the rest
 langchain
 langchain-core
 langchain-community
@@ -17,7 +14,6 @@ langchain-openai
 langchain-chroma
 langchain-huggingface
 
-# Other Dependencies
 sentence-transformers
 chromadb
 requests

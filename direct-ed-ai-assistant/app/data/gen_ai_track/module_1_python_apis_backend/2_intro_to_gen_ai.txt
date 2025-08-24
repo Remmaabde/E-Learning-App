@@ -1,0 +1,570 @@
+Week 1: Introduction to AI & Generative AI
+1.1 What is AI?
+
+Artificial Intelligence (AI) is the field of computer science that builds systems capable of performing tasks that usually require human intelligence. These tasks include reasoning, learning, planning, perception, and natural language understanding.
+
+Levels of AI evolution:
+
+Symbolic AI (1950s–1980s): Rule-based expert systems. Example: MYCIN (medical diagnosis).
+
+Machine Learning (1980s–2000s): Models learn patterns from data instead of being programmed with rules.
+
+Deep Learning (2010s): Neural networks with many layers achieve breakthroughs in vision and language.
+
+Generative AI (2020s): Models capable of creating new data: text, images, audio, video.
+
+1.2 What is Generative AI?
+
+Generative AI (GenAI) refers to systems that can produce original content rather than simply classifying or predicting.
+
+Examples:
+
+Text: GPT-4, Claude → essays, stories, chatbots.
+
+Images: Stable Diffusion, MidJourney → digital art.
+
+Music: Google MusicLM → generate songs.
+
+Video: Runway, OpenAI Sora → AI-powered film-making.
+
+1.3 Why Generative AI Matters
+
+Creativity: Artists, designers, and writers can co-create with AI.
+
+Productivity: Automates tasks (e.g., drafting reports, coding).
+
+Accessibility: Text-to-speech, image-to-text for visually impaired.
+
+Risks: Deepfakes, misinformation, bias amplification.
+
+1.4 Class Activity
+
+Students use ChatGPT to co-write a short poem.
+
+Students use Stable Diffusion to generate an image from a text prompt.
+
+Discussion: "Did the AI feel creative? What are its limits?"
+
+Week 2: Machine Learning Refresher
+2.1 Types of Machine Learning
+
+Supervised Learning
+
+Model learns from labeled data.
+
+Example: Predicting house prices (input: features like size, location; output: price).
+
+Unsupervised Learning
+
+Model finds patterns without labels.
+
+Example: Clustering customers by spending habits.
+
+Reinforcement Learning (RL)
+
+Agent learns by interacting with an environment.
+
+Example: Training a robot to walk or AlphaGo playing Go.
+
+2.2 Neural Networks Basics
+
+Neuron (perceptron): Takes weighted inputs, applies activation (e.g., sigmoid, ReLU).
+
+Layers: Input → hidden layers → output.
+
+Training:
+
+Forward pass: compute prediction.
+
+Loss function: measure error.
+
+Backpropagation: adjust weights via gradient descent.
+
+Diagram (describe in words): Imagine circles in layers → arrows between them → weights adjusting.
+
+2.3 Embeddings & Latent Space
+
+Embeddings: Represent words, images, etc. as vectors in high-dimensional space.
+
+Example: "king – man + woman ≈ queen".
+
+Latent Space: The "compressed imagination space" where AI encodes patterns.
+
+In GANs/diffusion, random noise in latent space transforms into images.
+
+2.4 Lab Idea
+
+Train a simple text generator using RNN or LSTM (predict the next character).
+
+Visualize word embeddings with PCA/t-SNE.
+
+Week 3: Transformers & Large Language Models (LLMs)
+3.1 Limitations of Old Models (RNNs/LSTMs)
+
+RNNs process text sequentially → slow.
+
+Struggle with long-term dependencies (forget context after ~100 words).
+
+Parallelization is difficult.
+
+3.2 The Transformer (2017)
+
+Paper: "Attention is All You Need."
+
+Self-Attention: Every word compares itself with all other words → captures context.
+
+Positional Encoding: Since order matters, positions are encoded numerically.
+
+Architecture:
+
+Encoder: Reads and encodes input.
+
+Decoder: Generates output (text, translation).
+
+Diagram (describe in words): Input words → embeddings → multi-head attention → feed-forward → stacking layers → output.
+
+3.3 Large Language Models (LLMs)
+
+Training: Predict the next word/token across billions of examples.
+
+Scaling laws: Bigger data + bigger models → better performance.
+
+Examples: GPT-3/4, BERT, LLaMA, Claude.
+
+3.4 Why Transformers Changed Everything
+
+Handle long context (thousands of words).
+
+Parallel processing on GPUs → faster training.
+
+Transfer learning: Pretrained on internet text → fine-tuned for tasks.
+
+3.5 Lab Idea
+
+Use HuggingFace Transformers to:
+
+Generate text with GPT-2.
+
+Summarize text with BART.
+
+Compare outputs with and without fine-tuning.
+
+✅ That’s the expanded format for the first 3 weeks.
+Each section is 2–3 pages worth of content with explanations, examples, and diagrams described in words.
+
+👉 Do you want me to continue expanding Weeks 4–14 in the same detailed format (so you’ll have a complete “course notes” pack), or would you prefer I summarize the rest into a slightly shorter version?
+
+You said:
+continue expanding Weeks 4–14
+ChatGPT said:
+
+Excellent 🙌 — let’s continue expanding Weeks 4–14 in the same student handout style. Each week will be detailed (2–3 pages worth), with structured notes, examples, and suggested lab activities.
+
+📘 Expanded Notes: Introduction to Generative AI (Weeks 4–14)
+Week 4: Prompt Engineering & LLM Applications
+4.1 What is Prompt Engineering?
+
+Prompt engineering is the practice of designing inputs (prompts) to guide generative models toward desired outputs.
+
+LLMs don’t “think” like humans → they predict tokens probabilistically.
+
+The way you ask the question heavily influences the answer.
+
+4.2 Prompting Techniques
+
+Zero-shot prompting
+
+Give only an instruction.
+
+Example: “Translate this sentence into French: The cat is sleeping.”
+
+Few-shot prompting
+
+Provide examples of input → output pairs.
+
+Example:
+
+English: Hello → French: Bonjour
+English: Good morning → French: Bonjour
+English: How are you? → French:
+
+
+Chain-of-Thought (CoT)
+
+Ask the model to “think step by step.”
+
+Example: “Solve: 27 + 49. Show reasoning step by step.”
+
+Role prompting
+
+Assign a role to the AI.
+
+Example: “You are a science tutor. Explain photosynthesis to a 12-year-old.”
+
+4.3 Applications of LLMs
+
+Chatbots: Customer support, tutoring, virtual assistants.
+
+Summarization: News, research papers, legal contracts.
+
+Translation: Multilingual communication.
+
+Creative writing: Stories, marketing content, poetry.
+
+Programming: Code generation, debugging.
+
+4.4 Lab Activity
+
+Students test different prompt styles on ChatGPT or HuggingFace model.
+
+Compare outputs for the same task (e.g., translation, summarization).
+
+Reflection: Which style gave the most useful output? Why?
+
+Week 5: Text-to-Image Generation
+5.1 Generative Adversarial Networks (GANs)
+
+Introduced by Ian Goodfellow (2014).
+
+Two models compete:
+
+Generator: Creates fake images.
+
+Discriminator: Judges real vs fake.
+
+Training loop improves both until generator fools discriminator.
+
+5.2 Diffusion Models
+
+Newer models outperform GANs for text-to-image.
+
+Process:
+
+Start with random noise.
+
+Gradually remove noise guided by text prompt.
+
+Result: Coherent image matching text.
+
+Example: Stable Diffusion.
+
+5.3 Applications
+
+Digital art & design.
+
+Game asset generation.
+
+Marketing & advertising visuals.
+
+Storyboarding for film.
+
+5.4 Limitations & Risks
+
+Can generate biased or inappropriate content.
+
+Copyright issues: Training on existing art.
+
+Fake/real confusion (deepfake-style images).
+
+5.5 Lab Activity
+
+Use Stable Diffusion to generate:
+
+A futuristic cityscape.
+
+An image in Van Gogh’s painting style.
+
+Discussion: What worked? What failed?
+
+Week 6: Audio & Music Generation
+6.1 Text-to-Speech (TTS)
+
+Converts text → speech using neural models.
+
+Advances allow natural-sounding voices.
+
+Example: ElevenLabs, Google WaveNet.
+
+6.2 Voice Cloning
+
+Model learns unique voice from small samples.
+
+Applications: Audiobooks, personalized assistants.
+
+Ethical risks: Fake recordings, impersonation.
+
+6.3 Music Generation
+
+Symbolic AI models: Predict musical notes.
+
+Neural models: Generate raw audio waveforms.
+
+Examples: Google MusicLM, Suno.
+
+6.4 Applications
+
+Accessibility (audiobooks for visually impaired).
+
+Entertainment (personalized music).
+
+Creative industry (background scores).
+
+6.5 Lab Activity
+
+Generate audio clips with text prompts using MusicLM or Suno.
+
+Compare styles: classical, hip-hop, ambient.
+
+Week 7: Video & Multimodal Generative AI
+7.1 What is Multimodal AI?
+
+Models that handle multiple input types (text, image, audio, video).
+
+Example: CLIP (connects text and images).
+
+7.2 Video Generation
+
+Based on diffusion + transformers.
+
+Models like Sora and Runway can generate short films.
+
+Challenge: Temporal consistency (making frames flow smoothly).
+
+7.3 Applications
+
+Movie pre-visualization.
+
+Education (AI explainer videos).
+
+Marketing & advertising.
+
+7.4 Lab Activity
+
+Use Runway to generate a short video (e.g., “a robot walking through a futuristic city”).
+
+Reflection: What’s realistic? What glitches remain?
+
+Week 8: Midterm & Case Studies
+8.1 Midterm Review
+
+ML basics, embeddings, transformers, LLMs.
+
+GANs vs diffusion.
+
+Prompting strategies.
+
+8.2 Case Studies
+
+Healthcare: AI for drug discovery.
+
+Education: AI tutors.
+
+Business: Automated marketing content.
+
+Misinformation: Deepfake news videos.
+
+8.3 Discussion
+
+Split class into groups: “Is AI more beneficial or more dangerous today?”
+
+Each group argues for one side.
+
+Week 9: Fine-Tuning & Adaptation
+9.1 Why Fine-Tune?
+
+Pretrained models are general-purpose.
+
+Fine-tuning makes them domain-specific.
+
+9.2 Methods
+
+Full fine-tuning: Expensive, retrains entire model.
+
+Parameter-efficient fine-tuning:
+
+LoRA (Low-Rank Adaptation).
+
+Adapters.
+
+Saves time + compute.
+
+9.3 Applications
+
+Customer support chatbot fine-tuned on company FAQs.
+
+Medical LLM trained on healthcare datasets.
+
+9.4 Lab Activity
+
+Fine-tune a small LLM (e.g., DistilGPT2) on student-written dataset.
+
+Compare performance before vs after fine-tuning.
+
+Week 10: Retrieval-Augmented Generation (RAG)
+10.1 Why RAG?
+
+LLMs have knowledge cutoff + hallucinate facts.
+
+RAG integrates external knowledge into responses.
+
+10.2 How RAG Works
+
+Store documents in vector database (e.g., Chroma).
+
+Retrieve most relevant docs.
+
+Feed into LLM with query.
+
+Get grounded answers.
+
+10.3 Applications
+
+Research assistants.
+Knowledge base chatbots.
+Legal document summarizers.
+
+10.4 Lab Activity
+Build a mini RAG chatbot using Chroma + OpenAI API.
+Query a custom knowledge base (e.g., lecture notes).
+
+Week 11: Agents & Reinforcement Learning
+11.1 AI Agents
+LLMs that can plan & act using tools.
+Example: AutoGPT, CrewAI.
+They can browse, write, summarize, code autonomously.
+
+11.2 Reinforcement Learning (RL)
+Agent learns by reward signals.
+Famous examples:
+AlphaGo (beat humans in Go).
+Robotics training.
+
+11.3 RLHF (Reinforcement Learning with Human Feedback)
+Used in ChatGPT to align outputs with human values.
+Humans label AI responses → model learns preferences.
+
+11.4 Lab Activity
+Build a simple multi-agent system: one AI researches, another summarizes.
+
+Ethics, Bias & Policy
+Bias & Fairness
+Models reflect training data → stereotypes & harmful outputs.
+Example: Gender bias in job descriptions.
+
+12.2 Copyright & Ownership
+Who owns AI-generated art?
+Ongoing legal debates.
+
+12.3 Risks of Deepfakes
+Fake news videos, political misinformation.
+Threat to trust in media.
+
+12.4 Policies & Regulations
+EU AI Act: Classifies AI risk levels.
+US frameworks: Encourage innovation with guardrails.
+
+12.5 Discussion
+Debate: “Should AI-generated works have copyright protection?”
+
+Week 13: GenAI in Research & Industry
+13.1 Applications in Research
+Protein folding (AlphaFold).
+Climate modeling.
+Material discovery.
+
+13.2 Industry Applications
+Healthcare: AI-powered diagnostics.
+Business: Marketing copywriting.
+Education: Personalized AI tutors.
+Entertainment: Film scripts, music composition.
+
+
+Title: Introduction to Generative AI
+
+---
+## 1. What is Artificial Intelligence (AI)?
+---
+
+Artificial Intelligence (AI) is a broad area of computer science that makes computers seem like they have human intelligence. It's about creating systems that can perform tasks that typically require human intelligence, such as learning, reasoning, problem-solving, perception, and language understanding.
+
+* **Subfields of AI:**
+    * **Machine Learning (ML):** A subset of AI where systems learn from data to identify patterns and make decisions with minimal human intervention.
+    * **Deep Learning (DL):** A subset of ML that uses neural networks with many layers (hence "deep") to analyze various factors of data. It's the powerhouse behind most modern AI.
+    * **Generative AI:** A subset of Deep Learning.
+
+* **Types of AI:**
+    * **Artificial Narrow Intelligence (ANI):** Specializes in one area (e.g., a chess program, a spam filter). This is the only type of AI we have successfully created so far.
+    * **Artificial General Intelligence (AGI):** Can understand, learn, and apply its intelligence to solve any problem, just like a human. This is still theoretical.
+    * **Artificial Superintelligence (ASI):** Surpasses human intelligence and ability. This is also theoretical.
+
+---
+## 2. What is Generative AI?
+---
+
+**Generative AI** is a type of artificial intelligence that can **create new, original content**. Unlike traditional AI systems that are designed to recognize patterns and make predictions (discriminative AI), generative models generate new data that resembles the data they were trained on.
+
+* **Key Idea:** It learns the underlying patterns and structures of a dataset and then uses that knowledge to produce new, synthetic examples.
+* **Analogy:** Think of a student who studies thousands of paintings by Van Gogh. A *discriminative* AI could tell you if a new painting is likely by Van Gogh or not. A *generative* AI would be able to paint a brand new painting in the style of Van Gogh.
+
+* **What can it generate?**
+    * **Text:** Stories, poems, emails, computer code, summaries, marketing copy.
+    * **Images:** Photorealistic images, art, logos, illustrations from text descriptions.
+    * **Audio:** Music in various genres, realistic speech, sound effects.
+    * **Video:** Short video clips, animations.
+    * **Data:** Synthetic data for training other AI models, filling in missing data points.
+    * **3D Models:** Assets for games, virtual reality, and industrial design.
+
+---
+## 3. How Does Generative AI Work?
+---
+
+Generative AI is powered by complex deep learning models called **Foundation Models**. These are large models trained on vast amounts of data.
+
+* **Training Process:**
+    1.  **Data Collection:** The model is fed an enormous dataset. For a language model, this could be a huge portion of the internet (books, articles, websites). For an image model, it could be billions of images with text descriptions.
+    2.  **Pattern Recognition:** The model, using its neural network architecture, learns the relationships, patterns, styles, and structures within the data. It learns grammar, facts, artistic styles, and how concepts relate to each other.
+    3.  **Encoding Knowledge:** This learned knowledge is stored as mathematical representations (vectors) within the model's parameters.
+
+* **Generation Process (Inference):**
+    1.  **Prompt:** You give the model an input, called a **prompt**. This is your instruction (e.g., "Write a short poem about rain," or "Create a photo of an astronaut riding a horse").
+    2.  **Prediction:** The model uses its learned patterns to predict what the most likely output should be based on your prompt. For text, it predicts the next word in a sequence. For an image, it builds the image pixel by pixel or in stages based on the text description.
+    3.  **Output:** It generates and presents the new content.
+
+---
+## 4. Key Models and Architectures
+---
+
+* **Large Language Models (LLMs):** These are foundation models trained specifically on text data. They are the basis for chatbots and text generation tools.
+    * **Architecture:** Most modern LLMs use the **Transformer** architecture, which is very good at understanding context and relationships in sequential data like text. It uses a mechanism called "attention" to weigh the importance of different words in the input when generating the output.
+    * **Examples:** OpenAI's GPT series (Generative Pre-trained Transformer), Google's Gemini, Meta's Llama.
+
+* **Diffusion Models:** These models are state-of-the-art for generating high-quality images.
+    * **How they work:** They start with random noise (like TV static) and gradually refine it, step-by-step, into a coherent image that matches the text prompt. They are trained by learning how to reverse the process of adding noise to an image.
+    * **Examples:** Stable Diffusion, Midjourney, DALL-E 2/3.
+
+* **Generative Adversarial Networks (GANs):** An older but still important architecture.
+    * **How they work:** A GAN consists of two competing neural networks:
+        * The **Generator:** Tries to create realistic data (e.g., images of faces).
+        * The **Discriminator:** Tries to tell the difference between real data and the fake data created by the generator.
+    * The two networks train together. The Generator gets better at making fakes, and the Discriminator gets better at spotting them. This "adversarial" competition pushes the Generator to create incredibly realistic outputs.
+
+---
+## 5. Applications and Use Cases
+---
+
+* **Content Creation:** Writing articles, scripts, and marketing copy. Generating music and art.
+* **Software Development:** Writing code, debugging, explaining code snippets.
+* **Design:** Creating logos, product prototypes, and architectural visualizations.
+* **Entertainment:** Developing game assets, special effects, and virtual worlds.
+* **Communication:** Powering advanced chatbots, summarizing long documents, translating languages.
+* **Science & Research:** Generating molecular structures for drug discovery, creating simulations.
+
+---
+## 6. Limitations and Ethical Considerations
+---
+
+* **Hallucinations:** Models can confidently generate false or nonsensical information. They don't "know" what's true; they only know what's statistically likely based on their training data.
+* **Bias:** AI models can inherit and amplify biases present in their training data (e.g., gender, racial, cultural stereotypes).
+* **Misinformation:** The ability to create realistic fake images, videos (deepfakes), and text can be used to spread misinformation and propaganda.
+* **Copyright & Ownership:** Who owns AI-generated content? Can AI be trained on copyrighted material? These are ongoing legal and ethical questions.
+* **Environmental Cost:** Training large foundation models requires immense computational power and consumes a significant amount of energy.

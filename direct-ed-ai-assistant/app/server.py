@@ -18,10 +18,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True, 
-    allow_methods=["*"], 
-    allow_headers=["*"],
+    allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
 )
 
 
@@ -47,6 +44,5 @@ def get_analytics():
 def read_root():
     """Health check endpoint."""
     return {"status": "DirectEd AI Assistant is running"}
-
 
 

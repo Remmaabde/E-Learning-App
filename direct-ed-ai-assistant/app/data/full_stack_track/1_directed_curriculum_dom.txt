@@ -1,0 +1,77 @@
+# **Section One: JavaScript DOM**
+
+---
+
+[](https://res.cloudinary.com/dhn1ctlcq/image/upload/c_limit,w_764/f_auto/q_60/v1/directeds-main-bootcamp+x8ph5jzet/xdbkfrq3nepqvcysul80?_a=BAVHt0Gd0)
+
+## **💡 Topic: What is DOM?**
+
+Imagine you're a king or queen in charge of a grand castle, with many rooms, staircases, and courtyards. You've commissioned the finest stonemasons and craftsmen to build your castle, but now you're facing a problem - you want to rearrange the layout of some of the rooms and add new features like a ballroom and a moat. However, your craftsmen have already finished building the castle and left for other projects, leaving you with a challenge: how can you make changes to the castle without tearing it down and starting over?
+
+![](https://i.ibb.co/thX0k9J/image-1.jpg)
+
+This is where the **Document Object Model (DOM)** comes in. The DOM is like the map of your castle, like a **blueprint,** showing you the structure of each room and its relationship to the other rooms. With the DOM, you can access and manipulate the elements of your castle (like the walls, doors, and furniture) without needing to rebuild the whole thing. In the same way, the DOM allows developers to access and manipulate the elements of a web page, such as HTML tags and CSS styles, through JavaScript code. This makes it possible to create dynamic and interactive web pages that can respond to user input and update in real-time. Without the DOM, developers would have to manually write complex HTML and CSS code to achieve the same result, making it much more difficult and time-consuming to build engaging and user-friendly web applications.
+
+So, in short, what we are saying is:
+🎯 Your **webpage** is the **castle**
+🎯 Your **HTML** is the structure 
+🎯 Your **CSS** is the **design**
+🎯 Your **JavaScript** is the magic wand 🪄 that uses the **DOM map** to make live changes.
+
+---
+
+## **📋 Instructions**
+
+1. **Step one:** Follow the link below and take the JavaScript DOM manipulation course to get a Basic understanding of DOM.
+    
+    https://youtu.be/5fb2aPlgoys
+    
+    <aside>
+    ⛔
+    
+    **📌Note: You are required to COMPLETE the entire lesson before moving on to the next section.**
+    
+    - **⭐️Course Contents⭐️ (click to expand)**
+        - [ ]  ([0:00:00](https://www.youtube.com/watch?v=5fb2aPlgoys&t=0s)) Introduction
+        - [ ]  ([0:01:32](https://www.youtube.com/watch?v=5fb2aPlgoys&t=92s)) What is the DOM?
+        - [ ]  ([0:02:05](https://www.youtube.com/watch?v=5fb2aPlgoys&t=125s)) DOM Tree Analogy
+        - [ ]  ([0:04:01](https://www.youtube.com/watch?v=5fb2aPlgoys&t=241s)) Selecting Elements in the DOM
+        - [ ]  ([0:11:44](https://www.youtube.com/watch?v=5fb2aPlgoys&t=704s)) Styling an Element
+        - [ ]  ([0:16:33](https://www.youtube.com/watch?v=5fb2aPlgoys&t=993s)) Creating Elements
+        - [ ]  ([0:17:32](https://www.youtube.com/watch?v=5fb2aPlgoys&t=1052s)) Adding Elements
+        - [ ]  ([0:18:33](https://www.youtube.com/watch?v=5fb2aPlgoys&t=1113s)) Modify Text
+        - [ ]  ([0:21:15](https://www.youtube.com/watch?v=5fb2aPlgoys&t=1275s)) Modifying Elements Attributes & Classes
+        - [ ]  ([0:24:59](https://www.youtube.com/watch?v=5fb2aPlgoys&t=1499s)) Remove an Element
+        - [ ]  ([0:25:47](https://www.youtube.com/watch?v=5fb2aPlgoys&t=1547s)) DOM Tree Recap
+        - [ ]  ([0:27:58](https://www.youtube.com/watch?v=5fb2aPlgoys&t=1678s)) Traversing the DOM
+        - [ ]  ([0:37:48](https://www.youtube.com/watch?v=5fb2aPlgoys&t=2268s)) Event Listeners
+        - [ ]  ([0:44:59](https://www.youtube.com/watch?v=5fb2aPlgoys&t=2699s)) Event Listener Example
+        - [ ]  ([0:50:16](https://www.youtube.com/watch?v=5fb2aPlgoys&t=3016s)) Event Propagation
+        - [ ]  ([1:00:07](https://www.youtube.com/watch?v=5fb2aPlgoys&t=3607s)) Event Delegation
+        - [ ]  ([1:11:13](https://www.youtube.com/watch?v=5fb2aPlgoys&t=4273s)) Introduction to Projects
+        - [ ]  ([1:11:52](https://www.youtube.com/watch?v=5fb2aPlgoys&t=4312s)) Project 1: Beginner
+        - [ ]  ([1:14:26](https://www.youtube.com/watch?v=5fb2aPlgoys&t=4466s)) Project 1 Mark-Up
+        - [ ]  ([1:16:31](https://www.youtube.com/watch?v=5fb2aPlgoys&t=4591s)) General Styles for All Projects
+        - [ ]  ([1:17:08](https://www.youtube.com/watch?v=5fb2aPlgoys&t=4628s)) Project 1 CSS Styling
+        - [ ]  ([1:24:40](https://www.youtube.com/watch?v=5fb2aPlgoys&t=5080s)) Project 1 JavaScript
+        - [ ]  ([1:29:39](https://www.youtube.com/watch?v=5fb2aPlgoys&t=5379s)) Project 2: Beginner +
+        - [ ]  ([1:30:41](https://www.youtube.com/watch?v=5fb2aPlgoys&t=5441s)) Project 2 Mark Up
+        - [ ]  ([1:32:33](https://www.youtube.com/watch?v=5fb2aPlgoys&t=5553s)) Project 2 CSS styling
+        - [ ]  ([1:41:30](https://www.youtube.com/watch?v=5fb2aPlgoys&t=6090s)) Project 2 JavaScript
+        - [ ]  ([1:46:08](https://www.youtube.com/watch?v=5fb2aPlgoys&t=6368s)) Project 2 CSS Styling p2
+        - [ ]  ([1:47:53](https://www.youtube.com/watch?v=5fb2aPlgoys&t=6473s)) Project 3: Intermediate
+        - [ ]  ([1:48:39](https://www.youtube.com/watch?v=5fb2aPlgoys&t=6519s)) Project 3 Mark Up
+        - [ ]  ([1:49:59](https://www.youtube.com/watch?v=5fb2aPlgoys&t=6599s)) Project 3 CSS Styling
+        - [ ]  ([1:55:19](https://www.youtube.com/watch?v=5fb2aPlgoys&t=6919s)) Project 3 JavaScript
+        - [ ]  ([1:58:02](https://www.youtube.com/watch?v=5fb2aPlgoys&t=7082s)) Project 3 CSS Styling p2
+        - [ ]  ([2:00:45](https://www.youtube.com/watch?v=5fb2aPlgoys&t=7245s)) Project 4: Pro
+        - [ ]  ([2:01:26](https://www.youtube.com/watch?v=5fb2aPlgoys&t=7286s)) Project 4 Mark Up
+        - [ ]  ([2:02:44](https://www.youtube.com/watch?v=5fb2aPlgoys&t=7364s)) Project 4 CSS Styling
+        - [ ]  ([2:06:36](https://www.youtube.com/watch?v=5fb2aPlgoys&t=7596s)) Project 4 JavaScript
+        - [ ]  ([2:20:37](https://www.youtube.com/watch?v=5fb2aPlgoys&t=8437s)) Project 5: Master
+        - [ ]  ([2:22:01](https://www.youtube.com/watch?v=5fb2aPlgoys&t=8521s)) Project 5 Mark Up
+        - [ ]  ([2:23:15](https://www.youtube.com/watch?v=5fb2aPlgoys&t=8595s)) Project 5 CSS Styling
+        - [ ]  ([2:26:39](https://www.youtube.com/watch?v=5fb2aPlgoys&t=8799s)) Project 5 JavaScript
+        - [ ]  ([2:33:52](https://www.youtube.com/watch?v=5fb2aPlgoys&t=9232s)) Project 5 CSS Styling p2
+        - [ ]  ([2:38:41](https://www.youtube.com/watch?v=5fb2aPlgoys&t=9521s)) Project 5 JavaScript p2
+    </aside>

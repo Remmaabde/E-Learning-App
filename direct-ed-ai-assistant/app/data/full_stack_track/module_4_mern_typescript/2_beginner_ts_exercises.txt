@@ -1,0 +1,153 @@
+Title: Beginner's Guide to TypeScript
+
+---
+## Part 1: Setting Up Your TypeScript Environment
+---
+
+Before you can write TypeScript, you need to set up a compiler to translate your `.ts` code into browser-readable `.js` code.
+
+### **1.1 The Simple Way: Global `tsc` for Learning**
+This method is great for experimenting with single files.
+
+1.  **Install TypeScript Globally:** Open your terminal and run this command. This installs the TypeScript Compiler (`tsc`) and makes it available everywhere on your system.
+    ```bash
+    npm install -g typescript
+    ```
+2.  **Write some TypeScript:** Create a file named `hello.ts`.
+    ```typescript
+    // hello.ts
+    let message: string = "Hello, TypeScript!";
+    console.log(message);
+    ```
+3.  **Compile the file:** In your terminal, run the compiler.
+    ```bash
+    tsc hello.ts
+    ```
+    This will create a new file named `hello.js` in the same directory. The `.js` file will contain the compiled, plain JavaScript code.
+4.  **Run the JavaScript file:**
+    ```bash
+    node hello.js
+    ```
+    You'll see "Hello, TypeScript!" printed to the console.
+
+### **1.2 The Project Way: `tsconfig.json`**
+For any real project, you'll want to manage TypeScript on a per-project basis.
+
+1.  **Create a new project folder and initialize npm:**
+    ```bash
+    mkdir my-ts-project
+    cd my-ts-project
+    npm init -y
+    ```
+2.  **Install TypeScript as a development dependency:**
+    ```bash
+    npm install typescript --save-dev
+    ```
+3.  **Generate a `tsconfig.json` file:** This file contains all the configuration options for the TypeScript compiler for your project.
+    ```bash
+    npx tsc --init
+    ```
+    This creates a `tsconfig.json` file with many commented-out options. The most important ones for a beginner are:
+    * `target`: The version of JavaScript the compiler will output (e.g., `"ES2016"`).
+    * `module`: The module system for the outputted code (e.g., `"CommonJS"`).
+    * `rootDir`: The folder where your `.ts` source files are located (e.g., `"./src"`).
+    * `outDir`: The folder where the compiled `.js` files will be placed (e.g., `"./dist"`).
+
+Now, you can place your `.ts` files in the `src` folder and simply run `npx tsc` in the terminal. The compiler will read your `tsconfig.json` and compile all the files from `src` into the `dist` folder.
+
+---
+## Part 2: Core Types in Practice
+---
+
+### **2.1 Primitives and Special Types**
+* **Primitives:** These are the basic building blocks: `string`, `number`, `boolean`, `null`, `undefined`.
+* **`any`**: This is the "escape hatch" of TypeScript. It tells the compiler to turn off all type-checking for this variable. **You should avoid using `any` whenever possible**, as it defeats the purpose of TypeScript.
+    `let anything: any = 4; anything = "hello"; // No error`
+* **`unknown`**: This is the safer alternative to `any`. A variable of type `unknown` can hold any value, but you cannot use it until you perform a type check to narrow down its type.
+    ```typescript
+    let value: unknown = "hello world";
+    if (typeof value === "string") {
+      console.log(value.toUpperCase()); // This is OK because we checked the type
+    }
+    ```
+### **2.2 Arrays and Tuples**
+* **Arrays:** A list of items of the same type.
+    `let names: string[] = ["Alice", "Bob"];`
+* **Tuples:** An array with a **fixed number of elements** where the type of each element is known.
+    `let user: [number, string]; // A tuple that must have a number followed by a string`
+    `user = [1, "Alice"]; // OK`
+    `// user = ["Alice", 1]; // Error!`
+
+### **2.3 Objects: `interface` vs. `type`**
+Both are used to define the shape of an object, but have slight differences.
+
+* **`interface`**: Primarily used for defining object shapes and can be extended by other interfaces. It's the go-to for objects.
+    ```typescript
+    interface Product {
+      readonly id: number; // 'readonly' makes the property immutable after creation
+      name: string;
+      price: number;
+      inStock?: boolean; // '?' makes the property optional
+    }
+    ```
+* **`type`**: More flexible. It can define object shapes, but also **union types**, tuples, and other complex types.
+    `type ProductOrUser = Product | User;`
+
+**General Rule:** Use `interface` when defining the shape of an object or class. Use `type` when you need to create a union, intersection, or other complex type alias.
+
+---
+## Part 3: Functions in TypeScript
+---
+
+Typing functions is one of the biggest benefits of TypeScript.
+
+```typescript
+// Parameters are typed, and the function's return value is typed (after the colon)
+function calculateTotalPrice(price: number, quantity: number): number {
+  return price * quantity;
+}
+
+// A function that doesn't return anything has a return type of 'void'
+function logMessage(message: string): void {
+  console.log(message);
+}
+
+// You can have optional and default parameters
+function greet(name: string, greeting: string = "Hello"): string {
+  return `${greeting}, ${name}!`;
+}
+
+Part 4: Combining Types
+4.1 Union Types (|)
+A union type allows a variable to hold a value of one of several types. It's an "OR" condition.
+
+TypeScript
+
+function printId(id: number | string) {
+  // We need to check the type before using type-specific methods
+  if (typeof id === "string") {
+    console.log(id.toUpperCase());
+  } else {
+    console.log(id);
+  }
+}
+4.2 Intersection Types (&)
+An intersection type combines multiple types into one. It's an "AND" condition. The new type has all the properties of the combined types.
+
+TypeScript
+
+interface Clickable {
+  onClick: () => void;
+}
+
+interface Stylable {
+  color: string;
+}
+
+// A Button type must have BOTH Clickable and Stylable properties
+type ButtonProps = Clickable & Stylable;
+
+const myButton: ButtonProps = {
+  onClick: () => console.log("Clicked!"),
+  color: "blue"
+};

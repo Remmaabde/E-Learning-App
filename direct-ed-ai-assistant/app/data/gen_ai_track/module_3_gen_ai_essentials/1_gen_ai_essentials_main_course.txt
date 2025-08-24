@@ -1,0 +1,68 @@
+Title: Gen AI Main Course
+
+---
+## Module 1: The World of Generative AI 🧠
+---
+
+This module covers the foundational concepts behind the technology.
+
+### **Lesson 1.1: What is Generative AI?**
+**Generative AI** is a type of artificial intelligence that **creates new, original content**, such as text, images, or music. Unlike traditional AI that only analyzes or categorizes data, it learns the underlying patterns from a vast dataset and uses that knowledge to generate something completely new. Think of it as an AI that can be a writer or an artist. 🧑‍🎨
+
+### **Lesson 1.2: Understanding Large Language Models (LLMs)**
+**Large Language Models (LLMs)** are the "brains" behind most text-based generative AI. At their core, they are highly sophisticated **next-word predictors**. They are built on a powerful neural network design called the **Transformer architecture**, which uses a "self-attention" mechanism to understand context and the relationships between words in a sentence.
+
+### **Lesson 1.3: The Art of Prompt Engineering**
+We communicate with LLMs using **prompts**. **Prompt Engineering** is the skill of designing clear and effective prompts to guide the AI toward the desired output. A good prompt often includes a **task**, **context**, a **persona**, a desired **format**, and sometimes **examples** (few-shot prompting) to improve accuracy.
+
+
+
+---
+## Module 2: The Developer's Toolkit 🛠️
+---
+
+This module introduces the essential tools for building AI applications.
+
+### **Lesson 2.1: Python for AI**
+**Python** is the primary language for AI development due to its simple syntax and extensive libraries. Key libraries include:
+* **NumPy:** For powerful numerical operations and working with arrays.
+* **Pandas:** For cleaning, manipulating, and analyzing structured data.
+* **Scikit-learn:** For implementing traditional machine learning models.
+
+### **Lesson 2.2: Understanding APIs**
+An **API (Application Programming Interface)** acts as a messenger that allows different software applications to communicate. In our context, we use an API to send a user's prompt from our application to the AI model (like Gemini) and receive the generated response. It's the "waiter" that connects your app to the AI's "kitchen." 🍽️
+
+### **Lesson 2.3: Git for Team Collaboration**
+**Git** is a version control system used to track changes in code and collaborate effectively. The core workflow involves:
+1.  Creating a separate **branch** to work on a new feature in isolation.
+2.  **Committing** (saving) your changes locally.
+3.  **Pushing** your branch to a central repository (like GitHub).
+4.  Opening a **Pull Request (PR)** to have your work reviewed and merged into the main project.
+
+---
+## Module 3: Building Your First AI Application 🚀
+---
+
+This module is a practical, hands-on guide to creating a complete AI-powered backend.
+
+### **Lesson 3.1: Building a Web Backend with FastAPI**
+**FastAPI** is a modern Python framework for building high-performance APIs. You define **endpoints** (URLs) that your application can receive requests on. It uses **Pydantic** models to automatically validate incoming data, ensuring it's in the correct format before processing.
+
+### **Lesson 3.2: Testing Your API with Postman**
+**Postman** is a tool that allows you to manually send requests to your API endpoints and inspect the responses. It's essential for testing and debugging to confirm that your backend works as expected before connecting it to a user interface.
+
+### **Lesson 3.3: Integrating the Gemini AI Model**
+This is where everything comes together. Your FastAPI backend will:
+1.  Receive a user's prompt through an API endpoint.
+2.  Use the `google-generativeai` Python library to securely send that prompt to the Gemini API.
+3.  Receive the generated text back from Gemini.
+4.  Send that text back to the user as the API response.
+
+---
+## Module 4: Putting It All Together ✅
+---
+
+A final review of the entire process from start to finish.
+
+### **Lesson 4.1: Course Recap**
+You've learned the entire lifecycle of building a simple Generative AI application. This involves understanding the fundamental concepts of **LLMs** and **prompting**, setting up a development environment with **Python**, building a robust backend **API** with **FastAPI**, and managing collaborative work with **Git**. You now have the foundational skills to create your own AI-powered tools.

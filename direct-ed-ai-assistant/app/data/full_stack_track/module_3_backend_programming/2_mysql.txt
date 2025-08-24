@@ -1,0 +1,107 @@
+Title: Relational Databases with MySQL
+
+---
+## Part 1: What is a Relational Database?
+---
+
+A **relational database** is a type of database that stores and provides access to data points that are related to one another. The data is organized into a structured format of **tables**, which consist of **rows** and **columns**.
+
+* **Analogy: A Collection of Spreadsheets 🗄️**
+    Think of an entire relational database as a single Excel workbook.
+    * Each **table** is like a separate worksheet within that workbook (e.g., a "Customers" sheet and an "Orders" sheet).
+    * Each **row** in a table represents a single record or entry (e.g., a specific customer).
+    * Each **column** represents an attribute or property of that record, with a consistent data type (e.g., `FirstName`, `Email`, `RegistrationDate`).
+
+The "relational" part is the most powerful feature. It means that tables can be logically linked together, allowing you to combine data from multiple tables in meaningful ways without duplicating information. This is all managed by a rigid structure called a **schema**, which is the blueprint for the database.
+
+---
+## Part 2: The Power of Relationships (Keys)
+---
+
+Tables are linked using a system of **keys**. Understanding keys is fundamental to understanding relational databases.
+
+### **Primary Key (PK) 🔑**
+A **primary key** is a column (or a set of columns) that contains a **unique identifier** for each row in a table. It cannot have null values, and each value must be unique. It's the official ID for a record.
+* **Example:** In a `Students` table, the `StudentID` would be the primary key.
+
+### **Foreign Key (FK) 🔗**
+A **foreign key** is a column in one table that is the **primary key** of another table. It's the "link" that creates the relationship between the two tables.
+* **Example:** In an `Enrollments` table, you would have a `StudentID` column to link each enrollment record to a specific student in the `Students` table. This `StudentID` column in the `Enrollments` table is a foreign key.
+
+
+
+**Example Relationship:**
+Let's say we have two tables: `Customers` and `Orders`.
+
+**`Customers` Table:**
+| CustomerID (PK) | FirstName | LastName  |
+|-----------------|-----------|-----------|
+| 101             | John      | Smith     |
+| 102             | Jane      | Doe       |
+
+**`Orders` Table:**
+| OrderID (PK) | CustomerID (FK) | OrderDate  | Amount |
+|--------------|-----------------|------------|--------|
+| 5001         | 102             | 2025-08-23 | 49.99  |
+| 5002         | 101             | 2025-08-24 | 19.95  |
+| 5003         | 102             | 2025-08-24 | 120.00 |
+
+By using the `CustomerID` foreign key in the `Orders` table, we can easily query the database to find all orders placed by Jane Doe (`CustomerID` 102) without having to store her name in the `Orders` table itself. This prevents data redundancy and ensures data integrity.
+
+---
+## Part 3: What is MySQL?
+---
+
+**MySQL** is a popular, open-source **Relational Database Management System (RDBMS)**. It is the actual software that allows you to create, manage, query, and maintain relational databases.
+
+Think of the relational model as the architectural blueprint for a building. MySQL is the construction company and the set of power tools you use to actually build and manage that building according to the blueprint.
+
+MySQL is a cornerstone of the famous **LAMP stack** (Linux, Apache, MySQL, PHP/Python/Perl) and is used by countless websites and applications, from small blogs to large enterprises like Facebook and YouTube.
+
+---
+## Part 4: SQL - The Language of Relational Databases
+---
+
+**SQL (Structured Query Language)** is the standard programming language used to communicate with relational databases like MySQL. It's how you tell the database what to do. SQL commands are generally grouped into a few sub-languages, the most common being DDL and DML.
+
+### **Data Definition Language (DDL)**
+These commands are used to define and manage the database's structure (the schema).
+
+* **`CREATE TABLE`**: Defines a new table, its columns, and the data type for each column.
+    ```sql
+    CREATE TABLE Employees (
+        EmployeeID INT PRIMARY KEY,
+        FirstName VARCHAR(50),
+        LastName VARCHAR(50),
+        HireDate DATE
+    );
+    ```
+* **`ALTER TABLE`**: Modifies an existing table (e.g., adding or deleting a column).
+* **`DROP TABLE`**: Deletes a table and all its data permanently.
+
+### **Data Manipulation Language (DML)**
+These are the most frequently used commands for adding, retrieving, updating, and deleting the data *within* the tables.
+
+* **`INSERT INTO`**: Adds a new row of data to a table.
+    ```sql
+    INSERT INTO Employees (EmployeeID, FirstName, LastName, HireDate)
+    VALUES (1, 'Alice', 'Williams', '2024-03-15');
+    ```
+* **`SELECT`**: Retrieves data from one or more tables. This is the most powerful and common SQL command.
+    ```sql
+    -- Select all columns from the Employees table
+    SELECT * FROM Employees;
+
+    -- Select specific columns for employees with a specific last name
+    SELECT FirstName, HireDate FROM Employees WHERE LastName = 'Williams';
+    ```
+* **`UPDATE`**: Modifies existing data in a table.
+    ```sql
+    UPDATE Employees
+    SET LastName = 'Jones'
+    WHERE EmployeeID = 1;
+    ```
+* **`DELETE FROM`**: Removes rows from a table.
+    ```sql
+    DELETE FROM Employees WHERE EmployeeID = 1;
+    ```
