@@ -6,6 +6,7 @@ import courseRoutes from "./routes/courseRoutes";
 import progressRoutes from "./routes/progressRoutes";
 import quizRoutes from "./routes/quizRoutes"
 import studentRoutes from "./routes/studentRoutes";
+import instructorRoutes from "./routes/instructorRoutes";
 
 import platformRoutes from "./routes/platformRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -48,6 +49,7 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/quizzes", quizRoutes);
 app.use("/api/student", studentRoutes);
+app.use("/api/instructor", instructorRoutes);
 
 //server
 const PORT = process.env.PORT || 5000;
