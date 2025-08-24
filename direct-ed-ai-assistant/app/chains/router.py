@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from app.llms.custom import CustomChatModel
 from langchain_openai import ChatOpenAI
 from langchain_core.runnables import (
@@ -27,7 +27,7 @@ from app.prompts.templates import (
 
 vector_store = Chroma(
     persist_directory="app/vector_store",
-    embedding_function=HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2"),
+    embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001"),
 )
 openai_llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
 finetuned_llm = CustomChatModel(
