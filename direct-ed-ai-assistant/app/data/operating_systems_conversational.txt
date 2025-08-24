@@ -1,0 +1,17 @@
+Operating Systems - Conversational
+An Operating System (OS) is the invisible boss of your computer. It manages resources, schedules tasks, and lets you run apps.
+
+When you click on Chrome, it’s the OS that gives Chrome memory, CPU time, and access to the internet.
+
+Key parts:
+- Kernel: The core that talks to hardware.
+- Process management: Decides which program runs when.
+- Memory management: Makes sure apps don’t overwrite each other’s data.
+- File system: Organizes your files.
+
+Popular OS:
+- Windows: Great for general use and business apps.
+- macOS: Optimized for Apple devices.
+- Linux: Loved by developers and servers.
+
+So the OS is like the conductor of an orchestra, making sure every instrument (hardware + software) plays in harmony.

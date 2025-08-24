@@ -1,0 +1,12 @@
+DevOps and CI/CD - Conversational
+What is DevOps? It’s the culture of developers and operations working together to deliver software faster.
+
+CI/CD stands for Continuous Integration and Continuous Delivery/Deployment.
+- CI: Developers merge code changes often, and automated tests check if it works.
+- CD: Deploy changes automatically to production if tests pass.
+
+Tools: Jenkins, GitHub Actions, GitLab CI, Docker, Kubernetes.
+
+Why does it matter? Because instead of releasing software once every year, companies like Facebook release updates multiple times a day. DevOps makes this possible with automation.
+
+So DevOps is like turning software delivery into an assembly line—fast, reliable, and automated.

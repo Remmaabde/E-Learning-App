@@ -1,0 +1,6 @@
+Generative AI UX Design Principles
+- Provide transparency: let users know the system is AI-generated.
+- Offer control: adjustable creativity, tone, style.
+- Display confidence levels for outputs.
+- Prevent harm: design safeguards for misinformation or bias.
+- Support collaboration: AI should augment, not replace, human creativity.
