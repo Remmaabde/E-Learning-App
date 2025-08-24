@@ -22,3 +22,4 @@ sentence-transformers
 chromadb
 requests
 beautifulsoup4
+sse_starlette
