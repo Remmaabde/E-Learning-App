@@ -11,7 +11,7 @@ import platformRoutes from "./routes/platformRoutes";
 import authRoutes from "./routes/authRoutes";
 import searchRoutes from "./routes/searchRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
-import instructorRoutes from "./routes/instructorRoutes";
+//import instructorRoutes from "./routes/instructorRoutes";
 
 
 // environment variables
@@ -24,6 +24,8 @@ connectDB(mongoURI);
 
 
 app.use(express.json());
+app.use("/api/instructor", instructorRoutes);
+
 app.use(cors({
   origin: "http://localhost:5173", 
   methods: ["GET", "POST", "PUT", "DELETE"],
