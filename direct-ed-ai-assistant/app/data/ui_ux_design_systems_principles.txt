@@ -1,0 +1,9 @@
+UI/UX Design Systems and Principles
+A design system is a collection of reusable components guided by standards.
+- Examples: Google Material Design, IBM Carbon Design System.
+Principles:
+- Consistency across components.
+- Scalability for large teams and products.
+- Accessibility baked into components.
+- Documentation for developers and designers.
+- Tokenization (colors, spacing, typography) for theming.

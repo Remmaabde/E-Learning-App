@@ -2,13 +2,12 @@ import axios from "axios";
 
 // You can set your API base URL here
 export const api = axios.create({
-	baseURL: "http://localhost:5000/api",
+	baseURL: "https://e-learning-app-9ltn.onrender.com/api",
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
 
-// Attach token automatically if present
 api.interceptors.request.use((config) => {
 	try {
 		const token = localStorage.getItem('token');
@@ -16,7 +15,7 @@ api.interceptors.request.use((config) => {
 			config.headers['Authorization'] = `Bearer ${token}`;
 		}
 	} catch (e) {
-		// ignore
+	
 	}
 	return config;
 });

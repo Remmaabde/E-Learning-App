@@ -1,0 +1,7 @@
+Prompt Engineering Best Practices
+- Be clear and specific in your instructions.
+- Use examples in prompts (few-shot learning).
+- Use delimiters to separate instructions and data.
+- Chain-of-thought prompting to guide reasoning.
+- Iterate and refine prompts for better results.
+- Avoid ambiguity to reduce hallucinations.

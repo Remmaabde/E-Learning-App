@@ -1,0 +1,16 @@
+Modern Web Development Overview - Conversational
+Web development is about building websites and web apps.
+
+Frontend: What users see (HTML, CSS, JavaScript, React, Vue). 
+Backend: What happens behind the scenes (Node.js, Python, databases).
+APIs: The bridges between frontend and backend.
+
+Modern practices:
+- Responsive design (works on phones, tablets, desktops).
+- Single-page apps (React, Angular).
+- REST vs GraphQL APIs.
+- Deployment with cloud and containers.
+
+Example: When you order food on Uber Eats, the frontend is the app you click on. The backend is the system connecting to restaurants, processing payments, and sending your order to a driver.
+
+So web development is really teamwork between frontend, backend, and infrastructure.

@@ -1,0 +1,12 @@
+Software Engineering Practices - Conversational
+Software engineering isn’t just about coding—it’s about building reliable, maintainable systems.
+
+Common practices:
+- Version control with Git: Track changes and collaborate.
+- Agile methodology: Work in small sprints, adapt quickly.
+- Testing: Unit tests, integration tests, end-to-end tests.
+- Clean code: Write code that humans can read, not just computers.
+
+Example: Imagine you’re building a house. Coding is laying bricks. Software engineering is making sure the house has blueprints, quality checks, and is safe for people to live in.
+
+That’s why teams follow engineering practices—to avoid chaos and keep projects maintainable.

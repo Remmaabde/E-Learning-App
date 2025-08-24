@@ -1,0 +1,360 @@
+Mongo DB
+Express
+</>
+{ }
+NodeJs
+React
+Full Stack
+Developer
+(MERN Specialization)
+Become a full stack developer with expertise on MERN Stack.
+Build strong web development fundamentals and problem solving skills.
+Architect end-to-end web applications using emerging frameworks and
+create a portfolio of projects.
+Full Stack Developer 1
+Programming Foundations
+with Python
+You will learn the fundamental concepts of programming and
+gain the con dence to code in Python. You will learn to write
+programs and use the right data structures to solve problems
+and build modular software with Object-Oriented Principles
+Fundamentals of Programming
+Operators, Datatypes & Variables Loops
+Strings & Numbers String Methods
+Conditional Statements
+Functions & Data Structures
+Functions & Recursion Tuples & Sequences
+Lists and List Methods Sets & Dictionaries
+Object-Oriented Programming
+Classes & Objects in Python
+Attributes & Methods
+Inheritance & Polymorphism
+Working with Python Standard Library
+Full Stack Developer www.ccbp.in 2
+Developer Fundamentals
+You will learn the essentials of Operating Systems, Networks
+and use some essential developer tools like Command-Line
+and Git. You'll learn to version your software with Git and
+push your code to GitHub
+Introduction to OS & Networks
+Overview of OS Concepts Application Layer
+Networks & Internet Web Servers
+Network Layer
+Working with Command Line
+Files & File System Environment Variables
+Managing System Packages Network & SSH
+Collaborating with Git
+VCS & Git Repositories Working with Branches
+Staging Area & Commits Issues & Pull Requests
+Full Stack Developer www.ccbp.in 3
+Static Website Design
+This course helps you build a strong foundation on web
+technologies such as HTML, CSS. With this, you will create
+and publish simple and beautiful websites from scratch.
+Software Development Fundamentals
+Importance of Frontend
+Fundamentals
+Syntax
+Debugging
+Tweaking Code
+HTML Basics
+Getting Started HTML Attributes
+HTML Elements HTML Images
+HTML Headings HTML Hyperlinks
+HTML Paragraphs HTML Containers
+HTML Button HTML Lists
+Full Stack Developer www.ccbp.in 4
+CSS Basics
+CSS Rulesets CSS Box Model
+CSS Properties CSS Margins
+CSS Colors CSS Paddings
+CSS Units CSS Borders
+Bootstrap Components
+Carousel
+Embedding Videos
+Course Project Build your Tourism Website by using HTML5, CSS3 and
+Tourism Website Bootstrap
+Full Stack Developer www.ccbp.in 5
+Responsive Website Design
+This course helps you build a strong foundation on web
+technologies such as HTML, CSS, Media Queries, and Flexbox.
+With this, you can create a responsive web application which
+runs smoothly across all the devices like desktop, tablet, and
+mobile.
+Intermediate CSS
+Block vs inline elements CSS Speci city
+CSS Selectors CSS Inheritance
+Class Selector CSS Cascading
+Id Selector
+Type Selector
+Course Project Build a responsive Food Munch website using HTML5,
+Food Munch CSS3 and Bootstrap Grid System.
+Full Stack Developer www.ccbp.in 6
+Bootstrap
+Bootstrap Grid System Navbar
+Container Buttons
+Row Colors
+Column
+Bootstrap Utilities
+Display Utilities
+Flex Utilities
+Sizing Utilities
+Spacing Utilities
+Course Project Build a responsive Ecommerce website using HTML5,
+Ecommerce Website CSS3 and Bootstrap Grid System.
+Full Stack Developer www.ccbp.in 7
+Dynamic Web Applications
+In this course, you will understand the fundamental concepts
+in JavaScript and apply them to build dynamic and
+interactive web projects. You will also learn scope, hoisting
+and the fundamentals necessary to use modern frameworks
+like React, Angular and Vue. You'll master key functional
+methods like map, reduce and lter plus promises and ES6+
+asynchronous JavaScript!
+Introduction to JavaScript
+Data Types Arrays
+Variables Objects
+Basic Operators Control Flow
+Conditionals Comments
+Loops Math Functions
+Functions
+DOM Manipulation
+The JavaScript Console Manipulating Style
+Introduction to the DOM Manipulating Text and Content
+De ning the DOM Manipulating Attributes
+Select and Manipulate Local Storage
+Important Selector Methods
+Full Stack Developer www.ccbp.in 8
+Course Project
+Build a Todos Application using HTML5, CSS3 and JS.
+Todos Application
+Forms
+The form element The button element
+The label element The select element
+The input element The textarea element
+The option element Form validations and Input
+validations
+The optgroup element
+Array Methods
+Adding & Removing Elements
+push
+unshift
+splice
+pop
+shift
+Finding Elements
+nd
+indexOf
+Concat
+Full Stack Developer www.ccbp.in 9
+Events, Fetch & Callbacks
+How to add Event Listeners Hypertext Transfer Protocol (HTTP)
+Callbacks HTTP Requests using Fetch
+Schedulers HTTP Responses
+setTimeout Working with JSON data
+clearTimeout
+setInterval
+clearInterval
+Course Project
+Build a Wikipedia Search Application using HTML5,
+Wikipedia Search
+CSS3, JS.
+Application
+Full Stack Developer www.ccbp.in 10
+Intermediate JavaScript
+In this course, you will learn the concepts like Events, Scope,
+Hoisting, this, ES6 Classes, Error handling, More about
+Objects and how to handle Asynchronous JavaScript.
+Rest parameters and spread syntax
+Destructuring Arrays
+Destructuring Objects
+More Objects
+Constructor Functions Constructor Method
+Factory Functions new keyword
+this
+this in methods this in function declarations
+window scope this in events
+Prototypes & ES6 Classes
+Built-in Constructor Functions Inheritance
+Constructor Property this in classes
+Full Stack Developer www.ccbp.in 11
+Asynchronous JS
+Async/Await
+Promises
+Scope & Hoisting in JavaScript
+Array Methods
+map
+lter
+reduce
+String Manipulations
+trim & split Methods
+toUpperCase & toLowerCase Methods
+includes Method
+Full Stack Developer www.ccbp.in 12
+Intermediate Responsive
+Web Design
+This course will help you to develop a responsive layouts
+using CSS Flexbox and CSS Media Queries.
+CSS Layouting
+CSS Flexbox Sizing Elements
+display Over ow
+ex-direction Box Sizing
+justify-content Content Box
+align-items Border Box
+ex-wrap
+ex- ow
+align-content
+align-self
+ex-grow
+ex-shrink
+order
+Full Stack Developer www.ccbp.in 13
+CSS Media Queries
+Media Query Combining Multiple Media Features
+in a single Media Query.
+Media Types
+Logical Operators (and)
+Media Features
+Logical Operators (not)
+Width, min-width, max-width
+Logical Operators (,)
+Height, min-height, max-height
+Orientation
+Full Stack Developer www.ccbp.in 14
+React JS - Getting started
+In this course, you will learn how to build stateful web
+applications with the ReactJS library. When you nish this
+course, you will be comfortable creating an application in
+ReactJS, from scratch.
+Introduction to React JS
+Why React? Handling Events
+Stateful + Stateless components Conditional Rendering
+Hello World Lists and Keys
+Introducing JSX Forms
+Rendering Elements Composition vs Inheritance
+Components and Props Thinking In React
+State and Lifecycle
+CSS in JS
+Styled Components
+Emotion
+Routing
+Query parameters
+Path parameters
+Full Stack Developer www.ccbp.in 15
+Authentication and Authorization
+Course Project
+Ecommerce Build an Ecommerce application using React JS.
+Application
+Full Stack Developer www.ccbp.in 16
+React JS Hooks
+In this course, you will learn how to build stateful web
+applications with the React JS Hooks.
+Introduction to Hooks
+Introducing Hooks Hooks with Local Storage
+useState Hooks with React Router
+useEffect Data fetching using Hooks
+useContext Writing Custom Hooks
+Course Project
+Ecommerce Build an Ecommerce application using React JS Hooks.
+Application
+Full Stack Developer www.ccbp.in 17
+State Management using
+Redux
+In this course, you will learn how to build advanced stateful
+web applications with React JS and Redux.
+Redux Toolkit
+Introducing Redux Using createSlice
+createAction Setting up our store via
+con gureStore
+dispatch
+Asynchronous Logic and Data
+Fetching
+Course Project
+Build a Twitter Clone using React JS Hooks and Redux
+Twitter Clone
+Full Stack Developer www.ccbp.in 18
+Relational and Non
+Relational Databases
+Learn about the incredibly prevalent databases today.
+Through this course, you'll develop strong fundamentals and
+be pro cient in concepts related to Databases and DBMS.
+Most importantly, you'll also be able to perform powerful
+queries on databases using SQL.
+Relational Databases
+Introduction Normalisation & Advanced SQL
+Querying
+SQL
+ACID Properties
+Aggregation, Relationships, Join
+Non Relational Databases (MongoDB)
+Introduction to MongoDB Aggregations
+CURD operations Nested Documents
+Querying Documents
+Course Project
+Generate insights from raw data by applying various
+Analyzing Data &
+Generating Business complex aggregations and advanced queries.
+Insights
+Full Stack Developer www.ccbp.in 19
+Backend Development with
+Node and Express
+In this course, you'll learn how to build a backend web
+application using one of the most popular and mature
+Javascript web development frameworks, Express. It lets you
+build better web apps quicker, and with less code. This
+course covers various aspects of web application
+development like database routing, urls etc.
+Introduction to NodeJS
+Node REPL
+Modules
+NPM CLI
+Usage of NPM Packages
+Introduction to Express Web Application Framework
+HTTP Server Handling HTTP Request
+Routes Preparing HTTP Response
+Fundamentals of Application Building in Express
+Integration with Database Error Handling
+CRUD Operations Middlewares
+Full Stack Developer www.ccbp.in 20
+Course Project
+Build your rst web application, A Q&A platform similar
+Content Management
+Portal to StackOver ow using ExpressJS.
+Securing APIs
+Json Web Token(JWT)
+Authentication vs Authorization
+Building Secure Web API's with Express
+Debugging
+node inspect
+Visual Debugging
+Full Stack Developer www.ccbp.in 21
+Capstone Project - Slot
+Booking Application like
+BookMyShow
+In this project you will be developing a Slot Booking
+Application that provides a user an easy way of booking
+movie tickets online. Users can view various booking slots
+available and select the preferred date and time.
+Tools and Technologies used
+HTML Django Web Application FrameWork
+CSS Using ORM
+JS Django Templates
+AWS Designing & Querying Relational
+Database
+S3
+Route53
+Cloudfront
+Full Stack Developer www.ccbp.in 22
+Capstone Project - Build a
+social networking web app
+In this project you will be developing a Social networking web
+app with popular features like post, comment.
+Tools and Technologies used
+HTML ReactJS
+CSS
+JS
+AWS
+S3
+Route53
+Cloudfront
+Full Stack Developer www.ccbp.in 23

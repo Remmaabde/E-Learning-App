@@ -1,0 +1,12 @@
+Databases - Conversational
+What’s a database? Think of it as a super-organized digital filing cabinet.
+
+There are two main flavors:
+- SQL Databases (Relational): Structured tables with rows and columns. Examples: MySQL, PostgreSQL. Perfect when you need consistency, like banking apps.
+- NoSQL Databases: Flexible, store JSON-like documents. Examples: MongoDB, CouchDB. Great for apps where data structures can change.
+
+Transactions in SQL databases follow ACID principles: Atomicity, Consistency, Isolation, Durability. Basically, they make sure your money doesn’t disappear when you transfer it.
+
+Why do we care? Because apps today handle millions of users. A simple blog might work with SQLite, but an e-commerce giant like Amazon uses distributed databases with replicas worldwide to handle traffic.
+
+So databases are the hidden engines keeping apps alive and data consistent.

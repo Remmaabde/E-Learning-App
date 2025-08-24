@@ -1,0 +1,9 @@
+Data Science Models and Trends
+- Supervised learning: Linear Regression, Random Forests, Neural Networks.
+- Unsupervised learning: K-Means, PCA, Autoencoders.
+- Reinforcement learning: Q-learning, Policy Gradients.
+Trends:
+- Responsible AI and ethics in ML.
+- Automated Machine Learning (AutoML).
+- Explainable AI (XAI).
+- Edge AI for IoT and mobile devices.

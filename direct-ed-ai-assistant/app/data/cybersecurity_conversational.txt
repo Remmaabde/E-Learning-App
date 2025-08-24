@@ -1,0 +1,18 @@
+Cybersecurity Essentials - Conversational
+What is cybersecurity? Simply put, it’s the practice of protecting systems and data from digital attacks. Hackers try to steal data, break into systems, or disrupt services.
+
+Imagine your computer as your house. Cybersecurity is the lock on your door, the alarm system, and the guard dog. Without it, attackers could just walk in.
+
+Common threats:
+- Phishing: Fake emails that trick you into giving away passwords.
+- Malware: Software designed to harm your system.
+- Ransomware: Hackers lock your files and demand money to unlock them.
+- DDoS: Attackers flood a server with requests until it crashes.
+
+How do we defend ourselves?
+- Strong passwords (or better yet, password managers).
+- Two-factor authentication.
+- Encryption (think of it as scrambling your data so only the right key can unlock it).
+- Firewalls and antivirus tools.
+
+Cybersecurity is a never-ending game of cat and mouse. The attackers get smarter, and defenders have to keep up. That’s why companies hire cybersecurity experts to stay safe.

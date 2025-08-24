@@ -397,7 +397,7 @@ export default function LandingPage() {
 					</button>
 					<button
 						className="font-inter font-normal text-[10px] leading-[100%] tracking-[0] text-black border bg-[#AB51E3] rounded-[20px] px-[20px] py-[8px] w-[100px] h-[32px] transition-colors duration-200 hover:bg-[#310055] hover:text-white"
-						onClick={() => window.location.href = "/quizes"}
+						onClick={() => window.location.href = "/register"}
 					>
 						QUIZZES
 					</button>
