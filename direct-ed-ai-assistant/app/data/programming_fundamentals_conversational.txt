@@ -1,0 +1,12 @@
+Programming Fundamentals - Conversational
+What is programming? It’s telling a computer what to do, step by step.
+
+The building blocks:
+- Variables: Boxes where we store data. Example: age = 25.
+- Data types: Numbers, text (strings), true/false (booleans).
+- Loops: Repeat actions without rewriting code. Example: “for each student, print their name.”
+- Functions: Reusable blocks of code. Like a recipe you can call whenever you want.
+
+Imagine writing a to-do list for a robot. Each instruction must be clear and unambiguous. Computers don’t “guess.” They do exactly what you tell them.
+
+So programming is less about typing code and more about solving problems logically.

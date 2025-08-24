@@ -1,0 +1,15 @@
+Computer Networks - Conversational
+Let’s talk about the internet. At its core, it’s just a giant network of computers talking to each other.
+
+How do they talk? Through IP addresses. Think of it as the postal address for your computer. DNS (Domain Name System) works like a phone book. Instead of remembering 142.251.32.14, you type google.com, and DNS translates it.
+
+There are two main models: 
+- Client-Server: Your browser (client) requests a page, and the web server responds.
+- Peer-to-Peer: Computers connect directly, like file-sharing.
+
+Key concepts:
+- Routers: They decide the path data takes across networks.
+- Packets: Data is chopped into small chunks, sent across, and reassembled at the other end.
+- Protocols: Rules for communication (HTTP for web, SMTP for email).
+
+So when you send a WhatsApp message, it doesn’t magically fly. It’s chopped into packets, sent through routers across continents, and reassembled on your friend’s phone.

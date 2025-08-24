@@ -1,0 +1,14 @@
+Artificial Intelligence Basics - Conversational
+AI, or Artificial Intelligence, is about making machines “think” like humans—or at least solve problems like we do.
+
+Difference between AI, ML, and Generative AI:
+- AI: The big umbrella. Any system that mimics human intelligence.
+- ML (Machine Learning): A subset of AI. Systems learn from data.
+- GenAI: A special type of AI that can generate new content (text, images, music).
+
+Examples:
+- AI: Chess-playing program.
+- ML: Spam filter that learns from emails.
+- GenAI: ChatGPT writing an essay.
+
+So AI isn’t magic—it’s math, algorithms, and data coming together to create systems that appear “intelligent.”

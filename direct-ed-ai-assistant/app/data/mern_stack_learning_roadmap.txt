@@ -1,0 +1,10 @@
+MERN Stack Learning Roadmap
+Step 1: Learn HTML, CSS, JavaScript fundamentals.
+Step 2: Master React – components, state, hooks, routing.
+Step 3: Learn Node.js basics – file system, modules, async programming.
+Step 4: Work with Express.js – routing, middleware, REST APIs.
+Step 5: Integrate MongoDB – CRUD operations, Mongoose ODM.
+Step 6: Authentication and authorization (JWT, OAuth).
+Step 7: State management – Redux, Context API.
+Step 8: Deployment – Vercel, Heroku, AWS, Docker.
+Projects: Blog platform, E-commerce site, Chat app, Task manager.

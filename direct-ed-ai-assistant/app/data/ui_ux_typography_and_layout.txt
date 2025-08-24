@@ -1,0 +1,10 @@
+UI/UX Typography and Layout Principles
+Typography:
+- Choose readable fonts for digital screens.
+- Maintain hierarchy using font weights and sizes.
+- Use adequate line spacing and contrast for readability.
+Layout:
+- Follow grid systems for alignment.
+- Apply whitespace strategically to reduce clutter.
+- Ensure responsive design across devices.
+- Support accessibility with ARIA roles and semantic HTML.

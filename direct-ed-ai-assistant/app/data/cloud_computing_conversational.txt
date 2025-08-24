@@ -1,0 +1,10 @@
+Cloud Computing Basics - Conversational
+What is the cloud? Well, it's not the fluffy stuff in the sky. In tech, "the cloud" means someone else’s computer that you can access through the internet. Imagine renting storage space or computing power whenever you need it instead of buying huge servers.
+
+For example, Netflix streams your favorite shows using Amazon Web Services (AWS). They don’t keep thousands of servers in their own building. Instead, they rely on cloud providers to scale up when millions of people watch a show at once.
+
+Main cloud providers: Amazon AWS, Microsoft Azure, Google Cloud Platform (GCP). They provide services like storage, databases, machine learning models, and security tools.
+
+Why do we use the cloud? Flexibility, scalability, and cost savings. If your startup suddenly goes viral, you don’t want your app to crash. The cloud lets you scale instantly without buying new hardware.
+
+So when people say “it’s in the cloud,” what they really mean is “it’s running on servers in a data center somewhere in the world.”
