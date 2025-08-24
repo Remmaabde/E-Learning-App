@@ -14,7 +14,7 @@ python-dotenv
 requests
 openai
 google-generativeai
-pypdf
-selenium
-webdriver-manager
-beautifulsoup4
+#pypdf
+#selenium
+#webdriver-manager
+#beautifulsoup4
