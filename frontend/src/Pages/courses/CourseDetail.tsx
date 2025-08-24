@@ -1,11 +1,31 @@
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import type { Course, Lesson } from "./types";
 import { fetchCourseById } from "../../services/courseService";
 import { completeLesson } from "../../services/studentService";
 import EnrollButton from "../../components/EnrollButton";
+import { isYouTubeVideo, getYouTubeEmbedUrl, getVideoMimeType, isDirectVideoFile } from "../../utils/videoHelpers";
+
+interface Quiz {
+  _id: string;
+  title: string;
+  description?: string;
+  course: string;
+  questions: Array<{
+    _id: string;
+    type: 'multiple-choice' | 'true-false' | 'short-answer';
+    question: string;
+    options?: string[];
+    correctAnswer: string | number;
+    points: number;
+  }>;
+  timeLimit?: number;
+  totalPoints: number;
+  isActive: boolean;
+  createdAt: string;
+}
 
 
 
@@ -260,11 +280,13 @@ const fallbackCourse: Course[] = [
 ];
 const CourseDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null); 
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]); 
 
   useEffect(() => {
     const load = async () => {
@@ -286,6 +308,34 @@ const CourseDetail: React.FC = () => {
       }
     };
     load();
+  }, [id]);
+
+  // Fetch quizzes for the course
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      if (!id) return;
+      
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const response = await fetch(`http://localhost:5000/api/quizzes/course/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const quizzesData = await response.json();
+          setQuizzes(quizzesData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch quizzes:', error);
+      }
+    };
+
+    fetchQuizzes();
   }, [id]);
 
   const handleLessonComplete = async (lessonId: string) => {
@@ -401,31 +451,84 @@ const CourseDetail: React.FC = () => {
           <h4 className="text-lg font-semibold mb-2">{currentLesson.title}</h4>
 
           
-          {currentLesson.videoUrl.includes("youtube.com/embed") ? (
-            <iframe
-              key={currentLesson.id}
-              width="100%"
-              height="360"
-              src={currentLesson.videoUrl}
-              title={currentLesson.title}
-              frameBorder={0}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="rounded-xl border"
-              onLoad={() => handleLessonComplete(currentLesson.id)}
-            />
-          ) : (
-            <video
-              key={currentLesson.id}
-              controls
-              width="100%"
-              className="rounded-xl border"
-              onEnded={() => handleLessonComplete(currentLesson.id)}
-            >
-              <source src={currentLesson.videoUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          )}
+          {(() => {
+            const videoUrl = currentLesson.videoUrl;
+            
+            
+            if (isYouTubeVideo(videoUrl)) {
+              const embedUrl = getYouTubeEmbedUrl(videoUrl);
+              
+              return (
+                <iframe
+                  key={currentLesson.id}
+                  width="100%"
+                  height="360"
+                  src={embedUrl}
+                  title={currentLesson.title}
+                  frameBorder={0}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="rounded-xl border"
+                  onLoad={() => handleLessonComplete(currentLesson.id)}
+                />
+              );
+            }
+            
+            
+            if (isDirectVideoFile(videoUrl)) {
+              const mimeType = getVideoMimeType(videoUrl);
+              
+              return (
+                <video
+                  key={currentLesson.id}
+                  controls
+                  width="100%"
+                  className="rounded-xl border"
+                  onEnded={() => handleLessonComplete(currentLesson.id)}
+                  onError={(e) => {
+                    console.error("Video error:", e);
+                  }}
+                >
+                  <source src={videoUrl} type={mimeType} />
+                  <p className="p-4 text-center text-gray-600">
+                    Your browser does not support this video format.
+                    <br />
+                    <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      Click here to download or open the video
+                    </a>
+                  </p>
+                </video>
+              );
+            }
+            
+            // Fallback for unknown video types - try as HTML5 video with multiple sources
+            return (
+              <video
+                key={currentLesson.id}
+                controls
+                width="100%"
+                className="rounded-xl border"
+                onEnded={() => handleLessonComplete(currentLesson.id)}
+                onError={(e) => {
+                  console.error("Video error:", e);
+                }}
+              >
+                <source src={videoUrl} type="video/mp4" />
+                <source src={videoUrl} type="video/webm" />
+                <source src={videoUrl} type="video/ogg" />
+                <p className="p-4 text-center text-gray-600">
+                  Your browser does not support this video format or the video file is not accessible.
+                  <br />
+                  Video URL: <code className="bg-gray-200 px-2 py-1 rounded text-sm">{videoUrl}</code>
+                  <br />
+                  <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                    Click here to try opening the video directly
+                  </a>
+                </p>
+              </video>
+            );
+          })()}
+          
           <p className="text-sm text-gray-600 mt-2">
             Duration: {currentLesson.duration}
           </p>
@@ -453,6 +556,56 @@ const CourseDetail: React.FC = () => {
           </li>
         ))}
       </ul>
+
+      {/* Quizzes Section */}
+      <div className="mt-10">
+        <h3 className="text-2xl font-bold mb-4">Course Quizzes</h3>
+        {quizzes.length > 0 ? (
+          <div className="space-y-3">
+            {quizzes.map((quiz) => (
+              <div
+                key={quiz._id}
+                className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-800">{quiz.title}</h4>
+                    {quiz.description && (
+                      <p className="text-gray-600 mt-1">{quiz.description}</p>
+                    )}
+                    <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                      <span>📝 {quiz.questions.length} questions</span>
+                      {quiz.timeLimit && (
+                        <span>⏱️ {quiz.timeLimit} minutes</span>
+                      )}
+                      <span>🎯 {quiz.totalPoints} points</span>
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    {quiz.isActive ? (
+                      <button
+                        onClick={() => navigate(`/quiz/take/${quiz._id}`)}
+                        className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+                      >
+                        Take Quiz
+                      </button>
+                    ) : (
+                      <span className="bg-gray-100 text-gray-500 px-4 py-2 rounded-lg font-medium">
+                        Not Available
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            <p className="text-lg">📚 No quizzes available for this course yet.</p>
+            <p className="text-sm mt-1">Check back later for course assessments.</p>
+          </div>
+        )}
+      </div>
 
     
       <div className="mt-8">
