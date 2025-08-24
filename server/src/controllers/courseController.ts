@@ -1,11 +1,11 @@
 
-// backend/src/controllers/courseController.ts
+
 import { Request, Response } from "express";
 import Course from "../models/course";
 import { Types } from "mongoose";
-import type { AuthRequest } from "../middleware/authmiddleware"; // assumes you have this
+import type { AuthRequest } from "../middleware/authmiddleware"; 
 
-// GET /api/courses?search=&category=&minRating=&tag=&page=1&pageSize=12
+
 export const getAllCourses = async (req: Request, res: Response) => {
   try {
     const {
@@ -29,7 +29,7 @@ export const getAllCourses = async (req: Request, res: Response) => {
     const [total, items] = await Promise.all([
       Course.countDocuments(q),
       Course.find(q)
-        .populate("instructor", "name role")
+        .populate("instructor", "name role bio image")
         .sort({ createdAt: -1 })
         .skip((p - 1) * ps)
         .limit(ps),
@@ -48,8 +48,8 @@ export const getAllCourses = async (req: Request, res: Response) => {
         instructor: {
           id: instructor?._id?.toString() || "unknown",
           name: instructor?.name || "Unknown Instructor",
-          bio: "",
-          image: "/Images/default-instructor.png" // fallback image
+          bio: instructor?.bio || "",
+          image: instructor?.image || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop"
         },
         lessons: courseObj.lessons.map((lesson: any) => ({
           id: lesson._id.toString(),
@@ -71,15 +71,14 @@ export const getAllCourses = async (req: Request, res: Response) => {
   }
 };
 
-// GET /api/courses/:id
 export const getCourseById = async (req: Request, res: Response) => {
   try {
     const course = await Course.findById(req.params.id)
-      .populate("instructor", "name role")
+      .populate("instructor", "name role bio image")
       .populate("relatedCourses", "title rating category");
     if (!course) return res.status(404).json({ error: "Course not found" });
     
-    // Transform to match frontend expectations
+    
     const courseObj = course.toObject();
     const instructor = courseObj.instructor as any;
     
@@ -91,8 +90,8 @@ export const getCourseById = async (req: Request, res: Response) => {
       instructor: {
         id: instructor?._id?.toString() || "unknown",
         name: instructor?.name || "Unknown Instructor",
-        bio: "",
-        image: "/Images/default-instructor.png"
+        bio: instructor?.bio || "",
+        image: instructor?.image || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop"
       },
       lessons: courseObj.lessons.map((lesson: any) => ({
         id: lesson._id.toString(),
@@ -113,7 +112,7 @@ export const getCourseById = async (req: Request, res: Response) => {
   }
 };
 
-// POST /api/courses (instructor only)
+// POST /api/courses
 export const createCourse = async (req: AuthRequest, res: Response) => {
   try {
     const userId = (req.user && typeof req.user !== "string" && "_id" in req.user) ? req.user._id as Types.ObjectId : null;
