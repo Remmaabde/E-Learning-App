@@ -32,7 +32,7 @@ export default function ChatLayout() {
     setError(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/assistant/chat/invoke', {
+      const response = await fetch('https://github.com/rayymaxx/E-Learning-App/api/assistant/chat/invoke', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
