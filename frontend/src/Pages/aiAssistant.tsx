@@ -26,7 +26,7 @@ export default function ChatLayout() {
     if (!messageText.trim() && requestType === 'tutoring') return;
 
     const userMessage = { sender: 'user', text: messageText };
-    //setMessages((prev) => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setNewMessage("");
     setIsLoading(true);
     setError(null);
@@ -65,7 +65,7 @@ export default function ChatLayout() {
         sources: data.output.sources,
       };
 
-      //setMessages((prev) => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
