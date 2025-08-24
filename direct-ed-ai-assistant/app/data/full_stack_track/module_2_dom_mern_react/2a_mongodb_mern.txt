@@ -1,0 +1,196 @@
+MongoDB Event
+Join us Sept 17 at .local NYC! Use code WEB50 to save 50% on top of Early Bird tickets
+Learn more >
+ANNOUNCEMENT
+Voyage AI joins MongoDB to power more accurate and trustworthy AI applications on Atlas.
+Learn more >
+Announcement
+Explore Now: MongoDB MCP Server for AI-Powered Development (Public Preview)
+Read the blog >
+NEW
+MongoDB 8.0: Experience unmatched speed and performance.
+Check it out >
+General Information
+General Information
+Documentation
+Developer Articles & Topics
+Community Forums
+Blog
+University
+Products
+Platform
+Atlas
+Build and scale with an AI-ready platform
+Platform Services
+Database
+Deploy a multi-cloud database
+Search
+Deliver engaging search experiences
+Vector Search
+Design intelligent apps with gen AI
+Stream Processing
+Integrate MongoDB and Kafka
+Self Managed
+Enterprise Advanced
+Run and manage MongoDB yourself
+Community Edition
+Develop locally with MongoDB
+Tools
+Compass
+Work with MongoDB data in a GUI
+Integrations
+Integrations with third-party services
+Relational Migrator
+Migrate to MongoDB with confidence
+View All Products
+Explore our full developer suite
+arrow-right
+MongoDB 8.0
+Our fastest version ever
+arrow-right
+Build with MongoDB Atlas
+Get started for free in minutes
+Sign Up
+Test Enterprise Advanced
+Develop with MongoDB on-premises
+Download
+Try Community Edition
+Explore the latest version of MongoDB
+Download
+Resources
+Documentation
+Atlas Documentation
+Get started using Atlas
+Server Documentation
+Learn to use MongoDB
+Start With Guides
+Get step-by-step guidance for key tasks
+Tools and Connectors
+Learn how to connect to MongoDB
+MongoDB Drivers
+Use drivers and libraries for MongoDB
+Resources Hub
+Get help building the next big thing with MongoDB
+arrow-right
+Connect
+Community
+Join a global community of developers
+Courses and Certification
+Learn for free from MongoDB
+Events and Webinars
+Find an event or webinar near you
+Solutions
+Use cases
+Artificial Intelligence
+Payments
+Serverless Development
+Gaming
+Industries
+Financial Services
+Telecommunications
+Healthcare
+Retail
+Public Sector
+Manufacturing
+Solutions Library
+Organized and tailored solutions to kick-start projects
+arrow-right
+AI Applications Program
+Expedite your AI journey with expert guidance
+Learn more
+arrow-right
+Startups and AI Innovators
+For world-changing ideas and AI pioneers
+Learn more
+arrow-right
+Customer Case Studies
+Hear directly from our users
+See Stories
+arrow-right
+Company
+Careers
+Start your next adventure
+Blog
+Read articles and announcements
+Newsroom
+Read press releases and news stories
+Partners
+Learn about our partner ecosystem
+Leadership
+Meet our executive team
+Company
+Learn more about who we are
+Contact Us
+Reach out to MongoDB
+Let’s chat
+arrow-right
+Investors
+Visit our investor portal
+Learn more
+arrow-right
+Pricing
+Eng
+Support
+Sign In
+menu-vertical
+Get Started
+MERN Stack Explained
+MERN is one of several variations of the
+MEAN stack
+(MongoDB, Express, Angular, Node), where the traditional Angular.js front-end framework is replaced with React.js. Other variants include MEVN (MongoDB, Express, Vue, Node), and really any front-end JavaScript framework.
+Ready to take the next step? Set up your free MongoDB Atlas account by clicking below and try our
+MERN Stack Tutorial
+to create a full-stack MERN application in no time.
+Get Started Free
+FAQs
+Is MERN a full-stack solution?
+Yes,
+MERN is a full stack
+, following the traditional three-tier architectural pattern, including the front-end display tier (React.js), application tier (Express.js and Node.js), and database tier (MongoDB).
+Is MERN stack for beginners?
+MERN stack
+is an easy to learn, easy to implement full technology stack, which could prove to be convenient to beginners. MERN stack requires developers to have knowledge about only one programming language, i.e. JavaScript. Since MERN stack has a well-defined structure, developers can start building applications quickly and easily.
+What does MERN stand for?
+MERN
+stands for MongoDB, Express.js, React.js and Node.js. the four technologies forming a full technology stack, for building scalable and robust JSON (JavaScript) based web and mobile applications.
+Get Started Free with MongoDB Atlas
+Run MongoDB in the cloud for free with MongoDB Atlas. No credit card required.
+Get Started Free!
+English
+English
+Português
+Español
+한국어
+日本語
+Italiano
+Deutsch
+Français
+简体中文
+© 2025 MongoDB, Inc.
+About
+Careers
+Investor Relations
+Legal
+Privacy Policy
+GitHub
+Security Information
+Trust Center
+Connect with Us
+Support
+Contact Us
+Customer Portal
+Atlas Status
+Customer Support
+Deployment Options
+MongoDB Atlas
+Enterprise Advanced
+Community Edition
+Data Basics
+Vector Databases
+NoSQL Databases
+Document Databases
+RAG Database
+ACID Transactions
+MERN Stack
+MEAN Stack
+© 2025 MongoDB, Inc.

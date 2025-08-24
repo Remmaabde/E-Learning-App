@@ -1,0 +1,457 @@
+Transformers documentation
+Fine-tuning
+Transformers
+🏡 View all docs
+AWS Trainium & Inferentia
+Accelerate
+Argilla
+AutoTrain
+Bitsandbytes
+Chat UI
+Dataset viewer
+Datasets
+Deploying on AWS
+Diffusers
+Distilabel
+Evaluate
+Gradio
+Hub
+Hub Python Library
+Huggingface.js
+Inference Endpoints (dedicated)
+Inference Providers
+LeRobot
+Leaderboards
+Lighteval
+Microsoft Azure
+Optimum
+PEFT
+Safetensors
+Sentence Transformers
+TRL
+Tasks
+Text Embeddings Inference
+Text Generation Inference
+Tokenizers
+Transformers
+Transformers.js
+smolagents
+timm
+Search documentation
+Ctrl+K
+main
+v4.53.3
+v4.52.3
+v4.51.3
+v4.50.0
+v4.49.0
+v4.48.2
+v4.47.1
+v4.46.3
+v4.45.2
+v4.44.2
+v4.43.4
+v4.42.4
+v4.41.2
+v4.40.2
+v4.39.3
+v4.38.2
+v4.37.2
+v4.36.1
+v4.35.2
+v4.34.1
+v4.33.3
+v4.32.1
+v4.31.0
+v4.30.0
+v4.29.1
+v4.28.1
+v4.27.2
+v4.26.1
+v4.25.1
+v4.24.0
+v4.23.1
+v4.22.2
+v4.21.3
+v4.20.1
+v4.19.4
+v4.18.0
+v4.17.0
+v4.16.2
+v4.15.0
+v4.14.1
+v4.13.0
+v4.12.5
+v4.11.3
+v4.10.1
+v4.9.2
+v4.8.2
+v4.7.0
+v4.6.0
+v4.5.1
+v4.4.2
+v4.3.3
+v4.2.2
+v4.1.1
+v4.0.1
+v3.5.1
+v3.4.0
+v3.3.1
+v3.2.0
+v3.1.0
+v3.0.2
+v2.11.0
+v2.10.0
+v2.9.1
+v2.8.0
+v2.7.0
+v2.6.0
+v2.5.1
+v2.4.1
+v2.3.0
+v2.2.2
+v2.1.1
+v2.0.0
+v1.2.0
+v1.1.0
+v1.0.0
+doc-builder-html
+AR
+DE
+EN
+ES
+FR
+HI
+IT
+JA
+KO
+PT
+TE
+TR
+ZH
+148,723
+Get started
+Transformers
+Installation
+Quickstart
+Base classes
+Inference
+Training
+Trainer API
+Trainer
+Fine-tuning
+Optimizers
+Hyperparameter search
+Distributed training
+Hardware
+PEFT
+Model training anatomy
+Quantization
+Export to production
+Resources
+Contribute
+API
+Join the Hugging Face community
+and get access to the augmented documentation experience
+Collaborate on models, datasets and Spaces
+Faster examples with accelerated inference
+Switch between documentation themes
+Sign Up
+to get started
+Fine-tuning
+Fine-tuning adapts a pretrained model to a specific task with a smaller specialized dataset. This approach requires far less data and compute compared to training a model from scratch, which makes it a more accessible option for many users.
+Transformers provides the
+Trainer
+API, which offers a comprehensive set of training features, for fine-tuning any of the models on the
+Hub
+.
+Learn how to fine-tune models for other tasks in our Task Recipes section in Resources!
+This guide will show you how to fine-tune a model with
+Trainer
+to classify Yelp reviews.
+Log in to your Hugging Face account with your user token to ensure you can access gated models and share your models on the Hub.
+Copied
+from
+huggingface_hub
+import
+login
+
+login()
+Start by loading the
+Yelp Reviews
+dataset and
+preprocess
+(tokenize, pad, and truncate) it for training. Use
+map
+to preprocess the entire dataset in one step.
+Copied
+from
+datasets
+import
+load_dataset
+from
+transformers
+import
+AutoTokenizer
+
+dataset = load_dataset(
+"yelp_review_full"
+)
+tokenizer = AutoTokenizer.from_pretrained(
+"google-bert/bert-base-cased"
+)
+def
+tokenize
+(
+examples
+):
+return
+tokenizer(examples[
+"text"
+], padding=
+"max_length"
+, truncation=
+True
+)
+
+dataset = dataset.
+map
+(tokenize, batched=
+True
+)
+Fine-tune on a smaller subset of the full dataset to reduce the time it takes. The results won’t be as good compared to fine-tuning on the full dataset, but it is useful to make sure everything works as expected first before committing to training on the full dataset.
+Copied
+small_train = dataset[
+"train"
+].shuffle(seed=
+42
+).select(
+range
+(
+1000
+))
+small_eval = dataset[
+"test"
+].shuffle(seed=
+42
+).select(
+range
+(
+1000
+))
+Trainer
+Trainer
+is an optimized training loop for Transformers models, making it easy to start training right away without manually writing your own training code. Pick and choose from a wide range of training features in
+TrainingArguments
+such as gradient accumulation, mixed precision, and options for reporting and logging training metrics.
+Load a model and provide the number of expected labels (you can find this information on the Yelp Review
+dataset card
+).
+Copied
+from
+transformers
+import
+AutoModelForSequenceClassification
+
+model = AutoModelForSequenceClassification.from_pretrained(
+"google-bert/bert-base-cased"
+, num_labels=
+5
+)
+"Some weights of BertForSequenceClassification were not initialized from the model checkpoint at google-bert/bert-base-cased and are newly initialized: ['classifier.bias', 'classifier.weight']"
+"You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference."
+The message above is a reminder that the models pretrained head is discarded and replaced with a randomly initialized classification head. The randomly initialized head needs to be fine-tuned on your specific task to output meanginful predictions.
+With the model loaded, set up your training hyperparameters in
+TrainingArguments
+. Hyperparameters are variables that control the training process - such as the learning rate, batch size, number of epochs - which in turn impacts model performance. Selecting the correct hyperparameters is important and you should experiment with them to find the best configuration for your task.
+For this guide, you can use the default hyperparameters which provide a good baseline to begin with. The only settings to configure in this guide are where to save the checkpoint, how to evaluate model performance during training, and pushing the model to the Hub.
+Trainer
+requires a function to compute and report your metric. For a classification task, you’ll use
+evaluate.load
+to load the
+accuracy
+function from the
+Evaluate
+library. Gather the predictions and labels in
+compute
+to calculate the accuracy.
+Copied
+import
+numpy
+as
+np
+import
+evaluate
+
+metric = evaluate.load(
+"accuracy"
+)
+def
+compute_metrics
+(
+eval_pred
+):
+    logits, labels = eval_pred
+# convert the logits to their predicted class
+predictions = np.argmax(logits, axis=-
+1
+)
+return
+metric.compute(predictions=predictions, references=labels)
+Set up
+TrainingArguments
+with where to save the model and when to compute accuracy during training. The example below sets it to
+"epoch"
+, which reports the accuracy at the end of each epoch. Add
+push_to_hub=True
+to upload the model to the Hub after training.
+Copied
+from
+transformers
+import
+TrainingArguments
+
+training_args = TrainingArguments(
+    output_dir=
+"yelp_review_classifier"
+,
+    eval_strategy=
+"epoch"
+,
+    push_to_hub=
+True
+,
+)
+Create a
+Trainer
+instance and pass it the model, training arguments, training and test datasets, and evaluation function. Call
+train()
+to start training.
+Copied
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=dataset[
+"train"
+],
+    eval_dataset=dataset[
+"test"
+],
+    compute_metrics=compute_metrics,
+)
+trainer.train()
+Finally, use
+push_to_hub()
+to upload your model and tokenizer to the Hub.
+Copied
+trainer.push_to_hub()
+TensorFlow
+Trainer
+is incompatible with Transformers TensorFlow models. Instead, fine-tune these models with
+Keras
+since they’re implemented as a standard
+tf.keras.Model
+.
+Copied
+from
+transformers
+import
+TFAutoModelForSequenceClassification
+from
+datasets
+import
+load_dataset
+from
+transformers
+import
+AutoTokenizer
+
+model = TFAutoModelForSequenceClassification.from_pretrained(
+"google-bert/bert-base-cased"
+, num_labels=
+5
+)
+dataset = load_dataset(
+"yelp_review_full"
+)
+tokenizer = AutoTokenizer.from_pretrained(
+"google-bert/bert-base-cased"
+)
+def
+tokenize
+(
+examples
+):
+return
+tokenizer(examples[
+"text"
+])
+
+dataset = dataset.
+map
+(tokenize)
+There are two methods to convert a dataset to
+tf.data.Dataset
+.
+prepare_tf_dataset()
+is the recommended way to create a
+tf.data.Dataset
+because you can inspect the model to figure out which columns to use as inputs and which columns to discard. This allows you to create a simpler, more performant dataset.
+to_tf_dataset
+is a more low-level method from the
+Datasets
+library that gives you more control over how a dataset is created by specifying the columns and label columns to use.
+Add the tokenizer to
+prepare_tf_dataset()
+to pad each batch, and you can optionally shuffle the dataset. For more complicated preprocessing, pass the preprocessing function to the
+collate_fn
+parameter instead.
+Copied
+tf_dataset = model.prepare_tf_dataset(
+    dataset[
+"train"
+], batch_size=
+16
+, shuffle=
+True
+, tokenizer=tokenizer
+)
+Finally,
+compile
+and
+fit
+the model to start training.
+It isn’t necessary to pass a loss argument to
+compile
+because Transformers automatically chooses a loss that is appropriate for the task and architecture. However, you can always specify a loss argument if you want.
+Copied
+from
+tensorflow.keras.optimizers
+import
+Adam
+
+model.
+compile
+(optimizer=Adam(
+3e-5
+))
+model.fit(tf_dataset)
+Resources
+Refer to the Transformers
+examples
+for more detailed training scripts on various tasks. You can also check out the
+notebooks
+for interactive examples.
+<
+>
+Update
+on GitHub
+←
+Trainer
+Optimizers
+→
+Fine-tuning
+Trainer
+Tensor
+Flow
+Resources

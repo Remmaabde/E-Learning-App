@@ -1,0 +1,55 @@
+ AI Backend with Gemini & FastAPI
+---
+
+This project combines everything we've learned to build a web server that uses Google's Gemini Pro model to generate content.
+
+**Workflow:**
+`User Request -> FastAPI Server -> Google Gemini API -> FastAPI Server -> User Response`
+
+**Step 1: Prerequisites & Setup**
+* Get a **Google AI Studio API Key**.
+* Install the necessary libraries:
+    `pip install fastapi "uvicorn[standard]" google-generativeai python-dotenv`
+
+**Step 2: Secure Your API Key**
+* Create a file named `.env` in your project folder.
+* Add your key to this file: `GOOGLE_API_KEY="YOUR_API_KEY_HERE"`
+    (This file should *never* be shared publicly).
+
+**Step 3: The Code (`main.py`)**
+
+```python
+# Import libraries
+import os
+import google.generativeai as genai
+from fastapi import FastAPI
+from pydantic import BaseModel
+from dotenv import load_dotenv
+
+# Load the .env file and configure the Gemini API key
+load_dotenv()
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+# Define the request body shape using Pydantic
+class PromptRequest(BaseModel):
+    prompt: str
+
+# Initialize FastAPI and the Gemini model
+app = FastAPI()
+model = genai.GenerativeModel('gemini-pro')
+
+# Create the API endpoint
+@app.post("/generate")
+def generate_content(request: PromptRequest):
+    try:
+        # Send the user's prompt to the Gemini model
+        response = model.generate_content(request.prompt)
+        # Return the generated text
+        return {"response": response.text}
+    except Exception as e:
+        return {"error": str(e)}
+
+# Root endpoint for a quick status check
+@app.get("/")
+def read_root():
+    return {"status": "AI server is running"}

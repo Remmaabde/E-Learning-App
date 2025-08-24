@@ -1,0 +1,222 @@
+Title: React with TypeScript
+
+---
+## Part 1: Why Use TypeScript with React?
+---
+
+Combining TypeScript with React creates a powerful and robust development experience that helps you build more reliable and maintainable applications. While React works perfectly well with plain JavaScript, adding TypeScript provides a "safety net" that catches many common bugs during development, long before they reach your users.
+
+* **Analogy: Building with a Blueprint 📐**
+    * **React with JavaScript** is like building a house with a rough sketch. It's fast to start, but you might realize halfway through that a doorway is too small or a window is in the wrong place.
+    * **React with TypeScript** is like building that same house with a detailed, dimensionally-accurate **blueprint**. The blueprint (your types) ensures that every piece fits together correctly from the start. It's impossible to install a window where a door is supposed to go because the blueprint won't allow it.
+
+### **Key Benefits:**
+* **Type-Safe Props ✅:** This is the biggest advantage. TypeScript will throw an error if you pass the wrong type of data to a component or forget to pass a required prop.
+* **Superior Autocompletion 🧠:** Your code editor will know the exact shape of your props, state, and event objects, providing intelligent suggestions and reducing the need to look up component definitions.
+* **Safer Refactoring:** If you need to rename a prop or change its type, TypeScript will show you every single place in your codebase that needs to be updated.
+* **Self-Documenting Components:** The type definitions for a component's props act as clear, enforceable documentation on how to use it.
+
+---
+## Part 2: Setting Up a React + TypeScript Project
+---
+
+The easiest and most recommended way to start a new React and TypeScript project is with the **Vite** build tool.
+
+1.  **Open your terminal and run the create command:**
+    ```bash
+    npm create vite@latest
+    ```
+2.  **Follow the prompts:**
+    * Enter a project name.
+    * Select **React** as the framework.
+    * Select **TypeScript** (or `TypeScript + SWC`) as the variant.
+3.  **Navigate into your project and install dependencies:**
+    ```bash
+    cd your-project-name
+    npm install
+    npm run dev
+    ```
+
+You'll notice that the file extensions are now `.ts` for plain TypeScript files and **`.tsx`** for files that contain JSX code.
+
+---
+## Part 3: Typing Core React Concepts
+---
+
+Here's how to apply TypeScript types to the most common React patterns.
+
+### **3.1 Typing Functional Components and Props**
+The most common task is typing a component's `props`. You do this by defining an `interface` or `type` for the props object.
+
+```typescript
+import React from 'react';
+
+// 1. Define the shape of the props using an interface or type
+interface UserProfileProps {
+  username: string;
+  age: number;
+  isLoggedIn?: boolean; // Optional prop
+}
+
+// 2. Use the type annotation for the props parameter
+// The component is of type React.FunctionComponent or React.FC
+const UserProfile: React.FC<UserProfileProps> = ({ username, age, isLoggedIn = false }) => {
+  return (
+    <div>
+      <h1>{username}</h1>
+      <p>Age: {age}</p>
+      {isLoggedIn ? <p>Status: Online</p> : <p>Status: Offline</p>}
+    </div>
+  );
+};
+
+export default UserProfile;
+
+React.FC: This is a generic type that stands for FunctionComponent. It provides type-checking for the component and its props. While common, many developers now prefer a simpler approach by just typing the props directly: const UserProfile = ({...}: UserProfileProps) => { ... }.
+
+3.2 Typing the useState Hook
+TypeScript is often smart enough to infer the type of your state from its initial value.
+
+TypeScript
+
+// TypeScript infers 'count' is of type 'number'
+const [count, setCount] = useState(0);
+
+// TypeScript infers 'name' is of type 'string'
+const [name, setName] = useState("Alice");
+However, sometimes you need to be explicit, especially if the initial state is null or can be one of several types (a union).
+
+TypeScript
+
+interface User {
+  id: number;
+  name: string;
+}
+
+// State can be a User object OR null. We must provide a generic type.
+const [user, setUser] = useState<User | null>(null);
+3.3 Typing Events
+Event handlers in React receive a synthetic event object. To type this correctly, you need to use the event types provided by React.
+
+Form Events: For onChange on an input, use React.ChangeEvent.
+
+Mouse Events: For onClick on a button, use React.MouseEvent.
+
+Submission Events: For onSubmit on a form, use React.FormEvent.
+
+You pass the HTML element the event is attached to as the generic type.
+
+TypeScript
+
+import React, { useState } from 'react';
+
+function MyForm() {
+  const [value, setValue] = useState('');
+
+  // Event type is ChangeEvent on an HTMLInputElement
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
+  // Event type is MouseEvent on an HTMLButtonElement
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("Button clicked!");
+  };
+
+  return (
+    <form>
+      <input type="text" value={value} onChange={handleChange} />
+      <button type="button" onClick={handleClick}>Log Click</button>
+    </form>
+  );
+}
+Part 4: A Practical Example: A Todo List
+This example ties everything together: typed props, state, and events.
+
+TypeScript
+
+import React, { useState } from 'react';
+
+// --- Type Definitions ---
+interface Todo {
+  id: number;
+  text: string;
+  isCompleted: boolean;
+}
+
+interface TodoItemProps {
+  todo: Todo;
+  onToggle: (id: number) => void; // A function prop
+}
+
+// --- Components ---
+
+// A single Todo item component
+const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle }) => {
+  return (
+    <li 
+      style={{ textDecoration: todo.isCompleted ? 'line-through' : 'none' }}
+      onClick={() => onToggle(todo.id)}
+    >
+      {todo.text}
+    </li>
+  );
+};
+
+
+// The main Todo List component
+function TodoList() {
+  // State is an array of Todo objects.
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [newTodoText, setNewTodoText] = useState<string>('');
+
+  // Event handler for the input field
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodoText(e.target.value);
+  };
+  
+  // Event handler for form submission
+  const handleAddTodo = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTodoText.trim()) return;
+
+    const newTodo: Todo = {
+      id: Date.now(),
+      text: newTodoText,
+      isCompleted: false,
+    };
+    
+    setTodos([...todos, newTodo]);
+    setNewTodoText('');
+  };
+  
+  // Event handler to toggle a todo's completion status
+  const handleToggleTodo = (id: number) => {
+    setTodos(
+      todos.map(todo => 
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+      )
+    );
+  };
+
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <form onSubmit={handleAddTodo}>
+        <input 
+          type="text" 
+          value={newTodoText} 
+          onChange={handleInputChange} 
+        />
+        <button type="submit">Add Todo</button>
+      </form>
+      <ul>
+        {todos.map(todo => (
+          <TodoItem key={todo.id} todo={todo} onToggle={handleToggleTodo} />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default TodoList;

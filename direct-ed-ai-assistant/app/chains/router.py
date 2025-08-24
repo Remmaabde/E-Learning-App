@@ -42,8 +42,8 @@ def format_docs(docs):
 def get_sources_from_docs(docs):
     return [
         {
-            "source": doc.metadata.get("source_url"),
-            "name": doc.metadata.get("source_name"),
+            "source": doc.metadata.get("source_url", ""),
+            "name": doc.metadata.get("source_name", ""),
         }
         for doc in docs
     ]
