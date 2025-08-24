@@ -4,11 +4,14 @@ import { useParams } from "react-router-dom";
 import { Star } from "lucide-react";
 import type { Course, Lesson } from "./types";
 import { fetchCourseById } from "../../services/courseService";
+import { completeLesson } from "../../services/studentService";
+import EnrollButton from "../../components/EnrollButton";
+
 
 
 const fallbackCourse: Course[] = [
   {
-    id: "1",
+    id: "507f1f77bcf86cd799439011",
     title: "Introduction To Figma : Create Beautiful and Responsive Designs using Figma",
     category: "UI/UX",
     description: " provides instruction on using this popular tool for UI/UX design, web, and app design by covering its interface, design principles, and collaborative features. Courses typically teach how to create wireframes, design interfaces, build interactive prototypes, and work with advanced features like auto layout, components, and design systems. ",
@@ -50,7 +53,7 @@ const fallbackCourse: Course[] = [
     skills: ["UI Design", "Prototyping","UI/UX","graphic Designing"],
   },
   {
-    id: "2",
+    id: "507f1f77bcf86cd799439012",
     title: "Fullstack Development",
     category: "Fullstack",
     description: "Master Full-stack development with our comprehensive, guided and mentored track to build scalable fullstack applications.",
@@ -104,7 +107,7 @@ const fallbackCourse: Course[] = [
     skills: ["HTML", "CSS","Javascript","React","Express","MongoDB","Node.js","Vercel","git","backend","Frontend"],
   },
   {
-    id: "3",
+    id: "507f1f77bcf86cd799439013",
     title: "Introduction To HTML",
     category: "Frontend",
     description: "A comprehensive course to teach HTML5, Tags & Forms.",
@@ -140,7 +143,7 @@ const fallbackCourse: Course[] = [
     skills: ["HTML", "Tags","UI/UX","CSS"],
   },
   {
-    id: "4",
+    id: "507f1f77bcf86cd799439014",
     title: "Introduction to Generative AI and LLMs [Pt 1] | Generative AI for Beginners",
     category: "AI",
     description: "Introduction our startup idea and mission, Generative AI and how we landed on the current technology landscape, Inner working of a large language model,Main capabilities and practical use cases of Large Language Models.",
@@ -176,7 +179,7 @@ const fallbackCourse: Course[] = [
     skills: ["AI","Prompt Engineering"],
   },
   {
-    id: "5",
+    id: "507f1f77bcf86cd799439015",
     title: "Introduction to Prompt Engineering",
     category: "Prompt Engineering",
     description: "Dive in and learn how to use ChatGPT in order to create effective prompts that will guide language models",
@@ -212,7 +215,7 @@ const fallbackCourse: Course[] = [
     skills: ["AI","Prompt Engineering"],
   },
   {
-    id: "6",
+    id: "507f1f77bcf86cd799439016",
     title: "Built a SaaS App Landing Page in 3 Hours",
     category: "Frontend",
     description: "Learn how to build and deploy a SaaS landing page with modern UI and mobile-first principles while strengthening your React.js and Tailwind CSS skills. ",
@@ -261,7 +264,7 @@ const CourseDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null); 
 
   useEffect(() => {
     const load = async () => {
@@ -285,26 +288,28 @@ const CourseDetail: React.FC = () => {
     load();
   }, [id]);
 
-  const handleLessonComplete = (lessonId: string) => {
-    setCompletedLessons((prev) =>
-      prev.includes(lessonId) ? prev : [...prev, lessonId]
-    );
-  };
-
-  const handleEnrollNow = async () => {
+  const handleLessonComplete = async (lessonId: string) => {
     if (!course) return;
-
+    
     try {
-      setEnrolling(true);
-      await axios.post("/api/student/enrollments", { courseId: course.id });
-      alert("Enrolled successfully!");
-      navigate("/my-learning"); // Navigate after successful enrollment
-    } catch (error: any) {
-      alert(error?.response?.data?.error || "Failed to enroll in the course");
-    } finally {
-      setEnrolling(false);
+      // Add to completed lessons immediately for UI responsiveness
+      setCompletedLessons((prev) =>
+        prev.includes(lessonId) ? prev : [...prev, lessonId]
+      );
+
+      // Call API to mark lesson as complete
+      const token = localStorage.getItem("token");
+      if (token) {
+        await completeLesson(course.id, lessonId);
+        console.log(`Lesson ${lessonId} marked as completed`);
+      }
+    } catch (error) {
+      console.error("Failed to mark lesson as complete:", error);
+      // Remove from completed lessons if API call failed
+      setCompletedLessons((prev) => prev.filter(id => id !== lessonId));
     }
   };
+
   if (loading) return <p className="p-6">Loading course…</p>;
   if (!course) return <p className="p-6">Course not found</p>;
 
@@ -354,9 +359,15 @@ const CourseDetail: React.FC = () => {
             ))}
           </div>
 
-          <button className="bg-purple-300 text-purple-900 px-6 py-2 rounded-lg font-bold">
-            Enroll Now
-          </button>
+          <EnrollButton 
+            courseId={course.id} 
+            courseName={course.title}
+            onEnrollmentChange={(enrolled) => {
+              if (enrolled) {
+                console.log("Successfully enrolled in", course.title);
+              }
+            }}
+          />
         </div>
 
       
