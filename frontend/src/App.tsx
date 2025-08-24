@@ -21,6 +21,8 @@ import StudentDashboard from "./Pages/StudentDashboard";
 import StudentSideBar from "./Pages/StudentSideBar";
 import Notifications from "./Pages/Notifications";
 import InstructorSidebar from "./Pages/Instructorsidebar";
+import InstructorDashboard from "./Pages/InstructorDashboard";
+import StudentsInCourse from "./pages/instructor/StudentsInCourse";
 import AiAssistant from "./Pages/aiAssistant";
 //import MyLearningDashboard from "./Pages/MyLearningDashboard";
 
@@ -47,6 +49,11 @@ function App() {
         <Route path="/student/dashboard" element={<StudentDashboard />} />
               <Route path="/student" element={<StudentSideBar />} />
               <Route path="/student/notifications" element={<Notifications />} />
+              {/* Instructor Dashboard */}
+        <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
+
+{/* Students in a specific course */}
+<Route path="/instructor/courses/:courseId/students" element={<StudentsInCourse />} />
               <Route path="/instructor/notifications" element={<Notifications />} />
               <Route path="/instructor" element={<InstructorSidebar />} />
               <Route path="/aiAssistant" element={<AiAssistant />} />
