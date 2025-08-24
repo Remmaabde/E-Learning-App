@@ -187,3 +187,6 @@ chat_chain_with_history = RunnableWithMessageHistory(
 content_generation_chain = (ContentGenerator() | LearningAnalyzer()).with_types(
     input_type=ChatInput, output_type=ChatOutput
 )
+
+
+
