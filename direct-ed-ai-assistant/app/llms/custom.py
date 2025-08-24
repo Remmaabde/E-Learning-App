@@ -67,3 +67,6 @@ class CustomChatModel(SimpleChatModel):
         except (requests.exceptions.RequestException, ValueError) as e:
             print(f"Custom model failed: {e}. Attempting fallback.")
             raise
+
+
+        
