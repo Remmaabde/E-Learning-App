@@ -4,16 +4,18 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import time
 
+# LangChain components
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.document_loaders import TextLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 load_dotenv()
-print("Environment variables loaded.")
+print("✅ Environment variables loaded.")
 
+# --- Data-driven configuration for all sources (Merged) ---
 SOURCES_CONFIG = [
-
+    # --- Generative AI Track ---
     {
         "track": "Generative AI", "module": "Module 1: Python Recap, APIs, & AI Backend",
         "path": "app/data/gen_ai_track/module_1_python_apis_backend",
@@ -59,7 +61,7 @@ SOURCES_CONFIG = [
             {"type": "local", "file_name": "3_model_finetuning.txt", "source_name": "DirectEd: Model Fine-tuning & Development"},
         ]
     },
-
+    # --- Full Stack Track ---
     {
         "track": "Full Stack", "module": "Module 1: Frontend Basics",
         "path": "app/data/full_stack_track/module_1_frontend_basics",
@@ -109,17 +111,21 @@ SOURCES_CONFIG = [
             {"type": "local", "file_name": "3_react_with_ts_exercises.txt", "source_name": "DirectEd: Exercises on React with Typescript"},
             {"type": "local", "file_name": "4_solving_ts_errors.txt", "source_name": "DirectEd: Solving TypeScript Errors"},
             {"type": "local", "file_name": "5_building_mern_with_ts.txt", "source_name": "DirectEd: Building a MERN App with TypeScript"},
+            # Added from colleague's file
+            {"type": "scrape", "url": "https://dev.to/raju_dandigam/smarter-javascript-in-2025-10-typescript-features-you-cant-ignore-5cf1?utm_source=chatgpt.com", "file_name": "6_typescript_features.txt", "selector": "article", "source_name": "Dev.to: TypeScript Features"},
         ]
     },
 ]
 
-VECTOR_STORE_PATH = "app/vector_store2"
+VECTOR_STORE_PATH = "app/vector_store"
 
+# --- Models & Vector Store Setup ---
 print("Loading open-source embedding model 'all-MiniLM-L6-v2'...")
 embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 vector_store = Chroma(persist_directory=VECTOR_STORE_PATH, embedding_function=embedding_function)
 print("Setup complete. Database and open-source model are ready.")
 
+# --- Data Ingestion Functions ---
 
 def scrape_and_save(url: str, file_path: str, selector: str):
     """Scrape content from a URL using a simple requests call."""
@@ -156,60 +162,88 @@ def download_and_save_pdf(url: str, file_path: str):
     except Exception as e:
         print(f"PDF download failed for {url}: {e}. Skipping.")
 
+def process_document(path: str, metadata: dict):
+    """Loads, splits, and embeds a single document into the vector store."""
+    print(f"\n Processing file: {os.path.basename(path)}")
+    try:
+        if path.endswith(".pdf"):
+            loader = PyPDFLoader(path)
+        elif path.endswith(".txt"):
+            loader = TextLoader(path, encoding="utf-8")
+        else:
+            return # Skip other file types
+
+        docs = loader.load()
+        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        chunks = splitter.split_documents(docs)
+        if not chunks:
+            print("No text chunks found—skipping")
+            return
+
+        for c in chunks:
+            c.metadata.update(metadata)
+
+        ids = [f"{path}__{i}" for i in range(len(chunks))]
+        vector_store.add_documents(documents=chunks, ids=ids)
+        print(f"Processed {len(chunks)} chunks and updated vector store.")
+    except Exception as e:
+        print(f"Failed to process {os.path.basename(path)}: {e}")
+
+
+# --- Main processing loop ---
 def main():
-    """Iterate through the config, acquire data, and process all files."""
+    """Iterate through the config, acquire data, and process all files, including untracked ones."""
     
-    print("\n---  Acquiring Data ---")
+    # 1. Acquire all configured data (Scrape, Download)
+    print("\n---  Acquiring Configured Data ---")
+    managed_files = set()
     for config in SOURCES_CONFIG:
         module_path = config["path"]
         for source in config["sources"]:
             file_path = os.path.join(module_path, source["file_name"])
+            managed_files.add(os.path.abspath(file_path))
             if not os.path.exists(file_path):
                 if source["type"] == "scrape":
                     scrape_and_save(source["url"], file_path, source["selector"])
                 elif source["type"] == "pdf":
                     download_and_save_pdf(source["url"], file_path)
 
-    print("\n--- Processing and Embedding ---")
+    # 2. Process all documents (Configured and Un-configured)
+    print("\n--- Processing and Embedding All Documents ---")
+    
+    # Process configured files first
+    print("\n--- Processing Configured Files ---")
     for config in SOURCES_CONFIG:
         module_path = config["path"]
         print(f"\n--- Module: {config['module']} ---")
         if not os.path.exists(module_path):
             print(f"Directory not found: {module_path}. Skipping.")
             continue
-            
-        for fname in sorted(os.listdir(module_path)):
-            path = os.path.join(module_path, fname)
-            source_info = next((s for s in config["sources"] if s.get("file_name") == fname), None)
-            if not source_info:
-                continue
-
-            print(f"\n Processing file: {fname}")
-            if fname.endswith(".pdf"):
-                loader = PyPDFLoader(path)
-            elif fname.endswith(".txt"):
-                loader = TextLoader(path, encoding="utf-8")
-            else:
-                continue
-
-            docs = loader.load()
-            splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-            chunks = splitter.split_documents(docs)
-            if not chunks:
-                print("No text chunks found—skipping")
-                continue
-
-            for c in chunks:
-                c.metadata.update({
+        for source_info in config["sources"]:
+            path = os.path.join(module_path, source_info["file_name"])
+            if os.path.exists(path):
+                metadata = {
                     "source_name": source_info["source_name"],
                     "source_url": source_info.get("source_url"),
                     "track": config["track"],
                     "module": config["module"]
-                })
+                }
+                process_document(path, metadata)
 
-            ids = [f"{path}__{i}" for i in range(len(chunks))]
-            vector_store.add_documents(documents=chunks, ids=ids)
-            print(f"Processed {len(chunks)} chunks and updated vector store.")
+    # Process un-configured files
+    print("\n--- Processing Un-configured Files ---")
+    for root, dirs, files in os.walk("app/data"):
+        for fname in files:
+            path = os.path.join(root, fname)
+            if os.path.abspath(path) not in managed_files:
+                # Infer basic metadata from path
+                path_parts = path.split(os.sep)
+                metadata = {
+                    "source_name": os.path.splitext(fname)[0].replace('_', ' ').title(),
+                    "track": path_parts[2].replace('_', ' ').title() if len(path_parts) > 2 else "Unknown Track",
+                    "module": path_parts[3].replace('_', ' ').title() if len(path_parts) > 3 else "Unknown Module"
+                }
+                process_document(path, metadata)
 
     print("\n Ingestion complete — knowledge base updated.")
 
