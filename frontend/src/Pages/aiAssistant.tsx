@@ -43,7 +43,7 @@ export default function ChatLayout() {
             input: messageText,
             user_type: "student",
             request_type: requestType,
-            subject: "LLMOps Fundamentals",
+            subject: messageText,
             difficulty_level: "beginner"
           },
           config: {
