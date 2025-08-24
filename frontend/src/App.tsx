@@ -29,7 +29,7 @@ import CreateQuiz from "./Pages/Instructor/CreateQuiz";
 import InstructorAnalytics from "./Pages/Instructor/InstructorAnalytics";
 import ManageLessons from "./Pages/Instructor/ManageLessons";
 import ManageCourseQuizzes from "./Pages/Instructor/ManageCourseQuizzes";
-//import AiAssistant from "./Pages/aiAssistant";
+import AiAssistant from "./Pages/aiAssistant";
 //import MyLearningDashboard from "./Pages/MyLearningDashboard";
 
 
@@ -67,12 +67,12 @@ function App() {
               <Route path="/instructor/students/:courseId" element={<InstructorAnalytics />} />
               <Route path="/instructor/courses/:courseId/lessons" element={<ManageLessons />} />
               <Route path="/instructor/courses/:courseId/quizzes" element={<ManageCourseQuizzes />} />
-              {/* <Route path="/aiAssistant" element={<AiAssistant />} /> */}
+              <Route path="/aiAssistant" element={<AiAssistant />} />
                <Route path="/all" element={<Navigate to="/courses" />} />
                <Route path="/quizes" element={<QuizPage />} />
 
 
-              {/* <Route path="/quiz/:courseId" element={<QuizPage />} /> */}
+             
 
               <Route path="/courses" element={<CourseCatalog />} />
 
