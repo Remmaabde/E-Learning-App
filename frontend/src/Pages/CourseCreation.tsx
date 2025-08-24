@@ -9,7 +9,7 @@ const CourseCreation = () => {
         initialValues={{ title: "", description: "" }}
         onSubmit={async (values) => {
           try {
-            await axios.post("/api/instructor/courses", values); // prefix with _ avoids lint error
+            await axios.post("/api/instructor/courses", values); 
             alert("Course Created!");
           } catch (err) {
             console.error(err);

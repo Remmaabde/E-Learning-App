@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ interface EnrolledCourse {
 
 interface StudentDashboardData {
   enrolledCourses: EnrolledCourse[];
-  // Will Add other fields if  needed
+  
 }
 
 interface Course {
@@ -58,10 +58,10 @@ export default function MyLearningDashboard() {
     try {
       setEnrolling(true);
       await axios.post("/api/student/enrollments", { courseId });
-      await loadDashboard(); // Refresh dashboard after enrolling.
+      await loadDashboard(); 
       alert("Enrolled successfully!");
 
-      // Navigate to My Learning page after enrolling
+      
       navigate("/my-learning");
     } catch (err: unknown) {
       const message = axios.isAxiosError(err)
