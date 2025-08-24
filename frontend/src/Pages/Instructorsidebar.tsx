@@ -89,11 +89,11 @@ const InstructorSidebar: React.FC = () => {
           </button>
 
           <nav className="flex flex-col gap-2">
-           
+            <Link to="/instructor/dashboard" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Dashboard' : 'D'}</Link>
             <Link to="/instructor/my-courses" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'My Courses' : 'M'}</Link>
             <Link to="/instructor/create-course" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Create Course' : 'C'}</Link>
             <Link to="/instructor/notifications" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Notifications' : 'N'}</Link>
-            <Link to="/instructor/analytics" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Student Analytics' : 'A'}</Link>
+           
             <Link to="/instructor/quizzes" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Quizzes' : 'Q'}</Link>
             <Link to="/profile" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'Profile' : 'P'}</Link>
             <Link to="/aiAssistant" className="px-3 py-2 rounded hover:bg-[#d2b4e9] dark:hover:bg-gray-700 transition-colors">{open ? 'AI Assistant' : 'A'}</Link>
