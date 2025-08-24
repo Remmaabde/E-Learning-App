@@ -31,7 +31,7 @@ vector_store = Chroma(
 )
 openai_llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
 finetuned_llm = CustomChatModel(
-    api_url="https://Nutnell-E-Learning-platform.hf.space/generate"
+    api_url="https://nutnell-directed-ai.hf.space/generate"
 ).with_fallbacks([openai_llm])
 
 
