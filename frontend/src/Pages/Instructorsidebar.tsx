@@ -40,7 +40,7 @@ const InstructorSidebar: React.FC = () => {
         } catch (e) {
           
 
-            
+          //
         }
       })
       .finally(() => setLoading(false));

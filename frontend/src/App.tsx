@@ -21,8 +21,8 @@ import StudentDashboard from "./Pages/StudentDashboard";
 import StudentSideBar from "./Pages/StudentSideBar";
 import Notifications from "./Pages/Notifications";
 import InstructorSidebar from "./Pages/Instructorsidebar";
-import InstructorDashboard from "./Pages/InstructorDashboard";
-import StudentsInCourse from "./pages/instructor/StudentsInCourse";
+import InstructorDashboard from "./Pages/instructor/InstructorDashboard"
+import StudentsInCourse from "./Pages/instructor/MyCourses";
 import AiAssistant from "./Pages/aiAssistant";
 //import MyLearningDashboard from "./Pages/MyLearningDashboard";
 
