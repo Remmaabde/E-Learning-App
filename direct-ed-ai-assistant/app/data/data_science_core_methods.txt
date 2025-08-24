@@ -1,0 +1,7 @@
+Data Science Core Methods
+- Data Collection: APIs, sensors, databases.
+- Data Cleaning: Handling missing data, normalization, transformations.
+- Exploratory Data Analysis (EDA): Visualization and statistics.
+- Modeling: Regression, classification, clustering, deep learning.
+- Evaluation: Accuracy, Precision, Recall, F1, ROC-AUC.
+- Deployment: Model serving, monitoring, retraining.

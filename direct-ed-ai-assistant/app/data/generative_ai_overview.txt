@@ -1,0 +1,6 @@
+Generative AI Overview
+Generative Artificial Intelligence (GenAI) refers to systems capable of creating text, images, code, music, or other content. 
+Unlike traditional discriminative AI models, GenAI learns the distribution of data to produce new instances that resemble the training data.
+Applications include chatbots, creative writing, drug discovery, design, and education. 
+Types: Text-to-Text (LLMs), Text-to-Image (diffusion, GANs), Text-to-Speech, Music generation, and more.
+Challenges: Bias, hallucination, copyright, and responsible usage.

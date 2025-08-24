@@ -1,0 +1,13 @@
+MERN Stack Overview and Setup
+MERN stands for MongoDB, Express.js, React, and Node.js.
+- MongoDB: NoSQL database for flexible document storage.
+- Express.js: Backend web application framework on Node.js.
+- React: Frontend library for building UIs.
+- Node.js: Runtime for executing JavaScript server-side.
+Setup:
+1. Install Node.js and npm.
+2. Initialize project with npm init.
+3. Setup MongoDB locally or with Atlas.
+4. Create Express server and define routes.
+5. Build React frontend with create-react-app or Vite.
+6. Connect frontend and backend with REST APIs or GraphQL.

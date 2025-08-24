@@ -1,0 +1,5 @@
+Generative AI Models and Architectures
+1. GANs (Generative Adversarial Networks): Consist of generator and discriminator models in competition. Used for images, video synthesis.
+2. Diffusion Models: Iteratively denoise random noise into structured content. Stable Diffusion is a leading example.
+3. Transformers: Backbone of modern LLMs. Use attention mechanisms to capture context across sequences.
+4. Examples: GPT-4, Claude, Gemini, LLaMA, DALL-E, Stable Diffusion.
