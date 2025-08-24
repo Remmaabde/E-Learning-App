@@ -46,3 +46,4 @@ def read_root():
     return {"status": "DirectEd AI Assistant is running"}
 
 
+
