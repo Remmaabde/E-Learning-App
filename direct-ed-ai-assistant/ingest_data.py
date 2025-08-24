@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import time
 
 from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.document_loaders import TextLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -333,12 +333,12 @@ SOURCES_CONFIG = [
 
 VECTOR_STORE_PATH = "app/vector_store"
 
-print("Loading open-source embedding model 'all-MiniLM-L6-v2'...")
-embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+print("Loading Google Generative AI embedding model 'models/embedding-001'...")
+embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 vector_store = Chroma(
     persist_directory=VECTOR_STORE_PATH, embedding_function=embedding_function
 )
-print("Setup complete. Database and open-source model are ready.")
+print("Setup complete. Database and Google Generative AI model are ready.")
 
 
 
