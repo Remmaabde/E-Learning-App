@@ -1,6 +1,6 @@
-#selenium
-#webdriver-manager
-#pypdf
+selenium
+webdriver-manager
+pypdf
 fastapi==0.111.0
 pydantic==2.8.2
 uvicorn==0.30.1
@@ -17,5 +17,5 @@ langchain-huggingface
 sentence-transformers
 chromadb
 requests
-#beautifulsoup4
+beautifulsoup4
 sse_starlette
