@@ -5,11 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import {
     HiOutlineViewGrid,
     HiOutlineBookOpen,
-<<<<<<< HEAD
-    HiOutlineCollection,
-=======
     
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     HiOutlineBell,
     HiOutlineUser,
     HiOutlineSparkles,
