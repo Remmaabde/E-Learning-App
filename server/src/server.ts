@@ -44,12 +44,15 @@ app.use("/api/auth", authRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-
-
 app.use("/api/courses", courseRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/quizzes", quizRoutes);
+app.use("/api/student", studentRoutes);
 
 //server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}!`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}!`);
+  console.log("=== SERVER RESTARTED SUCCESSFULLY ===");
+  console.log("Time:", new Date().toISOString());
+});

@@ -5,7 +5,7 @@ import CourseProgress from "../models/progress";
 import Course from "../models/course";
 import { Types } from "mongoose";
 
-// POST /api/progress/lesson  { courseId, lessonId, completed, secondsWatched }
+
 export const updateLessonProgress = async (req: AuthRequest, res: Response) => {
   try {
     const userId = (req.user && typeof req.user !== "string" && "_id" in req.user) 
@@ -57,7 +57,6 @@ export const updateLessonProgress = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// GET /api/progress/course/:id
 export const getCourseProgress = async (req: AuthRequest, res: Response) => {
   try {
     const userId = (req.user && typeof req.user !== "string" && "_id" in req.user) 
@@ -71,7 +70,7 @@ export const getCourseProgress = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// PUT /api/progress/course/:id  { overallPercent? }  (usually derived, but included)
+
 export const putCourseProgress = async (req: AuthRequest, res: Response) => {
   try {
     const userId = (req.user && typeof req.user !== "string" && "_id" in req.user) 

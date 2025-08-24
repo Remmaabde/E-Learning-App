@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import {
     HiOutlineViewGrid,
     HiOutlineBookOpen,
-    HiOutlineCollection,
+    
     HiOutlineBell,
     HiOutlineUser,
     HiOutlineSparkles,
@@ -27,12 +27,7 @@ const navItems = [
         short: "B",
         icon: <HiOutlineBookOpen className="w-5 h-5" />,
     },
-    {
-        to: "/student/my-courses",
-        label: "My Courses",
-        short: "M",
-        icon: <HiOutlineCollection className="w-5 h-5" />,
-    },
+  
     {
         to: "/student/notifications",
         label: "Notifications",
