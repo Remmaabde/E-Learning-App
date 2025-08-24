@@ -1,0 +1,76 @@
+Title: Introduction to Prompt Engineering
+
+---
+## 1. What is a Prompt?
+---
+
+A **prompt** is the input you give to a generative AI model, specifically an LLM, to instruct it on what task to perform. It's how you communicate your request to the AI. A prompt can be a question, a command, a statement, or any piece of text that guides the model to generate a desired output.
+
+* **Simple Prompt:** "What is the capital of Kenya?"
+* **Complex Prompt:** "Write a short, professional email to my team explaining that the project deadline has been moved to this Friday. Mention that all final reports should be submitted by noon. Use a friendly but firm tone."
+
+**Prompt Engineering** is the art and science of designing and refining these inputs (prompts) to get the most accurate, relevant, and useful outputs from an LLM. It's about learning how to "talk" to the model effectively.
+
+---
+## 2. Why is Prompt Engineering Important?
+---
+
+The quality of the output from an LLM is directly dependent on the quality of the input prompt. Vague prompts lead to vague or incorrect answers. A well-crafted prompt acts like a precise set of instructions, guiding the powerful but sometimes literal-minded LLM to the exact result you want.
+
+* **Analogy:** Think of an LLM as a brilliant but very junior intern. 👨‍🎓 They have access to nearly all human knowledge, but they need clear, specific instructions to do a task correctly. Prompt engineering is how you write those instructions.
+
+---
+## 3. Core Components of a Good Prompt
+---
+
+While a prompt can be simple, effective prompts often contain several key elements to guide the model.
+
+* **Task:** The specific action you want the model to take. (e.g., "Summarize," "Translate," "Write," "Classify," "Generate code for...")
+* **Context:** Background information that the model needs to understand the task properly. (e.g., "I am a software developer working on a Python project...")
+* **Persona:** The role you want the AI to adopt. This sets the tone, style, and expertise level of the response. (e.g., "Act as a senior copywriter," "You are a helpful travel agent...")
+* **Format:** The structure of the desired output. (e.g., "Provide the answer in a JSON format," "Use bullet points," "Write a 3-paragraph essay...")
+* **Examples:** Providing one or more examples of the input-output pattern you want. (This is a key technique, discussed below).
+
+**Example combining all components:**
+"Act as an expert financial analyst (Persona). I need to understand the Q3 performance of Company XYZ (Context). Summarize their latest earnings report into three key bullet points, focusing on revenue growth, profit margins, and future outlook (Task & Format)."
+
+---
+## 4. Fundamental Prompting Techniques
+---
+
+These are basic strategies to structure your prompts.
+
+* **Zero-Shot Prompting:** You ask the model to perform a task without giving it any prior examples. You rely on the model's vast pre-trained knowledge to understand and execute the request.
+    * **Example:** "Classify this movie review as positive or negative: 'The film was a masterpiece, I loved every minute of it!'"
+
+* **One-Shot Prompting:** You provide a single example of the task before making your actual request. This helps the model understand the desired pattern and format.
+    * **Example:**
+        "Tweet: 'I'm so excited for the concert tonight!'
+        Sentiment: Positive
+        ---
+        Tweet: 'I can't believe the flight was delayed again.'
+        Sentiment:"
+
+* **Few-Shot Prompting:** You provide multiple examples (typically 2-5). This gives the model more data to learn the pattern from, often leading to more accurate and consistent results, especially for complex or nuanced tasks.
+    * **Example:**
+        "Translate English to French:
+        sea otter => loutre de mer
+        peppermint => menthe poivrée
+        plush toy => peluche
+        cheese =>"
+
+---
+## 5. A More Advanced Technique: Chain-of-Thought (CoT) Prompting
+---
+
+For tasks that require logical reasoning or multiple steps, simply asking for the answer can lead to errors. **Chain-of-Thought (CoT) prompting** encourages the model to "think step by step" to arrive at the final answer. You show it examples where the reasoning process is written out.
+
+* **Standard Prompt:**
+    "Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?
+    A: 11."
+
+* **Chain-of-Thought Prompt:**
+    "Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?
+    A: Roger started with 5 balls. 2 cans of 3 tennis balls each is 2 * 3 = 6 balls. So, 5 + 6 = 11 balls. The answer is 11."
+
+By prompting the model with "Let's think step by step," you can often trigger this reasoning process even in a zero-shot manner, significantly improving its performance on math, logic, and reasoning problems.

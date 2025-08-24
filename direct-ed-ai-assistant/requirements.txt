@@ -1,4 +1,6 @@
-# requirements.txt
+selenium
+webdriver-manager
+pypdf# requirements.txt
 
 # Core Application & API (Stable, available versions)
 fastapi==0.111.0

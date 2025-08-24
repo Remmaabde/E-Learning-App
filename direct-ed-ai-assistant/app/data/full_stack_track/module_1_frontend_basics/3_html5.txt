@@ -1,0 +1,36 @@
+Title: HTML5 Explained
+
+---
+## 1. What is HTML5?
+---
+
+**HTML5** is the fifth and latest major version of **HTML (HyperText Markup Language)**, the standard language used to create and structure the content of web pages. It's the fundamental building block of the modern web.
+
+Think of HTML as the **skeleton of a webpage** 🦴. It provides the basic structure and defines the different parts of the page, such as headings, paragraphs, images, and links. HTML5 is a significant evolution of this language, introducing new features to support modern web applications, multimedia, and more descriptive page structures.
+
+---
+## 2. The Main Goals of HTML5
+---
+
+HTML5 was designed to achieve several key goals that its predecessors couldn't:
+
+* **Richer Semantics:** Introduce new tags that describe their content's meaning, not just how it looks. This is crucial for both search engines (SEO) and accessibility.
+* **Built-in Multimedia:** Make it easy to embed video and audio directly into web pages without relying on third-party plugins like Adobe Flash.
+* **Enhanced Interactivity:** Provide native support for graphics, offline capabilities, and better user input forms.
+* **Improved Compatibility:** Standardize how browsers interpret and render web pages, reducing inconsistencies and the need for browser-specific hacks.
+
+---
+## 3. Key Features of HTML5
+---
+
+Here are some of the most important features that HTML5 introduced:
+
+### **Semantic Elements**
+Instead of using generic `<div>` tags for everything, HTML5 provides specific tags for common page sections. This makes the code cleaner and more meaningful.
+
+**Before HTML5 (using `div` tags):**
+```html
+<div id="header">...</div>
+<div id="nav">...</div>
+<div class="article">...</div>
+<div id="footer">...</div>

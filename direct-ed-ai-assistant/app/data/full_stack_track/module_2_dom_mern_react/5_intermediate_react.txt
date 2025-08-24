@@ -1,0 +1,206 @@
+Title: Intermediate React
+
+---
+## Part 1: Advanced State Management
+---
+
+As your React applications grow, managing state becomes more complex. Passing props down through many layers of components (**prop drilling**) can become cumbersome. Intermediate React introduces patterns to handle this more effectively.
+
+### **1.1 The Context API: Avoiding Prop Drilling**
+The **Context API** is React's built-in solution for sharing state that can be considered "global" for a tree of components, like UI theme, authentication status, or language preference.
+
+* **Analogy: A Public Announcement System 📢**
+    Instead of passing a message down a chain of command from person to person (prop drilling), the Context API is like a PA system. A component high up the tree (the `Provider`) makes a piece of state available, and any component further down the tree, no matter how deep, can "listen" for that announcement directly using the `useContext` hook.
+
+**How it works:**
+1.  **`createContext`**: You create a new Context object.
+2.  **`Context.Provider`**: You wrap a parent component in this provider and give it a `value` (the state you want to share).
+3.  **`useContext`**: Any child component within the provider can now access that value directly using the `useContext` hook.
+
+**Example:**
+```javascript
+// 1. Create a context (in a separate file, e.g., ThemeContext.js)
+import { createContext } from 'react';
+export const ThemeContext = createContext('light'); // 'light' is the default value
+
+// 2. Provide the context in a parent component (e.g., App.jsx)
+import { ThemeContext } from './ThemeContext';
+
+function App() {
+  const [theme, setTheme] = useState('dark');
+  return (
+    <ThemeContext.Provider value={theme}>
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
+
+// 3. Consume the context in a deeply nested child (e.g., Button.jsx)
+import { useContext } from 'react';
+import { ThemeContext } from './ThemeContext';
+
+function Button() {
+  const theme = useContext(ThemeContext); // No props needed!
+  return <button className={theme}>I am a {theme} button</button>;
+}
+
+1.2 Custom Hooks: Reusing Logic
+A custom hook is a JavaScript function whose name starts with "use" and that can call other hooks. It's a powerful pattern for extracting and reusing stateful logic from your components.
+
+If you find yourself writing the same useState and useEffect logic in multiple components (e.g., fetching data, tracking window size), you can extract it into a custom hook.
+
+Example: A useFetch hook
+import { useState, useEffect } from 'react';
+
+// This custom hook encapsulates the logic for fetching data
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(data => setData(data))
+      .catch(err => setError(err))
+      .finally(() => setLoading(false));
+  }, [url]); // Re-fetch if the URL changes
+
+  return { data, loading, error }; // Return the state for the component to use
+}
+
+// How to use it in a component:
+function UserProfile({ userId }) {
+  const { data: user, loading, error } = useFetch(`/api/users/${userId}`);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error!</p>;
+
+  return <h1>{user.name}</h1>;
+}
+
+Part 2: Performance Optimization
+React is fast, but as apps grow, you might encounter performance bottlenecks caused by unnecessary re-renders.
+
+2.1 React.memo: Memoizing Components
+By default, a component re-renders if its parent re-renders. React.memo is a Higher-Order Component (HOC) that prevents a functional component from re-rendering if its props have not changed.
+
+import React from 'react';
+
+// This component might be re-rendered unnecessarily if its parent's state changes.
+function UserAvatar({ username, imageUrl }) {
+  // ... rendering logic
+}
+
+// By wrapping it in React.memo, it will only re-render if username or imageUrl change.
+export default React.memo(UserAvatar);
+
+
+2.2 useMemo: Memoizing Values
+The useMemo hook caches the result of an expensive calculation. The calculation will only be re-computed if one of its dependencies has changed. This is useful for preventing costly calculations from running on every single render.
+
+import { useMemo } from 'react';
+
+function TodoList({ todos, filter }) {
+  // This calculation could be slow if 'todos' is a very large array.
+  const visibleTodos = useMemo(() => {
+    console.log("Filtering todos..."); // This will only log when todos or filter change
+    return todos.filter(todo => todo.text.includes(filter));
+  }, [todos, filter]); // <-- Dependencies
+
+  return (
+    <ul>
+      {visibleTodos.map(todo => <li key={todo.id}>{todo.text}</li>)}
+    </ul>
+  );
+}
+
+2.3 useCallback: Memoizing Functions
+The useCallback hook caches a function definition itself. This is important when passing callback functions as props to child components that are memoized with React.memo. Without useCallback, a new function is created on every render, which would cause the memoized child to re-render unnecessarily.
+
+import React, { useState, useCallback } from 'react';
+
+const MemoizedButton = React.memo(({ onClick }) => {
+  console.log("Button rendered");
+  return <button onClick={onClick}>Click me</button>;
+});
+
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+
+  // Without useCallback, this function is a new object on every render,
+  // causing MemoizedButton to re-render every time.
+  const handleClick = useCallback(() => {
+    // ... some logic
+  }, []); // <-- Empty dependency array means the function is created only once.
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <MemoizedButton onClick={handleClick} />
+    </div>
+  );
+}
+
+Part 3: Advanced Rendering Patterns
+3.1 Conditional Rendering
+This is the practice of rendering different JSX based on a certain condition. While you can use ternaries (condition ? <A /> : <B />) or &&, for more complex logic, returning null or different components entirely is a common pattern.
+
+function UserDashboard({ user, isLoading }) {
+  if (isLoading) {
+    return <Spinner />;
+  }
+  
+  if (!user) {
+    return <LoginForm />;
+  }
+
+  return <WelcomeMessage user={user} />;
+}
+
+3.2 Rendering Lists with .map() and the key Prop
+To render a list of items from an array, you use the .map() method inside your JSX.
+
+Crucially, you must provide a unique and stable key prop to each element in the list. React uses this key to identify which items have changed, been added, or been removed, allowing it to efficiently update the UI.
+
+⚠️ Warning: Do NOT use the array index as a key if the list can be re-ordered, added to, or filtered. This can lead to bugs and performance issues. The best key is a unique ID from your data (like item.id).
+
+3.2 Rendering Lists with .map() and the key Prop
+To render a list of items from an array, you use the .map() method inside your JSX.
+
+Crucially, you must provide a unique and stable key prop to each element in the list. React uses this key to identify which items have changed, been added, or been removed, allowing it to efficiently update the UI.
+
+⚠️ Warning: Do NOT use the array index as a key if the list can be re-ordered, added to, or filtered. This can lead to bugs and performance issues. The best key is a unique ID from your data (like item.id).
+
+Part 4: Client-Side Routing
+4.1 React Router
+In a Single-Page Application, you need a way to manage different "pages" or views without causing a full page refresh. React Router is the standard library for this. It synchronizes the UI with the URL in the browser.
+
+Basic Setup:
+
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+<BrowserRouter>: Wraps your entire app to enable routing.
+
+<Link>: Used instead of <a> tags to navigate between routes without a page refresh.
+
+<Routes>: A container for all your individual routes.
+
+<Route>: Defines a mapping between a URL path and the element (component) to render.

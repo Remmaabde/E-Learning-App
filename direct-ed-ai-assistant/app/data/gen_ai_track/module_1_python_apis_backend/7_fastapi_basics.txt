@@ -1,0 +1,54 @@
+Title: FastAPI Basics
+
+---
+## 1. What is FastAPI?
+---
+
+FastAPI is a modern, high-performance web framework for building APIs with Python. It was created by Sebastián Ramírez and has quickly become one of the most popular choices for developing web APIs in Python.
+
+* **Analogy:** If Python is the language you use to write a recipe, and an API is the menu a customer (another application) can order from, then **FastAPI is a state-of-the-art, hyper-efficient kitchen** that helps you prepare and serve those orders incredibly quickly and accurately.
+
+### **Key Features:**
+
+* **Fast:** As the name suggests, it's one of the fastest Python frameworks available, with performance comparable to NodeJS and Go.
+* **Easy to Use:** The framework is designed to be simple and intuitive, which helps you build APIs faster and with fewer bugs.
+* **Automatic Docs:** FastAPI automatically generates interactive API documentation (using Swagger UI and ReDoc). This is a huge time-saver and makes it easy to test your API.
+* **Data Validation:** It uses Python type hints and a library called **Pydantic** to handle data validation. If incoming data doesn't match the expected format, FastAPI automatically returns a clear error.
+* **Asynchronous:** It's built on modern Python features (`async`/`await`), allowing for high concurrency, which is great for I/O-bound tasks.
+
+---
+## 2. Core Concepts
+---
+
+### **Path Operations**
+
+A "path" is the part of the URL that comes after the main domain (e.g., `/items/` or `/users/me`). An "operation" refers to the HTTP request method used, like `GET`, `POST`, `PUT`, or `DELETE`.
+
+In FastAPI, you use **decorators** to associate a function with a specific path and operation.
+
+* `@app.get("/")`: Handles GET requests to the root URL. Used for reading data.
+* `@app.post("/items/")`: Handles POST requests to the `/items/` URL. Used for creating data.
+* `@app.put("/items/{item_id}")`: Handles PUT requests to update a specific item.
+* `@app.delete("/items/{item_id}")`: Handles DELETE requests to delete a specific item.
+
+The function below the decorator contains the logic that runs when a request is made to that endpoint.
+
+### **Pydantic for Data Validation**
+
+Pydantic is a library used to define the structure and data types of your data. You define the "shape" of your data using standard Python type hints.
+
+FastAPI uses these Pydantic models to:
+1.  **Validate** incoming request data.
+2.  **Convert** data to the correct Python types.
+3.  **Serialize** outgoing data into JSON format.
+4.  **Power the automatic API documentation**.
+
+```python
+# Example of a Pydantic model
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None # An optional string, defaults to None
+    price: float
+    tax: float | None = None

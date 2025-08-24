@@ -1,0 +1,153 @@
+Introduction to Generative AI
+Week 1: Introduction to AI & Generative AI
+1.1 What is AI?
+
+Artificial Intelligence (AI) is the field of computer science that builds systems capable of performing tasks that usually require human intelligence. These tasks include reasoning, learning, planning, perception, and natural language understanding.
+
+Levels of AI evolution:
+
+Symbolic AI (1950s–1980s): Rule-based expert systems. Example: MYCIN (medical diagnosis).
+
+Machine Learning (1980s–2000s): Models learn patterns from data instead of being programmed with rules.
+
+Deep Learning (2010s): Neural networks with many layers achieve breakthroughs in vision and language.
+
+Generative AI (2020s): Models capable of creating new data: text, images, audio, video.
+
+1.2 What is Generative AI?
+
+Generative AI (GenAI) refers to systems that can produce original content rather than simply classifying or predicting.
+
+Examples:
+
+Text: GPT-4, Claude → essays, stories, chatbots.
+
+Images: Stable Diffusion, MidJourney → digital art.
+
+Music: Google MusicLM → generate songs.
+
+Video: Runway, OpenAI Sora → AI-powered film-making.
+
+1.3 Why Generative AI Matters
+
+Creativity: Artists, designers, and writers can co-create with AI.
+
+Productivity: Automates tasks (e.g., drafting reports, coding).
+
+Accessibility: Text-to-speech, image-to-text for visually impaired.
+
+Risks: Deepfakes, misinformation, bias amplification.
+
+1.4 Class Activity
+
+Students use ChatGPT to co-write a short poem.
+
+Students use Stable Diffusion to generate an image from a text prompt.
+
+Discussion: "Did the AI feel creative? What are its limits?"
+
+Week 2: Machine Learning Refresher
+2.1 Types of Machine Learning
+
+Supervised Learning
+
+Model learns from labeled data.
+
+Example: Predicting house prices (input: features like size, location; output: price).
+
+Unsupervised Learning
+
+Model finds patterns without labels.
+
+Example: Clustering customers by spending habits.
+
+Reinforcement Learning (RL)
+
+Agent learns by interacting with an environment.
+
+Example: Training a robot to walk or AlphaGo playing Go.
+
+2.2 Neural Networks Basics
+
+Neuron (perceptron): Takes weighted inputs, applies activation (e.g., sigmoid, ReLU).
+
+Layers: Input → hidden layers → output.
+
+Training:
+
+Forward pass: compute prediction.
+
+Loss function: measure error.
+
+Backpropagation: adjust weights via gradient descent.
+
+Diagram (describe in words): Imagine circles in layers → arrows between them → weights adjusting.
+
+2.3 Embeddings & Latent Space
+
+Embeddings: Represent words, images, etc. as vectors in high-dimensional space.
+
+Example: "king – man + woman ≈ queen".
+
+Latent Space: The "compressed imagination space" where AI encodes patterns.
+
+In GANs/diffusion, random noise in latent space transforms into images.
+
+2.4 Lab Idea
+
+Train a simple text generator using RNN or LSTM (predict the next character).
+
+Visualize word embeddings with PCA/t-SNE.
+
+Week 3: Transformers & Large Language Models (LLMs)
+3.1 Limitations of Old Models (RNNs/LSTMs)
+
+RNNs process text sequentially → slow.
+
+Struggle with long-term dependencies (forget context after ~100 words).
+
+Parallelization is difficult.
+
+3.2 The Transformer (2017)
+
+Paper: "Attention is All You Need."
+
+Self-Attention: Every word compares itself with all other words → captures context.
+
+Positional Encoding: Since order matters, positions are encoded numerically.
+
+Architecture:
+
+Encoder: Reads and encodes input.
+
+Decoder: Generates output (text, translation).
+
+Diagram (describe in words): Input words → embeddings → multi-head attention → feed-forward → stacking layers → output.
+
+3.3 Large Language Models (LLMs)
+
+Training: Predict the next word/token across billions of examples.
+
+Scaling laws: Bigger data + bigger models → better performance.
+
+Examples: GPT-3/4, BERT, LLaMA, Claude.
+
+3.4 Why Transformers Changed Everything
+
+Handle long context (thousands of words).
+
+Parallel processing on GPUs → faster training.
+
+Transfer learning: Pretrained on internet text → fine-tuned for tasks.
+
+3.5 Lab Idea
+
+Use HuggingFace Transformers to:
+
+Generate text with GPT-2.
+
+Summarize text with BART.
+
+Compare outputs with and without fine-tuning.
+
+
