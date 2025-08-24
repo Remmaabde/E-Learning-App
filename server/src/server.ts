@@ -5,11 +5,8 @@ import connectDB from "./config/db";
 import courseRoutes from "./routes/courseRoutes";
 import progressRoutes from "./routes/progressRoutes";
 import quizRoutes from "./routes/quizRoutes"
-<<<<<<< HEAD
-=======
 import studentRoutes from "./routes/studentRoutes";
 import instructorRoutes from "./routes/instructorRoutes";
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
 
 import platformRoutes from "./routes/platformRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -48,19 +45,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-<<<<<<< HEAD
-
-
-app.use("/api/courses", courseRoutes);
-app.use("/api/progress", progressRoutes);
-app.use("/api/quizzes", quizRoutes);
-=======
 app.use("/api/courses", courseRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/quizzes", quizRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/instructor", instructorRoutes);
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
 
 //server
 const PORT = process.env.PORT || 5000;
