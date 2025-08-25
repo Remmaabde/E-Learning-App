@@ -12,10 +12,7 @@ export interface ICourseProgress extends Document {
   courseId: Types.ObjectId;
   lessons: ILessonProgress[];      // 1 entry per lesson user has touched
   overallPercent: number;          // denormalized for quick display
-<<<<<<< HEAD
-=======
   enrolledAt: Date;                // when student enrolled
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
   updatedAt: Date;
 }
 
@@ -32,10 +29,7 @@ const CourseProgressSchema = new Schema<ICourseProgress>(
     courseId: { type: Schema.Types.ObjectId, ref: "Course", required: true, index: true },
     lessons: { type: [LessonProgressSchema], default: [] },
     overallPercent: { type: Number, default: 0 },
-<<<<<<< HEAD
-=======
     enrolledAt: { type: Date, default: Date.now },
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
   },
   { timestamps: true }
 );

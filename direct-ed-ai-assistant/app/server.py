@@ -1,14 +1,20 @@
 import os
 from fastapi import FastAPI, Depends, HTTPException, status
+import json
 
 from langserve import add_routes
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
-from app.chains.router import educational_assistant_chain, chat_chain_with_history, content_generation_chain
+from app.chains.router import (
+    educational_assistant_chain,
+    chat_chain_with_history,
+    content_generation_chain,
+)
 from app.schemas.api_models import ChatInput
 
 load_dotenv()
+LOG_FILE = "app/analytics_log.jsonl"
 
 app = FastAPI(
     title="DirectEd AI Assistant Server",
@@ -18,7 +24,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -34,15 +43,22 @@ add_routes(
     path="/api/assistant/content/generate",
 )
 
+
 @app.get("/api/assistant/analytics")
 def get_analytics():
-    """Placeholder endpoint for retrieving usage analytics."""
-    return {"status": "ok", "message": "Analytics endpoint is under development."}
+    """Retrieves usage analytics from the log file."""
+    if not os.path.exists(LOG_FILE):
+        return {"status": "ok", "data": [], "message": "No analytics logged yet."}
+
+    analytics_data = []
+    with open(LOG_FILE, "r") as f:
+        for line in f:
+            analytics_data.append(json.loads(line))
+
+    return {"status": "ok", "data": analytics_data}
 
 
 @app.get("/")
 def read_root():
     """Health check endpoint."""
     return {"status": "DirectEd AI Assistant is running"}
-
-
