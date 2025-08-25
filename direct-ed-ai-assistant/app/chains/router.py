@@ -3,7 +3,7 @@ load_dotenv()
 
 import json
 from datetime import datetime
-import os # Added for log file path handling
+import os
 
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -35,7 +35,7 @@ vector_store = Chroma(
 )
 openai_llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
 finetuned_llm = CustomChatModel(
-    api_url="https://nutnell-e-learning-platform.hf.space/generate" # Corrected capitalization
+    api_url="https://nutnell-e-learning-platform.hf.#space/generate"
 ).with_fallbacks([openai_llm])
 
 
@@ -67,7 +67,7 @@ def get_memory_for_session(session_id: str):
 
 def EducationalRetriever():
     """Component 1: Identifies relevant curriculum content."""
-    return vector_store.as_retriever(search_kwargs={"k": 15})
+    return vector_store.as_retriever(search_kwargs={"k": 5})
 
 
 def AdaptiveConversationChain():
@@ -98,11 +98,11 @@ def AdaptiveConversationChain():
                     "question": x["input"],
                     "subject": x.get("subject", "the topic"),
                     "difficulty_level": x.get("difficulty_level", "beginner"),
-                    "user_type": x.get("user_type", "student") # <-- BUG FIX: Added user_type back
+                    "user_type": x.get("user_type", "student") 
                 }
             )
             | rag_prompt
-            | finetuned_llm.with_config({"run_name": "AdaptiveConversationLLM"}) # Corrected naming
+            | finetuned_llm.with_config({"run_name": "AdaptiveConversationLLM"})
             | StrOutputParser()
         ),
         sources=RunnableLambda(lambda x: get_sources_from_docs(x["context"])),
