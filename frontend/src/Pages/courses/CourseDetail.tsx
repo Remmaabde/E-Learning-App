@@ -1,11 +1,5 @@
 
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { useParams } from "react-router-dom";
-import { Star } from "lucide-react";
-import type { Course, Lesson } from "./types";
-import { fetchCourseById } from "../../services/courseService";
-=======
 import { useParams, useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import type { Course, Lesson } from "./types";
@@ -33,16 +27,11 @@ interface Quiz {
   createdAt: string;
 }
 
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
 
 
 const fallbackCourse: Course[] = [
   {
-<<<<<<< HEAD
-    id: "1",
-=======
     id: "507f1f77bcf86cd799439011",
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     title: "Introduction To Figma : Create Beautiful and Responsive Designs using Figma",
     category: "UI/UX",
     description: " provides instruction on using this popular tool for UI/UX design, web, and app design by covering its interface, design principles, and collaborative features. Courses typically teach how to create wireframes, design interfaces, build interactive prototypes, and work with advanced features like auto layout, components, and design systems. ",
@@ -84,11 +73,7 @@ const fallbackCourse: Course[] = [
     skills: ["UI Design", "Prototyping","UI/UX","graphic Designing"],
   },
   {
-<<<<<<< HEAD
-    id: "2",
-=======
     id: "507f1f77bcf86cd799439012",
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     title: "Fullstack Development",
     category: "Fullstack",
     description: "Master Full-stack development with our comprehensive, guided and mentored track to build scalable fullstack applications.",
@@ -142,11 +127,7 @@ const fallbackCourse: Course[] = [
     skills: ["HTML", "CSS","Javascript","React","Express","MongoDB","Node.js","Vercel","git","backend","Frontend"],
   },
   {
-<<<<<<< HEAD
-    id: "3",
-=======
     id: "507f1f77bcf86cd799439013",
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     title: "Introduction To HTML",
     category: "Frontend",
     description: "A comprehensive course to teach HTML5, Tags & Forms.",
@@ -182,11 +163,7 @@ const fallbackCourse: Course[] = [
     skills: ["HTML", "Tags","UI/UX","CSS"],
   },
   {
-<<<<<<< HEAD
-    id: "4",
-=======
     id: "507f1f77bcf86cd799439014",
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     title: "Introduction to Generative AI and LLMs [Pt 1] | Generative AI for Beginners",
     category: "AI",
     description: "Introduction our startup idea and mission, Generative AI and how we landed on the current technology landscape, Inner working of a large language model,Main capabilities and practical use cases of Large Language Models.",
@@ -222,11 +199,7 @@ const fallbackCourse: Course[] = [
     skills: ["AI","Prompt Engineering"],
   },
   {
-<<<<<<< HEAD
-    id: "5",
-=======
     id: "507f1f77bcf86cd799439015",
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     title: "Introduction to Prompt Engineering",
     category: "Prompt Engineering",
     description: "Dive in and learn how to use ChatGPT in order to create effective prompts that will guide language models",
@@ -262,15 +235,9 @@ const fallbackCourse: Course[] = [
     skills: ["AI","Prompt Engineering"],
   },
   {
-<<<<<<< HEAD
-    id: "6",
-    title: "Built a SaaS App Landing Page in 3 Hours",
-    category: "Front end",
-=======
     id: "507f1f77bcf86cd799439016",
     title: "Built a SaaS App Landing Page in 3 Hours",
     category: "Frontend",
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     description: "Learn how to build and deploy a SaaS landing page with modern UI and mobile-first principles while strengthening your React.js and Tailwind CSS skills. ",
     instructor: {
       id: "i1",
@@ -307,30 +274,19 @@ const fallbackCourse: Course[] = [
     ],
     rating: 5,
     reviewsCount: 987,
-<<<<<<< HEAD
-    skills: ["front end","React","Tailwind","CSS","Responsive"],
-=======
     skills: ["frontend","React","Tailwind","CSS","Responsive"],
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
   },
   
 ];
 const CourseDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-<<<<<<< HEAD
-=======
   const navigate = useNavigate();
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
-<<<<<<< HEAD
-  const [error, setError] = useState<string | null>(null);
-=======
   const [error, setError] = useState<string | null>(null); 
   const [quizzes, setQuizzes] = useState<Quiz[]>([]); 
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
 
   useEffect(() => {
     const load = async () => {
@@ -343,11 +299,7 @@ const CourseDetail: React.FC = () => {
         setCurrentLesson(data.lessons?.[0] ?? null);
       } catch (e) {
           console.error(e);
-<<<<<<< HEAD
-          setError("Could not load course from API. Showing fallback.");
-=======
          
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
           const chosen = fallbackCourse.find((c) => c.id === id) ?? fallbackCourse[0];
           setCourse(chosen);
           setCurrentLesson(chosen.lessons[0]);
@@ -358,16 +310,6 @@ const CourseDetail: React.FC = () => {
     load();
   }, [id]);
 
-<<<<<<< HEAD
-  const handleLessonComplete = (lessonId: string) => {
-    setCompletedLessons((prev) =>
-      prev.includes(lessonId) ? prev : [...prev, lessonId]
-    );
-  };
-
-  if (loading) return <p className="p-6">Loading course…</p>;
-  if (!course) return <p className="p-6">❌ Course not found</p>;
-=======
   // Fetch quizzes for the course
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -420,7 +362,6 @@ const CourseDetail: React.FC = () => {
 
   if (loading) return <p className="p-6">Loading course…</p>;
   if (!course) return <p className="p-6">Course not found</p>;
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
@@ -437,11 +378,7 @@ const CourseDetail: React.FC = () => {
             {course.title}
           </h2>
 
-<<<<<<< HEAD
-          {/* 5-star rating */}
-=======
         
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
           <div className="flex items-center mb-2">
             {[...Array(5)].map((_, i) => (
               <Star
@@ -460,11 +397,7 @@ const CourseDetail: React.FC = () => {
 
           <p className="mb-6">{course.description}</p>
 
-<<<<<<< HEAD
-          {/* Skills */}
-=======
         
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
           <div className="flex flex-wrap gap-2 mb-6">
             {course.skills?.map((skill) => (
               <span
@@ -476,11 +409,6 @@ const CourseDetail: React.FC = () => {
             ))}
           </div>
 
-<<<<<<< HEAD
-          <button className="bg-purple-300 text-purple-900 px-6 py-2 rounded-lg font-bold">
-            Enroll Now
-          </button>
-=======
           <EnrollButton 
             courseId={course.id} 
             courseName={course.title}
@@ -490,7 +418,6 @@ const CourseDetail: React.FC = () => {
               }
             }}
           />
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
         </div>
 
       
@@ -524,33 +451,6 @@ const CourseDetail: React.FC = () => {
           <h4 className="text-lg font-semibold mb-2">{currentLesson.title}</h4>
 
           
-<<<<<<< HEAD
-          {currentLesson.videoUrl.includes("youtube.com/embed") ? (
-            <iframe
-              key={currentLesson.id}
-              width="100%"
-              height="360"
-              src={currentLesson.videoUrl}
-              title={currentLesson.title}
-              frameBorder={0}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="rounded-xl border"
-              onLoad={() => handleLessonComplete(currentLesson.id)}
-            />
-          ) : (
-            <video
-              key={currentLesson.id}
-              controls
-              width="100%"
-              className="rounded-xl border"
-              onEnded={() => handleLessonComplete(currentLesson.id)}
-            >
-              <source src={currentLesson.videoUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          )}
-=======
           {(() => {
             const videoUrl = currentLesson.videoUrl;
             
@@ -629,7 +529,6 @@ const CourseDetail: React.FC = () => {
             );
           })()}
           
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
           <p className="text-sm text-gray-600 mt-2">
             Duration: {currentLesson.duration}
           </p>
@@ -658,8 +557,6 @@ const CourseDetail: React.FC = () => {
         ))}
       </ul>
 
-<<<<<<< HEAD
-=======
       {/* Quizzes Section */}
       <div className="mt-10">
         <h3 className="text-2xl font-bold mb-4">Course Quizzes</h3>
@@ -710,7 +607,6 @@ const CourseDetail: React.FC = () => {
         )}
       </div>
 
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     
       <div className="mt-8">
         <h3 className="text-xl font-semibold">

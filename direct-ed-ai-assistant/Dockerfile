@@ -1,22 +1,26 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
 
-# Set the working directory in the container
+FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
+
+
 WORKDIR /app
 
-# Copy the requirements file into the container
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PIP_DEFAULT_TIMEOUT=100 \
+    PIP_RETRIES=10 \
+    PIP_PROGRESS_BAR=off
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git curl wget build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 
-# Install any needed packages specified in requirements.txt
-# --no-cache-dir makes the image smaller
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code into the container
+RUN pip install --no-cache-dir -r requirements.txt --timeout=1000 --retries=10
+
 COPY . .
 
-# The port the app will run on
 EXPOSE 8000
 
-# The command to run the application
-# We use --host 0.0.0.0 to make it accessible outside the container
 CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]

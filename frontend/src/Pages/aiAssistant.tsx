@@ -26,13 +26,13 @@ export default function ChatLayout() {
     if (!messageText.trim() && requestType === 'tutoring') return;
 
     const userMessage = { sender: 'user', text: messageText };
-    //setMessages((prev) => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setNewMessage("");
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/assistant/chat/invoke', {
+      const response = await fetch('https://e-learning-app-6x72.onrender.com/api/assistant/chat/invoke', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export default function ChatLayout() {
             input: messageText,
             user_type: "student",
             request_type: requestType,
-            subject: "LLMOps Fundamentals",
+            subject: messageText,
             difficulty_level: "beginner"
           },
           config: {
@@ -65,7 +65,7 @@ export default function ChatLayout() {
         sources: data.output.sources,
       };
 
-      //setMessages((prev) => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
