@@ -6,8 +6,6 @@ import Quiz from "../models/quiz";
 import Course from "../models/course";
 import { Types } from "mongoose";
 
-<<<<<<< HEAD
-=======
 // GET /api/instructor/quizzes - Get all quizzes created by instructor
 export const getInstructorQuizzes = async (req: AuthRequest, res: Response) => {
   try {
@@ -124,19 +122,14 @@ export const deleteQuiz = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ error: "Failed to delete quiz" });
   }
 };
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
 
 export const getQuizByLesson = async (req: Request, res: Response) => {
   try {
     const { lessonId } = req.params;
-<<<<<<< HEAD
-    const quiz = await Quiz.findOne({ lessonId });
-=======
     const quiz = await Quiz.findOne({ lessonId })
       .populate('courseId', 'title')
       .select('-questions.correctAnswer'); // Don't send correct answers to students
     
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     if (!quiz) return res.status(404).json({ error: "Quiz not found" });
     res.json(quiz);
   } catch {
@@ -144,8 +137,6 @@ export const getQuizByLesson = async (req: Request, res: Response) => {
   }
 };
 
-<<<<<<< HEAD
-=======
 export const getQuizzesByCourse = async (req: Request, res: Response) => {
   try {
     const { courseId } = req.params;
@@ -174,7 +165,6 @@ export const getQuizById = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to fetch quiz" });
   }
 };
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
 
 export const createQuiz = async (req: AuthRequest, res: Response) => {
   try {
@@ -184,27 +174,18 @@ export const createQuiz = async (req: AuthRequest, res: Response) => {
       return res.status(403).json({ error: "Only instructors can create quizzes" });
     }
 
-<<<<<<< HEAD
-    
-    const { courseId, lessonId } = req.body;
-=======
     const { courseId, lessonId, questions, timeLimitSec } = req.body;
 
     if (!courseId || !lessonId || !questions || !Array.isArray(questions)) {
       return res.status(400).json({ error: "CourseId, lessonId, and questions array are required" });
     }
 
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     const course = await Course.findById(courseId);
     if (!course) return res.status(404).json({ error: "Course not found" });
 
     const exists = course.lessons.some(l => l._id.toString() === lessonId);
     if (!exists) return res.status(400).json({ error: "Lesson not in course" });
 
-<<<<<<< HEAD
-    const quiz = await Quiz.create({ ...req.body, createdBy: userId });
-    res.status(201).json(quiz);
-=======
     // Validate questions
     for (const question of questions) {
       if (!question.type || !question.questionText) {
@@ -233,36 +214,17 @@ export const createQuiz = async (req: AuthRequest, res: Response) => {
     
     const populatedQuiz = await Quiz.findById(quiz._id).populate('courseId', 'title');
     res.status(201).json(populatedQuiz);
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
   } catch (err: any) {
     res.status(400).json({ error: err.message || "Failed to create quiz" });
   }
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
 export const submitQuizAttempt = async (req: AuthRequest, res: Response) => {
   try {
     const { quizId, answers } = req.body;
     const quiz = await Quiz.findById(quizId);
     if (!quiz) return res.status(404).json({ error: "Quiz not found" });
 
-<<<<<<< HEAD
-    
-    let score = 0;
-    quiz.questions.forEach(q => {
-      const given = answers?.find((a: any) => a.questionId === q._id.toString());
-      if (!given) return;
-      if (q.type === "short-answer") {
-        if ((given.answer || "").trim().toLowerCase() === (q.correctAnswer || "").trim().toLowerCase()) score++;
-      } else if (q.type === "true-false" || q.type === "multiple-choice") {
-        if (given.answer === q.correctAnswer) score++;
-      }
-    });
-
-=======
     let score = 0;
     const results = quiz.questions.map(q => {
       const given = answers?.find((a: any) => a.questionId === q._id.toString());
@@ -292,18 +254,13 @@ export const submitQuizAttempt = async (req: AuthRequest, res: Response) => {
     const passingScore = quiz.passingScore || 70; // Use quiz's passing score or default to 70%
     const passed = percent >= passingScore;
 
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     const result = {
       quizId,
       total: quiz.questions.length,
       score,
-<<<<<<< HEAD
-      percent: Math.round((score / Math.max(1, quiz.questions.length)) * 100),
-=======
       percent,
       passed,
       results
->>>>>>> 41da9a51bd70727d9f697788e63200d361fe5223
     };
 
     res.json(result);
