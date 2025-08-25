@@ -32,7 +32,7 @@ export default function ChatLayout() {
     setError(null);
 
     try {
-      const response = await fetch('https://nutnell-directed-backend-host.hf.space/api/assistant/chat/invoke', {
+      const response = await fetch('https://e-learning-app-6x72.onrender.com/api/assistant/chat/invoke', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
