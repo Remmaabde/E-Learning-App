@@ -5,6 +5,7 @@ langchain-openai
 langchain-chroma
 langserve
 langsmith
+langchain-google-genai
 chromadb
 fastapi
 pydantic
