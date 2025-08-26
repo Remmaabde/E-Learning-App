@@ -63,7 +63,7 @@ export default function ChatLayout() {
             input: topic,
             user_type: userType,
             request_type: requestType,
-            subject: techTrack, // Use the dynamic techTrack state
+            subject: techTrack,
             difficulty_level: difficultyLevel
           },
           config: {
@@ -218,7 +218,6 @@ export default function ChatLayout() {
                       <ul className="text-xs space-y-1">
                         {msg.sources.map((source, idx) => (
                           <li key={idx}>
-                            {/* --- FIX IS HERE: Conditionally render the link --- */}
                             {source.source ? (
                               <a href={source.source} target="_blank" rel="noopener noreferrer" className={`underline ${msg.sender === 'user' ? 'hover:text-gray-200' : 'hover:text-gray-500'}`}>
                                 {source.name || 'Link'}
