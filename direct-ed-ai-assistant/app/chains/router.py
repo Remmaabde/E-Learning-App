@@ -28,18 +28,16 @@ from app.prompts.templates import (
     condense_question_prompt,
 )
 
-# --- Models & Vector Store Setup ---
 vector_store = Chroma(
     persist_directory="app/vector_store",
     embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001"),
 )
 openai_llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
 finetuned_llm = CustomChatModel(
-    api_url="https://nutnell-e-learning-platform.hf.#space/generate"
+    api_url="https://nutnell-e-learning-platform.hf.space/generate"
 ).with_fallbacks([openai_llm])
 
 
-# --- Helper & Memory Functions ---
 def format_docs(docs):
     return "\n---\n".join(doc.page_content for doc in docs)
 
@@ -62,8 +60,6 @@ def get_memory_for_session(session_id: str):
         memories[session_id] = ChatMessageHistory()
     return memories[session_id]
 
-
-# --- LangChain Component System ---
 
 def EducationalRetriever():
     """Component 1: Identifies relevant curriculum content."""
@@ -168,7 +164,7 @@ LOG_FILE = "app/analytics_log.jsonl"
 def LearningAnalyzer():
     """Component 4: Monitors user engagement and adapts response approaches."""
     def analyze(input_data):
-        # Ensure the log directory exists
+    
         os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
         
         log_entry = {
