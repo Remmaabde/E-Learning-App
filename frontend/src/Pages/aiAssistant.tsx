@@ -56,14 +56,14 @@ export default function ChatLayout() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': 'direct-ed-ai-secret-key-12345', // Replace with your actual API key
+          'X-API-Key': 'direct-ed-ai-secret-key-12345',
         },
         body: JSON.stringify({
           input: {
             input: topic,
             user_type: userType,
             request_type: requestType,
-            subject: techTrack, // Use the dynamic techTrack state
+            subject: techTrack,
             difficulty_level: difficultyLevel
           },
           config: {
