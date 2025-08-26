@@ -14,7 +14,7 @@ sse-starlette
 python-dotenv
 requests
 openai
-google-generativeai
+slowapi
 #pypdf
 #selenium
 #webdriver-manager
