@@ -8,13 +8,13 @@ langsmith
 langchain-google-genai
 chromadb
 fastapi
-pydantic
+pydantic==2.10.6
 uvicorn
 sse-starlette
 python-dotenv
 requests
 openai
-google-generativeai
+slowapi
 #pypdf
 #selenium
 #webdriver-manager

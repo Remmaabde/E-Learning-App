@@ -1,44 +1,29 @@
 Week 1: Introduction to AI & Generative AI
 1.1 What is AI?
-
 Artificial Intelligence (AI) is the field of computer science that builds systems capable of performing tasks that usually require human intelligence. These tasks include reasoning, learning, planning, perception, and natural language understanding.
 
 Levels of AI evolution:
-
 Symbolic AI (1950s–1980s): Rule-based expert systems. Example: MYCIN (medical diagnosis).
-
 Machine Learning (1980s–2000s): Models learn patterns from data instead of being programmed with rules.
-
 Deep Learning (2010s): Neural networks with many layers achieve breakthroughs in vision and language.
-
 Generative AI (2020s): Models capable of creating new data: text, images, audio, video.
 
 1.2 What is Generative AI?
-
 Generative AI (GenAI) refers to systems that can produce original content rather than simply classifying or predicting.
 
 Examples:
-
 Text: GPT-4, Claude → essays, stories, chatbots.
-
 Images: Stable Diffusion, MidJourney → digital art.
-
 Music: Google MusicLM → generate songs.
-
 Video: Runway, OpenAI Sora → AI-powered film-making.
 
 1.3 Why Generative AI Matters
-
 Creativity: Artists, designers, and writers can co-create with AI.
-
-Productivity: Automates tasks (e.g., drafting reports, coding).
-
+Prouctivity: Automates tasks (e.g., drafting reports, coding).
 Accessibility: Text-to-speech, image-to-text for visually impaired.
-
 Risks: Deepfakes, misinformation, bias amplification.
 
 1.4 Class Activity
-
 Students use ChatGPT to co-write a short poem.
 
 Students use Stable Diffusion to generate an image from a text prompt.

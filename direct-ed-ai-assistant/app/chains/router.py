@@ -1,12 +1,13 @@
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import json
 from datetime import datetime
-import os # Added for log file path handling
+import os
 
 from langchain_chroma import Chroma
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from app.llms.custom import CustomChatModel
 from langchain_openai import ChatOpenAI
 from langchain_core.runnables import (
@@ -28,18 +29,15 @@ from app.prompts.templates import (
     condense_question_prompt,
 )
 
-# --- Models & Vector Store Setup ---
 vector_store = Chroma(
     persist_directory="app/vector_store",
-    embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001"),
+    embedding_function=OpenAIEmbeddings(model="text-embedding-3-small"),
 )
 openai_llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
 finetuned_llm = CustomChatModel(
-    api_url="https://nutnell-e-learning-platform.hf.space/generate" # Corrected capitalization
+    api_url="https://nutnell-e-learning-platform.hf.space/generate"
 ).with_fallbacks([openai_llm])
 
-
-# --- Helper & Memory Functions ---
 def format_docs(docs):
     return "\n---\n".join(doc.page_content for doc in docs)
 
@@ -62,8 +60,6 @@ def get_memory_for_session(session_id: str):
         memories[session_id] = ChatMessageHistory()
     return memories[session_id]
 
-
-# --- LangChain Component System ---
 
 def EducationalRetriever():
     """Component 1: Identifies relevant curriculum content."""
@@ -98,11 +94,11 @@ def AdaptiveConversationChain():
                     "question": x["input"],
                     "subject": x.get("subject", "the topic"),
                     "difficulty_level": x.get("difficulty_level", "beginner"),
-                    "user_type": x.get("user_type", "student") # <-- BUG FIX: Added user_type back
+                    "user_type": x.get("user_type", "student"),
                 }
             )
             | rag_prompt
-            | finetuned_llm.with_config({"run_name": "AdaptiveConversationLLM"}) # Corrected naming
+            | finetuned_llm.with_config({"run_name": "AdaptiveConversationLLM"})
             | StrOutputParser()
         ),
         sources=RunnableLambda(lambda x: get_sources_from_docs(x["context"])),
@@ -163,28 +159,32 @@ def ContentGenerator():
         ),
     )
 
+
 LOG_FILE = "app/analytics_log.jsonl"
+
 
 def LearningAnalyzer():
     """Component 4: Monitors user engagement and adapts response approaches."""
+
     def analyze(input_data):
-        # Ensure the log directory exists
         os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
-        
+
         log_entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "user_input": input_data.get("input"),
             "request_type": input_data.get("request_type"),
             "ai_answer": input_data.get("answer"),
             "sources_used": len(input_data.get("sources", [])),
-            "session_id": input_data.get("config", {}).get("configurable", {}).get("session_id")
+            "session_id": input_data.get("config", {})
+            .get("configurable", {})
+            .get("session_id"),
         }
-        
+
         with open(LOG_FILE, "a") as f:
             f.write(json.dumps(log_entry) + "\n")
-            
+
         return input_data
-        
+
     return RunnableLambda(analyze).with_config({"run_name": "LearningAnalyzer"})
 
 

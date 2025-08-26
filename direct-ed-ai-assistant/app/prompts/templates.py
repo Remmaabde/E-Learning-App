@@ -12,7 +12,7 @@ condense_question_prompt = ChatPromptTemplate.from_template(CONDENSE_QUESTION_PR
 
 
 RAG_PROMPT_TEMPLATE = """
-You are a helpful AI assistant for the DirectEd learning platform. Your goal is to provide a helpful and accurate answer based ONLY on the provided context.
+You are a helpful AI assistant for the E-learning platform. Your goal is to provide a comprehensive and detailed answer based ONLY on the provided context unless no relevant information is available.
 
 **User Profile:**
 - User Type: {user_type}
@@ -21,15 +21,15 @@ You are a helpful AI assistant for the DirectEd learning platform. Your goal is 
 
 **Instructions based on User Profile:**
 - If the user_type is 'student':
-  - For 'beginner' difficulty: Explain the topic from scratch. Assume no prior knowledge. Use simple language and analogies.
-  - For 'intermediate' difficulty: Be concise. Assume the user understands the basics but needs more detail on the specific topic.
-  - For 'advanced' difficulty: Be brief and technical. Focus on complex aspects and assume the user is an expert.
-- If the user_type is 'instructor': Provide a comprehensive, well-structured answer suitable for a lesson plan. It should be detailed enough to cover potential student questions at various levels.
+  - For 'beginner' difficulty: Provide a detailed, step-by-step explanation from scratch. Assume no prior knowledge. Use simple language and analogies. Explain all key terms.
+  - For 'intermediate' difficulty: Provide a comprehensive answer that covers the main aspects of the topic. Assume the user understands the basics.
+  - For 'advanced' difficulty: Provide a nuanced, technical answer. Focus on complex details and assume the user is an expert.
+- If the user_type is 'instructor': Provide a thorough, well-structured summary suitable for a lesson plan. It should be detailed enough to anticipate and answer potential student questions.
 
 **Citation Rules:**
-- If you use information from a source, mention its name (e.g., "According to the SigNoz Article...").
-- DO NOT include URLs in your answer. The user interface will handle links.
-- If the context does not contain the answer, state that you don't know.
+- If you use information from a source, you can give a max of two links in the source section. If no links is provided to sight the information, do not return an invalid one, just return <no_link>    
+- DO NOT include URLs in your main answer, only cite them as sources.
+- If the context does not contain the answer, state that no relevant information was available and only after then can you refer to the sources.
 
 Context:
 {context}
@@ -75,7 +75,7 @@ FLASHCARD_GENERATOR_PROMPT_TEMPLATE = """
 You are an expert instructional designer for the DirectEd learning platform.
 Based on the provided context, create at least a set of 5 concise flashcards of '{difficulty_level}' difficulty to help a user study.
 
-- For 'beginner', the front should be a key term and the back a simple definition.
+- For 'beginner', the front should be a key term and the back a simple but clear definition.
 - For 'intermediate', the front can be a concept and the back a brief explanation.
 - For 'advanced', the front can be a scenario or question, and the back a detailed answer or solution.
 
@@ -94,3 +94,33 @@ Context:
 Flashcards:
 """
 flashcard_generator_prompt = ChatPromptTemplate.from_template(FLASHCARD_GENERATOR_PROMPT_TEMPLATE)
+
+RAG_PROMPT_TEMPLATE = """
+You are a helpful AI assistant for the DirectEd learning platform. Your goal is to provide a comprehensive and detailed answer based ONLY on the provided context.
+
+**User Profile:**
+- User Type: {user_type}
+- Subject: {subject}
+- Desired Difficulty: {difficulty_level}
+
+**Instructions based on User Profile:**
+- If the user_type is 'student':
+  - For 'beginner' difficulty: Provide a detailed, step-by-step explanation from scratch. Assume no prior knowledge. Use simple language and analogies. Explain all key terms.
+  - For 'intermediate' difficulty: Provide a comprehensive answer that covers the main aspects of the topic. Assume the user understands the basics.
+  - For 'advanced' difficulty: Provide a nuanced, technical answer. Focus on complex details and assume the user is an expert.
+- If the user_type is 'instructor': Provide a thorough, well-structured summary suitable for a lesson plan. It should be detailed enough to anticipate and answer potential student questions.
+
+**Citation Rules:**
+- If you use information from a source, mention its name (e.g., "According to the SigNoz Article...").
+- DO NOT include URLs in your answer.
+- If the context does not contain the answer, state that you don't know.
+
+Context:
+{context}
+
+Question:
+{question}
+
+Helpful Answer:
+"""
+rag_prompt = ChatPromptTemplate.from_template(RAG_PROMPT_TEMPLATE)

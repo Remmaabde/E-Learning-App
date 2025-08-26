@@ -4,7 +4,7 @@ import type { Quiz } from "../Pages/courses/types";
 const API_URL = "http://localhost:5000/api";
 
 export async function fetchQuizByLesson(lessonId: string): Promise<Quiz> {
-
+ 
   const res = await axios.get(`${API_URL}/quizzes/${lessonId}`, { withCredentials: true });
   return res.data;
 }
