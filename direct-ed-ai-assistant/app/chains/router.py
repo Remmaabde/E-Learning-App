@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import json
@@ -6,7 +7,7 @@ from datetime import datetime
 import os
 
 from langchain_chroma import Chroma
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from app.llms.custom import CustomChatModel
 from langchain_openai import ChatOpenAI
 from langchain_core.runnables import (
@@ -30,13 +31,12 @@ from app.prompts.templates import (
 
 vector_store = Chroma(
     persist_directory="app/vector_store",
-    embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001"),
+    embedding_function=OpenAIEmbeddings(model="text-embedding-3-small"),
 )
 openai_llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
 finetuned_llm = CustomChatModel(
     api_url="https://nutnell-e-learning-platform.hf.space/generate"
 ).with_fallbacks([openai_llm])
-
 
 def format_docs(docs):
     return "\n---\n".join(doc.page_content for doc in docs)
@@ -63,7 +63,7 @@ def get_memory_for_session(session_id: str):
 
 def EducationalRetriever():
     """Component 1: Identifies relevant curriculum content."""
-    return vector_store.as_retriever(search_kwargs={"k": 5})
+    return vector_store.as_retriever(search_kwargs={"k": 15})
 
 
 def AdaptiveConversationChain():
@@ -94,7 +94,7 @@ def AdaptiveConversationChain():
                     "question": x["input"],
                     "subject": x.get("subject", "the topic"),
                     "difficulty_level": x.get("difficulty_level", "beginner"),
-                    "user_type": x.get("user_type", "student") 
+                    "user_type": x.get("user_type", "student"),
                 }
             )
             | rag_prompt
@@ -159,28 +159,32 @@ def ContentGenerator():
         ),
     )
 
+
 LOG_FILE = "app/analytics_log.jsonl"
+
 
 def LearningAnalyzer():
     """Component 4: Monitors user engagement and adapts response approaches."""
+
     def analyze(input_data):
-    
         os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
-        
+
         log_entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "user_input": input_data.get("input"),
             "request_type": input_data.get("request_type"),
             "ai_answer": input_data.get("answer"),
             "sources_used": len(input_data.get("sources", [])),
-            "session_id": input_data.get("config", {}).get("configurable", {}).get("session_id")
+            "session_id": input_data.get("config", {})
+            .get("configurable", {})
+            .get("session_id"),
         }
-        
+
         with open(LOG_FILE, "a") as f:
             f.write(json.dumps(log_entry) + "\n")
-            
+
         return input_data
-        
+
     return RunnableLambda(analyze).with_config({"run_name": "LearningAnalyzer"})
 
 

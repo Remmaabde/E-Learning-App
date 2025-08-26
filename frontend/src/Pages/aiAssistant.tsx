@@ -51,8 +51,7 @@ export default function ChatLayout() {
     }
 
     try {
-      // --- FIX: Correctly construct the full API URL ---
-      const API_BASE_URL = "https://e-learning-app-6x72.onrender.com";
+      const API_BASE_URL = "http://127.0.0.1:8000";
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
         headers: {
@@ -219,9 +218,14 @@ export default function ChatLayout() {
                       <ul className="text-xs space-y-1">
                         {msg.sources.map((source, idx) => (
                           <li key={idx}>
-                            <a href={source.source || '#'} target="_blank" rel="noopener noreferrer" className={`underline ${msg.sender === 'user' ? 'hover:text-gray-200' : 'hover:text-gray-500'}`}>
-                              {source.name || 'Link'}
-                            </a>
+                            {/* --- FIX IS HERE: Conditionally render the link --- */}
+                            {source.source ? (
+                              <a href={source.source} target="_blank" rel="noopener noreferrer" className={`underline ${msg.sender === 'user' ? 'hover:text-gray-200' : 'hover:text-gray-500'}`}>
+                                {source.name || 'Link'}
+                              </a>
+                            ) : (
+                              <span>{source.name || 'Source'}</span>
+                            )}
                           </li>
                         ))}
                       </ul>

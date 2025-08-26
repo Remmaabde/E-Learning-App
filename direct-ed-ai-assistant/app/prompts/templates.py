@@ -124,5 +124,3 @@ Question:
 Helpful Answer:
 """
 rag_prompt = ChatPromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
-
-# ... (the rest of the file is the same) ...
